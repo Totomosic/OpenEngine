@@ -4,13 +4,14 @@ using System.Linq;
 
 namespace OpenEngine
 {
-    public class Model
+    public class Model : IDisposable
     {
 
         #region FIELDS
 
         private VAO vao;
         private Vector3 size;
+        private bool disposed;
 
         #endregion
 
@@ -18,6 +19,7 @@ namespace OpenEngine
 
         public Model(VAO vertexArray)
         {
+            disposed = false;
             vao = vertexArray;
             size = new Vector3();
         }
@@ -70,6 +72,15 @@ namespace OpenEngine
         #endregion
 
         #region PUBLIC METHODS
+
+        public void Dispose()
+        {
+            if (!disposed)
+            {
+                VAO.Dispose();
+                disposed = true;
+            }
+        }
 
         public virtual void Update(GameTime time)
         {

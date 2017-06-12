@@ -4,7 +4,7 @@ using Pencil.Gaming.Graphics;
 
 namespace OpenEngine
 {
-    public class VAO : GLObject
+    public class VAO : GLObject, IDisposable
     {
 
         #region FIELDS
@@ -331,6 +331,24 @@ namespace OpenEngine
         {
             ID = GL.GenVertexArray();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                Delete();
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
         #endregion
 

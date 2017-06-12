@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace OpenEngine
 {
-    public class VertexBatch : IComparable<VertexBatch>
+    public class VertexBatch : IComparable<VertexBatch>, IDisposable
     {
 
         #region FIELDS
@@ -20,6 +20,8 @@ namespace OpenEngine
         private FloatVBO texCoordBuffer;
         private FloatVBO colorBuffer;
         private IndexBuffer indexBuffer;
+
+        private bool disposed = false;
 
         #endregion
 
@@ -47,7 +49,7 @@ namespace OpenEngine
             vao.AttachVBOs(new FloatVBO[] { vertexBuffer, normalBuffer, texCoordBuffer, colorBuffer });
         }
 
-        public VertexBatch(Model model, GameObject camera, Matrix4 transform = default(Matrix4)) : this(model.VertexCount, new BatchConfig(BatchType.Dynamic, Context.Window.Framebuffer, 0, Engine.Shader, camera, primitive: model.PrimitiveType, renderMode: model.Mode))
+        public VertexBatch(Model model, GameObject camera, Matrix4 transform = default(Matrix4)) : this(model.RenderCount, new BatchConfig(BatchType.Dynamic, Context.Window.Framebuffer, 0, Engine.Shader, camera, primitive: model.PrimitiveType, renderMode: model.Mode))
         {
             AddModel(model, transform);
         }
@@ -55,6 +57,15 @@ namespace OpenEngine
         public void Delete()
         {
             vao.Delete();
+        }
+
+        public void Dispose()
+        {
+            if (!disposed)
+            {
+                Delete();
+                disposed = true;
+            }
         }
 
         #endregion

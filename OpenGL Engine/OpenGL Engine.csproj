@@ -73,6 +73,7 @@
     <Compile Include="Audio\Structs\AudioBuffer.cs" />
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Display\ButtonState.cs" />
+    <Compile Include="Structs\GameObjects\ComponentSet.cs" />
     <Compile Include="Structs\GameObjects\ObjectTypes\Camera.cs" />
     <Compile Include="Display\Shaders\ShaderManager.cs" />
     <Compile Include="Display\Window\Context.cs" />
@@ -120,7 +121,6 @@
     <Compile Include="Structs\Buffers\VBO.cs" />
     <Compile Include="Structs\Data\Vertex.cs" />
     <Compile Include="Structs\Data\VertexData.cs" />
-    <Compile Include="Structs\GameObjects\ComponentSet.cs" />
     <Compile Include="Structs\GameObjects\GameObject.cs" />
     <Compile Include="Structs\GameObjects\ObjectPool.cs" />
     <Compile Include="Structs\Material.cs" />
@@ -208,6 +208,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="base_f.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="base_v.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

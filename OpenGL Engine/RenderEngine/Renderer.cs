@@ -75,6 +75,21 @@ namespace OpenEngine
             textModel.VAO.Delete();
         }
 
+        public static void RenderText(Vector3 position, string text, Font font, float textSize, Color color, bool italics = false)
+        {
+            Camera camera = new Camera(Context.Window.View, new Vector3(0, 0, 10), CameraMode.FirstPerson, ProjectionType.Orthographic);
+            RenderText(camera, position, text, font, textSize, color, italics);
+            camera.Destroy();
+        }
+
+        public static void RenderModel(GameObject camera, Vector3 position, Model model, FBO renderTarget = null)
+        {
+            VertexBatch v = new VertexBatch(model, camera, Matrix4.CreateTranslation(position));
+            v.Config.RenderTarget = (renderTarget == null) ? Context.Window.Framebuffer : renderTarget;
+            RenderVertexBatch(v);
+            v.Delete();
+        }
+
         #endregion
 
         #region PRIVATE METHODS

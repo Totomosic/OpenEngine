@@ -10,7 +10,7 @@ namespace OpenEngine
 
         #region FIELDS
 
-        private static ShaderProgram baseProgram = new ShaderProgram("Default", Paths.RootDirectory + "base_v", Paths.RootDirectory + "base_f", new ShaderData("Matrices.Model", "Matrices.View", "Matrices.Projection", new string[] { "Tex0" }, new string[] { "UseTexture", "UseLighting", "UsedLights", "Lights", "Color" }), false);
+        private static ShaderProgram baseProgram = new ShaderProgram("Default", "base_v", "base_f", new ShaderData("Matrices.Model", "Matrices.View", "Matrices.Projection", new string[] { "Tex0" }, new string[] { "UseTexture", "UseLighting", "UsedLights", "Lights", "Color" }), false);
 
         private string name;
         private string vFile;
