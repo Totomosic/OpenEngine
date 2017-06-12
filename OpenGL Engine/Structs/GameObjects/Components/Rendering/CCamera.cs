@@ -68,6 +68,21 @@ namespace OpenEngine.Components
             }
         }
 
+        public Vector3 ScreenToWorld(Vector3 screenPosition)
+        {
+            Vector4 position = new Vector4(screenPosition, 1);
+            Vector4 worldSpace = ViewMatrix.Inverse() * position;
+            return worldSpace.XYZ;
+        }
+
+        public Ray ScreenToWorldRay(Vector3 screenPosition, float length = 1000)
+        {
+            Vector4 position = new Vector4(screenPosition, 1);
+            position.Z = -1;
+            Vector4 worldSpace = ViewMatrix.Inverse() * position;
+            return new Ray(Owner.Transform.Position, worldSpace.XYZ.Normalize(), length);
+        }
+
         #endregion
 
         #region PRIVATE METHODS

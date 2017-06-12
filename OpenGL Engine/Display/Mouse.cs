@@ -9,10 +9,10 @@ namespace OpenEngine
         #region FIELDS
 
         private Window window;
-        private Vector2 position;
+        private Vector3 position;
         private ButtonState state;
-        private Vector2 prevPosition;
-        private Vector2 relPosition;
+        private Vector3 prevPosition;
+        private Vector3 relPosition;
         private Vector2 relScroll;
 
         private bool shown;
@@ -25,10 +25,10 @@ namespace OpenEngine
         public Mouse(Window context)
         {
             window = context;
-            position = GetMousePos();
+            position = new Vector3(GetMousePos(), 0);
             state = new ButtonState(window);
             prevPosition = position;
-            relPosition = new Vector2();
+            relPosition = new Vector3();
             relScroll = new Vector2();
 
             shown = true;
@@ -49,7 +49,7 @@ namespace OpenEngine
             get { return captured; }
         }
 
-        public Vector2 Position
+        public Vector3 Position
         {
             get { return position; }
         }
@@ -69,7 +69,7 @@ namespace OpenEngine
             get { return state; }
         }
 
-        public Vector2 RelativePosition
+        public Vector3 RelativePosition
         {
             get { return relPosition; }
         }
@@ -85,7 +85,7 @@ namespace OpenEngine
 
         public void Update()
         {
-            position = GetMousePos();
+            position = new Vector3(GetMousePos(), 0);
             state.Update();
             relPosition = position - prevPosition;
             prevPosition = position;
@@ -147,18 +147,6 @@ namespace OpenEngine
         {
             return new Vector2(Position.X - window.Width * 0.5f, GLPosition.Y - window.Height * 0.5f);
         }
-
-        /*public Vector3 ToWorldSpaceDirection(Camera camera)
-        {
-            Matrix4 viewMatrix = camera.ViewMatrix;
-            Matrix4 projectionMatrix = camera.ProjectionMatrix;
-            Vector2 mouse = GetNormalisedPosition();
-            Vector4 clipCoords = new Vector4(mouse.X, mouse.Y, -1, 0);
-            Vector4 eyeSpace = projectionMatrix.Inverse() * clipCoords;
-            eyeSpace.Z = -1;
-            Vector4 worldSpace = viewMatrix * eyeSpace;
-            return worldSpace.XYZ.Normalize();
-        }*/
 
         #endregion
 
