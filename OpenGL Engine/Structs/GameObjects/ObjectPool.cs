@@ -9,6 +9,31 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        public static GameObject[] GetObjectsByTag(string tag)
+        {
+            List<GameObject> objects = new List<GameObject>();
+            GameObject[] entities = GetAllObjectsWith<CIdentifier>();
+            foreach (GameObject obj in entities)
+            {
+                Console.WriteLine(obj.Identifier.ID);
+                if (obj.Tag == tag)
+                {
+                    objects.Add(obj);
+                }
+            }
+            return objects.ToArray();
+        }
+
+        public static GameObject GetObjectByTag(string tag)
+        {
+            GameObject[] objects = GetObjectsByTag(tag);
+            if (objects.Length > 0)
+            {
+                return objects[0];
+            }
+            return null;
+        }
+
         public static GameObject[] GetAllObjects()
         {
             List<GameObject> objects = new List<GameObject>();

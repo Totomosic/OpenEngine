@@ -20,7 +20,7 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public GameObject(TransformSetting transformSetting = TransformSetting.UseGlobalSetting, bool leaveEmpty = false)
+        public GameObject(TransformSetting transformSetting = TransformSetting.UseGlobalSetting, ComponentSetting setting = ComponentSetting.None)
         {
             id = GenerateNextID();
             gameObjects[id] = this;
@@ -30,21 +30,32 @@ namespace OpenEngine
             {
                 Transform = new CTransform();
             }
-            if (!leaveEmpty)
+            if (setting == ComponentSetting.None || setting == ComponentSetting.IsCamera)
             {
+                Identifier = new CIdentifier("");
                 Shader = new CShader(Engine.Shader);
                 RenderTarget = new CRenderTarget(Context.Window.Framebuffer);
                 Color = new CColor(OpenEngine.Color.White);
                 Model = new CModel(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
+
+                if (setting != ComponentSetting.IsCamera)
+                {
+                    GameObject camera = ObjectPool.GetObjectByTag("Main Camera");
+                    if (camera == null)
+                    {
+                        throw new EngineException("Either no camera entity was created or not tagged with Identifier: Main Camera.");
+                    }
+                    CameraReference = new CCameraReference(camera);
+                }
             }
         }
 
-        public GameObject(Vector3 position) : this(TransformSetting.NeverAdd)
+        public GameObject(Vector3 position, ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
         {
             Transform = new CTransform(position);
         }
 
-        public GameObject(Vector3 position, Matrix4 rotationMatrix) : this(TransformSetting.NeverAdd)
+        public GameObject(Vector3 position, Matrix4 rotationMatrix, ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
         {
             Transform = new CTransform(position, rotationMatrix);
         }
@@ -81,7 +92,7 @@ namespace OpenEngine
 
         public static GameObject Empty
         {
-            get { return new GameObject(TransformSetting.NeverAdd, true); }
+            get { return new GameObject(TransformSetting.NeverAdd, ComponentSetting.LeaveEmpty); }
         }
 
         public uint ID
@@ -131,6 +142,12 @@ namespace OpenEngine
         {
             get { return Components.GetComponent<CIdentifier>(); }
             set { Components.AddComponent(value); }
+        }
+
+        public string Tag
+        {
+            get { return Identifier.ID; }
+            set { Identifier.ID = value; }
         }
 
         public CColor Color

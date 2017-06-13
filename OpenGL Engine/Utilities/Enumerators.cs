@@ -104,4 +104,9 @@ namespace OpenEngine
         AlwaysAdd, NeverAdd, UseGlobalSetting
     }
 
+    public enum ComponentSetting
+    {
+        LeaveEmpty, IsCamera, None
+    }
+
 }

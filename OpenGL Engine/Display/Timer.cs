@@ -9,34 +9,38 @@ namespace OpenEngine
         #region FIELDS
 
         private GameTime time;
-        private float startTime;
+        private float currentTime;
         private float goal;
 
         private bool running;
         private RepeatType repeat;
-        private int count;
+        private bool hasChecked;
 
         #endregion
 
         #region CONSTRUCTORS
 
-        public Timer(GameTime timer, float seconds, RepeatType repeatType = RepeatType.Repeat)
+        public Timer(GameTime timer, float seconds, RepeatType repeatType = RepeatType.Repeat, bool add = true)
         {
             time = timer;
-            startTime = time.TotalSeconds;
+            currentTime = 0;
             goal = seconds;
             repeat = repeatType;
             running = true;
-            count = 0;
+            hasChecked = false;
+            if (add)
+            {
+                Timers.Add(this);
+            }
         }
 
         #endregion
 
         #region PROPERTIES
 
-        public float StartTime
+        public float CurrentTime
         {
-            get { return startTime; }
+            get { return currentTime; }
         }
 
         public float GoalTime
@@ -54,23 +58,20 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
-        public bool Check()
+        public bool Check(bool addTime = true)
         {
-            if (!running)
+            bool value = currentTime >= goal;
+            hasChecked = value;
+            return value;
+        }
+
+        public void Update()
+        {
+            currentTime += time.ElapsedSeconds;
+            if (currentTime >= goal && hasChecked && repeat == RepeatType.Repeat)
             {
-                startTime = time.TotalSeconds;
+                currentTime = 0;
             }
-            if (time.TotalSeconds - startTime >= goal && running)
-            {
-                startTime = time.TotalSeconds;
-                if (repeat == RepeatType.None)
-                {
-                    Pause();
-                }
-                count++;
-                return true;
-            }
-            return false;
         }
 
         public void SetGoal(float seconds)

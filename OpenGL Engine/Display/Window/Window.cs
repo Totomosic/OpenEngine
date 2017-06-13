@@ -293,6 +293,7 @@ namespace OpenEngine
         {
             mouse.Update();
             eventQueue.Clear();
+            Timers.Update();
         }
 
         public static void SetWindowHint(WindowHint hint, int value)

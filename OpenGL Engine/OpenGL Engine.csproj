@@ -73,6 +73,7 @@
     <Compile Include="Audio\Structs\AudioBuffer.cs" />
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Display\ButtonState.cs" />
+    <Compile Include="Display\Timers.cs" />
     <Compile Include="Structs\GameObjects\ComponentSet.cs" />
     <Compile Include="Structs\GameObjects\ObjectTypes\Camera.cs" />
     <Compile Include="Display\Shaders\ShaderManager.cs" />
