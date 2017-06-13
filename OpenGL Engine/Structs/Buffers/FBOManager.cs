@@ -10,6 +10,7 @@ namespace OpenEngine
         #region FIELDS
 
         private static Dictionary<string, FBO> fbos;
+        private static FBO currentFBO;
 
         #endregion
 
@@ -18,6 +19,7 @@ namespace OpenEngine
         static FBOManager()
         {
             fbos = new Dictionary<string, FBO>();
+            currentFBO = null;
         }
 
         #endregion
@@ -27,6 +29,11 @@ namespace OpenEngine
         public static Dictionary<string, FBO> FBOs
         {
             get { return fbos; }
+        }
+
+        public static FBO CurrentlyBoundFBO
+        {
+            get { return currentFBO; }
         }
 
         #endregion
@@ -56,6 +63,11 @@ namespace OpenEngine
                 return;
             }
             throw new EngineException("Fbo with name: " + fbo.Name + ", already exists.");
+        }
+
+        public static void SetAsBound(FBO fbo)
+        {
+            currentFBO = fbo;
         }
 
         public static void Clear()

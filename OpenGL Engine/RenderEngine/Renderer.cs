@@ -55,8 +55,32 @@ namespace OpenEngine
             }
         }
 
+        public static void RenderEntities()
+        {
+            GameObject[] entities = ObjectPool.GetAllObjectsWith(new Type[] { typeof(CTransform), typeof(CModel), typeof(CCameraReference), typeof(CShader), typeof(CRenderTarget) });
+            foreach (GameObject entity in entities)
+            {
+                CTransform transform = entity.Transform;
+                CModel model = entity.Model;
+                CCameraReference camera = entity.CameraReference;
+                CShader shader = entity.Shader;
+                CRenderTarget renderTarget = entity.RenderTarget;
+
+                VertexBatch v = new VertexBatch(model.Model, camera.ID, transform.ModelMatrix);
+                v.Config.ShaderProgram = shader.Program;
+                v.Config.RenderTarget = renderTarget.FBO;
+                RenderVertexBatch(v);
+                v.Dispose();
+
+            }
+        }
+
         public static void RenderVertexBatch(VertexBatch batch)
         {
+            if (FBOManager.CurrentlyBoundFBO != batch.Config.RenderTarget)
+            {
+                batch.Config.RenderTarget.Bind();
+            }
             if (ShaderManager.CurrentlyActiveShader != batch.Config.ShaderProgram)
             {
                 batch.Config.ShaderProgram.Start();

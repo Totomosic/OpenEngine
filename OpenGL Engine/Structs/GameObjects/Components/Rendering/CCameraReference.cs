@@ -11,12 +11,12 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CCameraReference(uint camera)
+        public CCameraReference(GameObject camera)
         {
             ID = camera;
         }
 
-        public CCameraReference() : this(0)
+        public CCameraReference() : this(null)
         {
 
         }
@@ -25,7 +25,7 @@ namespace OpenEngine.Components
 
         #region PROPERTIES
 
-        public virtual uint ID
+        public virtual GameObject ID
         {
             get; set;
         }

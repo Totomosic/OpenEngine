@@ -101,7 +101,6 @@ namespace OpenEngine
         {
             Bind();
             GL.TexParameter(Target, paramName, value);
-            Unbind();
         }
 
         public virtual void SaveToFile(string filename, bool useTexturePath = true)
@@ -119,7 +118,6 @@ namespace OpenEngine
             Bind();
             GL.PixelStore(PixelStoreParameter.PackAlignment, 1);
             GL.GetTexImage(Target, 0, format, PixelType.UnsignedByte, bytes);
-            Unbind();
             return bytes;
         }
 

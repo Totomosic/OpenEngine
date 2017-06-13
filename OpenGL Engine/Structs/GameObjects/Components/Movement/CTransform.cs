@@ -96,6 +96,11 @@ namespace OpenEngine.Components
             get { return rotation[1].XYZ; }
         }
 
+        public virtual Matrix4 ModelMatrix
+        {
+            get { return GetModelMatrix(); }
+        }
+
         #endregion
 
         #region PUBLIC METHODS
@@ -110,6 +115,14 @@ namespace OpenEngine.Components
         public virtual void Rotate(float angle, Vector4 axis, Space space = Space.Local, AngleType type = AngleType.Radians)
         {
             Rotation *= CalculateRotation(angle, axis, space, type);
+        }
+
+        public virtual Matrix4 GetModelMatrix()
+        {
+            Matrix4 modelMatrix = Rotation;
+            modelMatrix *= Matrix4.CreateTranslation(Position);
+            modelMatrix *= Matrix4.CreateScaling(Scale);
+            return modelMatrix;
         }
 
         #endregion

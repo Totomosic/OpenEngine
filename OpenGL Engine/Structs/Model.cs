@@ -174,7 +174,6 @@ namespace OpenEngine
             vertexBuffer.Bind();
             int vertexDimension = vao.GetBuffer((int)BufferLayout.Vertices).DataDimension;
             float[] vertexData = vertexBuffer.DownloadData();
-            vertexBuffer.Unbind();
             float minX = float.PositiveInfinity;
             float maxX = float.NegativeInfinity;
             float minY = float.PositiveInfinity;

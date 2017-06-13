@@ -116,14 +116,6 @@ namespace OpenEngine
             }
         }
 
-        public virtual void UnbindTextures()
-        {
-            foreach (Texture texture in Textures)
-            {
-                texture.Unbind(Textures.IndexOf(texture));
-            }
-        }
-
         #endregion
 
         #region PRIVATE METHODS

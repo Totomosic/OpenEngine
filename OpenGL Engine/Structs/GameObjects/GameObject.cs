@@ -20,7 +20,7 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public GameObject(TransformSetting transformSetting = TransformSetting.UseGlobalSetting)
+        public GameObject(TransformSetting transformSetting = TransformSetting.UseGlobalSetting, bool leaveEmpty = false)
         {
             id = GenerateNextID();
             gameObjects[id] = this;
@@ -28,7 +28,14 @@ namespace OpenEngine
 
             if ((transformSetting == TransformSetting.UseGlobalSetting && autoAddTransform) || transformSetting == TransformSetting.AlwaysAdd)
             {
-                Components.AddComponent(new CTransform());
+                Transform = new CTransform();
+            }
+            if (!leaveEmpty)
+            {
+                Shader = new CShader(Engine.Shader);
+                RenderTarget = new CRenderTarget(Context.Window.Framebuffer);
+                Color = new CColor(OpenEngine.Color.White);
+                Model = new CModel(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
             }
         }
 
@@ -74,7 +81,7 @@ namespace OpenEngine
 
         public static GameObject Empty
         {
-            get { return new GameObject(TransformSetting.NeverAdd); }
+            get { return new GameObject(TransformSetting.NeverAdd, true); }
         }
 
         public uint ID
@@ -129,6 +136,12 @@ namespace OpenEngine
         public CColor Color
         {
             get { return Components.GetComponent<CColor>(); }
+            set { Components.AddComponent(value); }
+        }
+
+        public CCameraReference CameraReference
+        {
+            get { return Components.GetComponent<CCameraReference>(); }
             set { Components.AddComponent(value); }
         }
 

@@ -102,7 +102,6 @@ namespace OpenEngine
             {
                 Bind();
                 Clear(mask);
-                Unbind();
             }
         }
 
@@ -135,12 +134,14 @@ namespace OpenEngine
             GL.BindFramebuffer(target, ID);
             State = BindState.Bound;
             view.Bind();
+            FBOManager.SetAsBound(this);
         }
 
         public override void Unbind()
         {
             GL.BindFramebuffer(target, 0);
             State = BindState.Unbound;
+            FBOManager.SetAsBound(null);
         }
 
         public Texture2D GetTexture(BufferType type = BufferType.Color0)
@@ -163,7 +164,6 @@ namespace OpenEngine
                     GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, renderBuffers[key]);
                     GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.DepthComponent32, width, height);
                     GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
-                    Unbind();
                 }
                 else if ((int)key <= (int)BufferType.Color9)
                 {
@@ -171,7 +171,6 @@ namespace OpenEngine
                     GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, renderBuffers[key]);
                     GL.RenderbufferStorage(RenderbufferTarget.Renderbuffer, RenderbufferStorage.Rgba8, width, height);
                     GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
-                    Unbind();
                 }
             }
 
@@ -182,16 +181,12 @@ namespace OpenEngine
                     Bind();
                     textures[key].Bind();
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.DepthComponent32, width, height, 0, PixelFormat.DepthComponent, PixelType.Float, default(IntPtr));
-                    textures[key].Unbind();
-                    Unbind();
             }
                 else if ((int)key <= (int)BufferType.Color9)
                 {
                     Bind();
                     textures[key].Bind();
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, default(IntPtr));
-                    textures[key].Unbind();
-                    Unbind();
                 }
             }
 
@@ -224,7 +219,6 @@ namespace OpenEngine
             GL.FramebufferTexture(target, FramebufferAttachment.ColorAttachment0 + (int)type, texture, 0);
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0 + (int)type);
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            Unbind();
             Texture2D tex2D = new Texture2D(texture, new Vector2(width, height), false);
             textures[type] = tex2D;
             return tex2D;
@@ -242,7 +236,6 @@ namespace OpenEngine
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (float)TextureWrapMode.Clamp);
             GL.FramebufferTexture(target, FramebufferAttachment.DepthAttachment, texture, 0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            Unbind();
             Texture2D tex2D = new Texture2D(texture, new Vector2(width, height), false);
             textures[type] = tex2D;
             return tex2D;
@@ -257,7 +250,6 @@ namespace OpenEngine
             GL.FramebufferRenderbuffer(target, FramebufferAttachment.DepthAttachment, RenderbufferTarget.Renderbuffer, depthBuffer);
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
             renderBuffers[type] = depthBuffer;
-            Unbind();
         }
 
         public void CreateColorBufferAttachment(BufferType type = BufferType.Color0)
@@ -270,7 +262,6 @@ namespace OpenEngine
             GL.DrawBuffer(DrawBufferMode.ColorAttachment0 + (int)type);
             GL.BindRenderbuffer(RenderbufferTarget.Renderbuffer, 0);
             renderBuffers[type] = colorBuffer;
-            Unbind();
         }
 
         #endregion
