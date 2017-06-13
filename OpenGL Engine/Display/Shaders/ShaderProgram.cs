@@ -11,6 +11,7 @@ namespace OpenEngine
         #region FIELDS
 
         private static ShaderProgram baseProgram = new ShaderProgram("Default", "base_v", "base_f", new ShaderData("Matrices.Model", "Matrices.View", "Matrices.Projection", new string[] { "Tex0" }, new string[] { "UseTexture", "UseLighting", "UsedLights", "Lights", "Color" }), false);
+        private static ShaderProgram fontProgram = new ShaderProgram("Font", "font_v", "font_f", new ShaderData("Matrices.Model", "Matrices.View", "Matrices.Projection", new string[] { "Tex0" }, new string[] { "Color" }));
 
         private string name;
         private string vFile;
@@ -50,6 +51,11 @@ namespace OpenEngine
         public static ShaderProgram Default
         {
             get { return baseProgram; }
+        }
+
+        public static ShaderProgram Font
+        {
+            get { return fontProgram; }
         }
 
         public virtual string Name

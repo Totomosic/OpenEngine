@@ -138,6 +138,11 @@ namespace OpenEngine
             return vao.GetBuffer((int)BufferLayout.Vertices).DataDimension;
         }
 
+        public void SetColor(Color color)
+        {
+            vao.CreateColorBuffer(color);
+        }
+
         public void Bind()
         {
             vao.Bind();

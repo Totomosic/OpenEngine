@@ -58,6 +58,11 @@ namespace OpenEngine
             get { return ShaderProgram.Default; }
         }
 
+        public static ShaderProgram FontShader
+        {
+            get { return ShaderProgram.Font; }
+        }
+
         public static bool FrustrumCulling
         {
             get { return frustrumCulling; }

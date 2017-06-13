@@ -9,6 +9,7 @@ namespace OpenEngine
 
         #region FIELDS
 
+        private static Random random = new Random();
         private Vector4 rgba;
 
         #endregion
@@ -28,6 +29,11 @@ namespace OpenEngine
         #endregion
 
         #region PROPERTIES
+
+        public static Color Random
+        {
+            get { return Color.FromFloats((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble(), 1); }
+        }
 
         public Vector4 RGBA
         {

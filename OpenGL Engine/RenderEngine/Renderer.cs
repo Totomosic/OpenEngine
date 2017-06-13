@@ -11,7 +11,7 @@ namespace OpenEngine
 
         private static int drawCallsPerFrame = 0;
 
-        private static ShaderProgram fontProgram;
+        private static ShaderProgram fontProgram = ShaderProgram.Font;
 
         #endregion
 

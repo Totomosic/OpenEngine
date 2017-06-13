@@ -10,12 +10,14 @@ struct MatrixStack
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 normal;
 layout(location = 2) in vec2 tex;
+layout(location = 3) in vec4 color;
 
 uniform MatrixStack Matrices;
 
 out vec3 f_WorldPosition;
 out vec3 f_WorldNormal;
-out vec3 f_TexCoords;
+out vec2 f_TexCoords;
+out vec4 f_Color;
 
 void main()
 {
@@ -27,5 +29,6 @@ void main()
 
 	f_WorldPosition = v_WorldSpacePosition.xyz;
 	f_WorldNormal = normalize(Matrices.Model * vec4(normal, 0)).xyz;
-	f_TexCoords = position;
+	f_TexCoords = tex;
+	f_Color = color;
 }
