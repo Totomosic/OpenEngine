@@ -33,10 +33,10 @@ namespace OpenEngine
             if (setting == ComponentSetting.None || setting == ComponentSetting.IsCamera)
             {
                 Identifier = new CIdentifier("");
-                Shader = new CShader(Engine.Shader);
+                ShaderComponent = new CShader(Engine.Shader);
                 RenderTarget = new CRenderTarget(Context.Window.Framebuffer);
                 Color = new CColor(OpenEngine.Color.White);
-                Model = new CModel(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
+                ModelComponent = new CModel(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
 
                 if (setting != ComponentSetting.IsCamera)
                 {
@@ -55,9 +55,9 @@ namespace OpenEngine
             Transform = new CTransform(position);
         }
 
-        public GameObject(Vector3 position, Matrix4 rotationMatrix, ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
+        public GameObject(Vector3 position, Matrix4 rotationMatrix, Vector3 scale = default(Vector3), ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
         {
-            Transform = new CTransform(position, rotationMatrix);
+            Transform = new CTransform(position, (scale == default(Vector3)) ? new Vector3(1, 1, 1) : scale, rotationMatrix);
         }
 
         public GameObject(GameObject other, bool clone = true) : this(TransformSetting.NeverAdd)
@@ -120,16 +120,28 @@ namespace OpenEngine
             set { Components.AddComponent(value); }
         }
 
-        public CModel Model
+        public CModel ModelComponent
         {
             get { return Components.GetComponent<CModel>(); }
             set { Components.AddComponent(value); }
         }
 
-        public CShader Shader
+        public Model Model
+        {
+            get { return ModelComponent.Model; }
+            set { ModelComponent.Model = value; }
+        }
+
+        public CShader ShaderComponent
         {
             get { return Components.GetComponent<CShader>(); }
             set { Components.AddComponent(value); }
+        }
+
+        public ShaderProgram Shader
+        {
+            get { return ShaderComponent.Program; }
+            set { ShaderComponent.Program = value; }
         }
 
         public CRenderTarget RenderTarget

@@ -51,7 +51,7 @@ namespace OpenEngine
 
         public VertexBatch(Model model, GameObject camera, Matrix4 transform = default(Matrix4)) : this(model.RenderCount, new BatchConfig(BatchType.Dynamic, Context.Window.Framebuffer, 0, Engine.Shader, camera, primitive: model.PrimitiveType, renderMode: model.Mode))
         {
-            AddModel(model, transform);
+            AddModel(model, (transform == default(Matrix4)) ? Matrix4.Identity : transform);
         }
 
         public void Delete()
@@ -71,6 +71,12 @@ namespace OpenEngine
         #endregion
 
         #region PROPERTIES
+
+        public VAO VAO
+        {
+            get { return vao; }
+            set { vao = value; }
+        }
 
         public BatchConfig Config
         {

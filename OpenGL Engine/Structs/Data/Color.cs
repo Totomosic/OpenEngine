@@ -32,7 +32,7 @@ namespace OpenEngine
 
         public static Color Random
         {
-            get { return Color.FromFloats((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble(), 1); }
+            get { return FromFloats((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble(), 1); }
         }
 
         public Vector4 RGBA
@@ -133,6 +133,41 @@ namespace OpenEngine
         public static Color Black
         {
             get { return new Color(0, 0, 0, 255); }
+        }
+
+        public static Color Orange
+        {
+            get { return new Color(255, 204, 51, 255); }
+        }
+
+        public static Color CornflowerBlue
+        {
+            get { return new Color(100, 200, 255, 255); }
+        }
+
+        public static Color Purple
+        {
+            get { return new Color(204, 0, 255, 255); }
+        }
+
+        public static Color Yellow
+        {
+            get { return new Color(255, 255, 0, 255); }
+        }
+
+        public static Color LightGrey
+        {
+            get { return new Color(200, 200, 200, 255); }
+        }
+
+        public static Color DarkGrey
+        {
+            get { return new Color(70, 70, 70, 255); }
+        }
+
+        public static Color Cyan
+        {
+            get { return new Color(0, 255, 255, 255); }
         }
 
         public float[] ToFloat()

@@ -298,6 +298,7 @@ namespace OpenEngine
             vao.CreateAttribute((int)BufferLayout.Normals, norms.ToArray(), 3);
             vao.CreateAttribute((int)BufferLayout.TextureCoordinates, tex.ToArray(), 2);
             vao.CreateIndexBuffer(indices.ToArray());
+            vao.CreateColorBuffer(Color.White);
             Model model = new Model(vao);
 
             image.Dispose();

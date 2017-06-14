@@ -61,16 +61,12 @@ namespace OpenEngine
             foreach (GameObject entity in entities)
             {
                 CTransform transform = entity.Transform;
-                CModel model = entity.Model;
+                CModel model = entity.ModelComponent;
                 CCameraReference camera = entity.CameraReference;
-                CShader shader = entity.Shader;
+                CShader shader = entity.ShaderComponent;
                 CRenderTarget renderTarget = entity.RenderTarget;
 
-                VertexBatch v = new VertexBatch(model.Model, camera.ID, transform.ModelMatrix);
-                v.Config.ShaderProgram = shader.Program;
-                v.Config.RenderTarget = renderTarget.FBO;
-                RenderVertexBatch(v);
-                v.Dispose();
+                RenderVertices(model.Model, new BatchConfig(BatchType.Dynamic, renderTarget.FBO, 0, shader.Program, camera.ID, modelMatrix: transform.GetModelMatrix(), renderMode: model.Model.Mode));
 
             }
         }
@@ -108,15 +104,35 @@ namespace OpenEngine
 
         public static void RenderModel(GameObject camera, Vector3 position, Model model, FBO renderTarget = null)
         {
-            VertexBatch v = new VertexBatch(model, camera, Matrix4.CreateTranslation(position));
-            v.Config.RenderTarget = (renderTarget == null) ? Context.Window.Framebuffer : renderTarget;
-            RenderVertexBatch(v);
-            v.Delete();
+            RenderVertices(model, new BatchConfig(BatchType.Dynamic, (renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, null, Matrix4.CreateTranslation(position)));
         }
 
         #endregion
 
         #region PRIVATE METHODS
+
+        private static void RenderVertices(Model model, BatchConfig config)
+        {
+
+            if (FBOManager.CurrentlyBoundFBO != config.RenderTarget)
+            {
+                config.RenderTarget.Bind();
+            }
+            if (ShaderManager.CurrentlyActiveShader != config.ShaderProgram)
+            {
+                config.ShaderProgram.Start();
+            }
+
+            config.ShaderProgram.SetUniformValue(config.ShaderProgram.ModelMatrix, config.ModelMatrix);
+            config.ShaderProgram.SetUniformValue(config.ShaderProgram.ViewMatrix, config.Camera.Components.GetComponent<CCamera>().ViewMatrix);
+            config.ShaderProgram.SetUniformValue(config.ShaderProgram.ProjectionMatrix, config.Camera.Components.GetComponent<CCamera>().ProjectionMatrix);
+
+            BindTextures(config.Textures);
+
+            model.VAO.Render();
+
+            drawCallsPerFrame++;
+        }
 
         private static void RenderVertices(VertexBatch batch)
         {
