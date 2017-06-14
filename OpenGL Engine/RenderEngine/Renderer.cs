@@ -53,30 +53,18 @@ namespace OpenEngine
                 {
                     textures = entity.Components.GetComponent<CTexture>().Textures.Values.ToArray();
                 }
-
-                RenderVertices(model.Model, new BatchConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix(), renderMode: model.Model.Mode));
+                ModelPackage package = new ModelPackage(model.Model, new ModelConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix(), renderMode: model.Model.Mode));
+                RenderModelPackage(package);
 
             }
-        }
-
-        public static void RenderVertexBatch(VertexBatch batch)
-        {
-            if (FBOManager.CurrentlyBoundFBO != batch.Config.RenderTarget)
-            {
-                batch.Config.RenderTarget.Bind();
-            }
-            if (ShaderManager.CurrentlyActiveShader != batch.Config.ShaderProgram)
-            {
-                batch.Config.ShaderProgram.Start();
-            }
-            RenderVertices(batch);
         }
 
         public static void RenderText(GameObject camera, Vector3 position, string text, Font font, float textSize, Color color, bool italics = false, FBO renderTarget = null)
         {
             if (FontShader == null) throw new RendererException("No font shader specified.");
             Model textModel = Text.CreateModel(text, font, textSize, color, italics);
-            RenderVertices(textModel, new BatchConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, new Texture[] { font.FontImage }, Matrix4.CreateTranslation(position)));
+            ModelPackage package = new ModelPackage(textModel, new ModelConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, new Texture[] { font.FontImage }, Matrix4.CreateTranslation(position)));
+            RenderModelPackage(package);
             textModel.Dispose();
         }
 
@@ -89,47 +77,34 @@ namespace OpenEngine
 
         public static void RenderModel(GameObject camera, Vector3 position, Model model, FBO renderTarget = null)
         {
-            RenderVertices(model, new BatchConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, null, Matrix4.CreateTranslation(position)));
+            ModelPackage package = new ModelPackage(model, new ModelConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, null, Matrix4.CreateTranslation(position)));
+            RenderModelPackage(package);
         }
 
         #endregion
 
         #region PRIVATE METHODS
 
-        private static void RenderVertices(Model model, BatchConfig config)
+        private static void RenderModelPackage(ModelPackage model)
         {
 
-            if (FBOManager.CurrentlyBoundFBO != config.RenderTarget)
+            if (FBOManager.CurrentlyBoundFBO != model.Config.RenderTarget)
             {
-                config.RenderTarget.Bind();
-                config.RenderTarget.Clear();
+                model.Config.RenderTarget.Bind();
+                model.Config.RenderTarget.Clear();
             }
-            if (ShaderManager.CurrentlyActiveShader != config.ShaderProgram)
+            if (ShaderManager.CurrentlyActiveShader != model.Config.ShaderProgram)
             {
-                config.ShaderProgram.Start();
+                model.Config.ShaderProgram.Start();
             }
 
-            config.ShaderProgram.SetUniformValue(config.ShaderProgram.ModelMatrix, config.ModelMatrix);
-            config.ShaderProgram.SetUniformValue(config.ShaderProgram.ViewMatrix, config.Camera.Components.GetComponent<CCamera>().ViewMatrix);
-            config.ShaderProgram.SetUniformValue(config.ShaderProgram.ProjectionMatrix, config.Camera.Components.GetComponent<CCamera>().ProjectionMatrix);
+            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ModelMatrix, model.Config.ModelMatrix);
+            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ViewMatrix, model.Config.Camera.Components.GetComponent<CCamera>().ViewMatrix);
+            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ProjectionMatrix, model.Config.Camera.Components.GetComponent<CCamera>().ProjectionMatrix);
 
-            BindTextures(config.Textures);
+            BindTextures(model.Config.Textures);
 
-            model.VAO.Render();
-
-            drawCallsPerFrame++;
-        }
-
-        private static void RenderVertices(VertexBatch batch)
-        {
-            batch.Config.ShaderProgram.SetUniformValue(batch.Config.ShaderProgram.ModelMatrix, batch.Config.ModelMatrix);
-            batch.Config.ShaderProgram.SetUniformValue(batch.Config.ShaderProgram.ViewMatrix, batch.Config.Camera.Components.GetComponent<CCamera>().ViewMatrix);
-            batch.Config.ShaderProgram.SetUniformValue(batch.Config.ShaderProgram.ProjectionMatrix, batch.Config.Camera.Components.GetComponent<CCamera>().ProjectionMatrix);
-
-            BindTextures(batch.Config.Textures);
-
-            VAO vao = batch.GetVAO();
-            vao.Render();
+            model.Model.Render();
 
             drawCallsPerFrame++;
         }

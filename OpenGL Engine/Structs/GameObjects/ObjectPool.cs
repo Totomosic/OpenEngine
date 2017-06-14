@@ -15,7 +15,6 @@ namespace OpenEngine
             GameObject[] entities = GetAllObjectsWith<CIdentifier>();
             foreach (GameObject obj in entities)
             {
-                Console.WriteLine(obj.Identifier.ID);
                 if (obj.Tag == tag)
                 {
                     objects.Add(obj);

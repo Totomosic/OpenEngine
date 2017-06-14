@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OpenEngine
 {
-    public class BatchConfig 
+    public class ModelConfig 
     {
 
         #region FIELDS
@@ -24,7 +24,7 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public BatchConfig(FBO renderTarget, int priority, ShaderProgram shader, GameObject cameraEntity, Texture[] textures = null, Matrix4 modelMatrix = default(Matrix4), BeginMode primitive = BeginMode.Triangles, RenderMode renderMode = RenderMode.Arrays)
+        public ModelConfig(FBO renderTarget, int priority, ShaderProgram shader, GameObject cameraEntity, Texture[] textures = null, Matrix4 modelMatrix = default(Matrix4), BeginMode primitive = BeginMode.Triangles, RenderMode renderMode = RenderMode.Arrays)
         {
             this.renderTarget = renderTarget;
             this.priority = priority;
@@ -94,7 +94,7 @@ namespace OpenEngine
 
         public override bool Equals(object obj)
         {
-            return (this == (BatchConfig)obj);
+            return (this == (ModelConfig)obj);
         }
 
         public override int GetHashCode()
@@ -102,7 +102,7 @@ namespace OpenEngine
             return base.GetHashCode();
         }
 
-        public static bool operator ==(BatchConfig c1, BatchConfig c2)
+        public static bool operator ==(ModelConfig c1, ModelConfig c2)
         {
             return !(c1.RenderTarget != c2.RenderTarget || c1.ShaderProgram != c2.ShaderProgram 
                 || c1.RenderMode != c2.RenderMode || c1.PrimitiveType != c2.PrimitiveType 
@@ -110,7 +110,7 @@ namespace OpenEngine
                 || c1.Camera != c2.Camera || c1.ModelMatrix != c2.ModelMatrix);
         }
 
-        public static bool operator !=(BatchConfig c1, BatchConfig c2)
+        public static bool operator !=(ModelConfig c1, ModelConfig c2)
         {
             return !(c1 == c2);
         }

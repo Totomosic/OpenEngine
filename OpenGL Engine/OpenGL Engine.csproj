@@ -74,6 +74,7 @@
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Display\ButtonState.cs" />
     <Compile Include="Display\Timers.cs" />
+    <Compile Include="RenderEngine\Data\ModelPackage.cs" />
     <Compile Include="Structs\GameObjects\ComponentSet.cs" />
     <Compile Include="Structs\GameObjects\ObjectTypes\Camera.cs" />
     <Compile Include="Display\Shaders\ShaderManager.cs" />
@@ -110,9 +111,7 @@
     <Compile Include="Maths\Vector2.cs" />
     <Compile Include="Maths\Vector3.cs" />
     <Compile Include="Maths\Vector4.cs" />
-    <Compile Include="RenderEngine\BatchManager.cs" />
-    <Compile Include="RenderEngine\Data\BatchConfig.cs" />
-    <Compile Include="RenderEngine\Data\VertexBatch.cs" />
+    <Compile Include="RenderEngine\Data\ModelConfig.cs" />
     <Compile Include="RenderEngine\Renderer.cs" />
     <Compile Include="Scene\Octree.cs" />
     <Compile Include="Scene\OctreeNode.cs" />
