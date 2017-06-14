@@ -1,6 +1,7 @@
 ﻿using OpenEngine.Components;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenEngine
 {
@@ -36,27 +37,9 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
-        public static void Render()
-        {
-            drawCallsPerFrame = 0;
-            foreach (FBO renderTarget in BatchManager.Batches.Keys)
-            {
-                renderTarget.Bind();
-                renderTarget.Clear();
-
-                foreach (VertexBatch batch in BatchManager.Batches[renderTarget])
-                {
-                    if (batch.Config.ShaderProgram != ShaderManager.CurrentlyActiveShader)
-                    {
-                        batch.Config.ShaderProgram.Start();
-                    }
-                    RenderVertices(batch);
-                }
-            }
-        }
-
         public static void RenderEntities()
         {
+            drawCallsPerFrame = 0;
             GameObject[] entities = ObjectPool.GetAllObjectsWith(new Type[] { typeof(CTransform), typeof(CModel), typeof(CCameraReference), typeof(CShader), typeof(CRenderTarget) });
             foreach (GameObject entity in entities)
             {
@@ -64,9 +47,14 @@ namespace OpenEngine
                 CModel model = entity.ModelComponent;
                 CCameraReference camera = entity.CameraReference;
                 CShader shader = entity.ShaderComponent;
-                CRenderTarget renderTarget = entity.RenderTarget;
+                CRenderTarget renderTarget = entity.RenderTargetComponent;
+                Texture[] textures = null;
+                if (entity.Components.HasComponent<CTexture>())
+                {
+                    textures = entity.Components.GetComponent<CTexture>().Textures.Values.ToArray();
+                }
 
-                RenderVertices(model.Model, new BatchConfig(BatchType.Dynamic, renderTarget.FBO, 0, shader.Program, camera.ID, modelMatrix: transform.GetModelMatrix(), renderMode: model.Model.Mode));
+                RenderVertices(model.Model, new BatchConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix(), renderMode: model.Model.Mode));
 
             }
         }
@@ -88,11 +76,8 @@ namespace OpenEngine
         {
             if (FontShader == null) throw new RendererException("No font shader specified.");
             Model textModel = Text.CreateModel(text, font, textSize, color, italics);
-            VertexBatch batch = new VertexBatch(textModel, camera, Matrix4.CreateTranslation(position));
-            batch.Config = new BatchConfig(BatchType.Dynamic, (renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, new Texture[] { font.FontImage }, Matrix4.CreateTranslation(position));
-            RenderVertexBatch(batch);
-            batch.Delete();
-            textModel.VAO.Delete();
+            RenderVertices(textModel, new BatchConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, new Texture[] { font.FontImage }, Matrix4.CreateTranslation(position)));
+            textModel.Dispose();
         }
 
         public static void RenderText(Vector3 position, string text, Font font, float textSize, Color color, bool italics = false)
@@ -104,7 +89,7 @@ namespace OpenEngine
 
         public static void RenderModel(GameObject camera, Vector3 position, Model model, FBO renderTarget = null)
         {
-            RenderVertices(model, new BatchConfig(BatchType.Dynamic, (renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, null, Matrix4.CreateTranslation(position)));
+            RenderVertices(model, new BatchConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, null, Matrix4.CreateTranslation(position)));
         }
 
         #endregion
@@ -117,6 +102,7 @@ namespace OpenEngine
             if (FBOManager.CurrentlyBoundFBO != config.RenderTarget)
             {
                 config.RenderTarget.Bind();
+                config.RenderTarget.Clear();
             }
             if (ShaderManager.CurrentlyActiveShader != config.ShaderProgram)
             {

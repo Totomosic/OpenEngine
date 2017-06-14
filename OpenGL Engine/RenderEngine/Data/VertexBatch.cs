@@ -49,7 +49,7 @@ namespace OpenEngine
             vao.AttachVBOs(new FloatVBO[] { vertexBuffer, normalBuffer, texCoordBuffer, colorBuffer });
         }
 
-        public VertexBatch(Model model, GameObject camera, Matrix4 transform = default(Matrix4)) : this(model.RenderCount, new BatchConfig(BatchType.Dynamic, Context.Window.Framebuffer, 0, Engine.Shader, camera, primitive: model.PrimitiveType, renderMode: model.Mode))
+        public VertexBatch(Model model, GameObject camera, Matrix4 transform = default(Matrix4)) : this(model.RenderCount, new BatchConfig(Context.Window.Framebuffer, 0, Engine.Shader, camera, primitive: model.PrimitiveType, renderMode: model.Mode))
         {
             AddModel(model, (transform == default(Matrix4)) ? Matrix4.Identity : transform);
         }

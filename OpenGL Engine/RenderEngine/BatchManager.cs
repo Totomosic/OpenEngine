@@ -59,14 +59,7 @@ namespace OpenEngine
 
         public static void SubmitVertices(Vertex[] vertices, BatchConfig config, uint[] indices = null)
         {
-            if (config.Type == BatchType.Static)
-            {
-                StaticVertexBatching.SubmitStaticVertices(vertices, config, indices);
-            }
-            else if (config.Type == BatchType.Dynamic)
-            {
-                AddNewBatch(vertices, config, indices);
-            }
+            AddNewBatch(vertices, config, indices);
         }
 
         public static void SubmitModel(Model model, BatchConfig config, Matrix4 transformation = default(Matrix4))
@@ -81,18 +74,6 @@ namespace OpenEngine
             {
                 Batches.Clear();
             }
-            else if (mode == ClearMode.DynamicOnly)
-            {
-                RemoveBatchType(BatchType.Dynamic);
-            }
-            else if (mode == ClearMode.StaticOnly)
-            {
-                RemoveBatchType(BatchType.Static);
-            }
-            else if (mode == ClearMode.StaticDynamic)
-            {
-                RemoveBatchType(new BatchType[] { BatchType.Static, BatchType.Dynamic });
-            }
         }
 
         #endregion
@@ -104,25 +85,6 @@ namespace OpenEngine
             VertexBatch batch = new VertexBatch(vertices.Length, config);
             batch.AddVertices(vertices, indices);
             SubmitVertexBatch(batch);
-        }
-
-        private static void RemoveBatchType(BatchType type)
-        {
-            RemoveBatchType(new BatchType[] { type });
-        }
-
-        private static void RemoveBatchType(BatchType[] types)
-        {
-            foreach (FBO renderTarget in Batches.Keys)
-            {
-                for (int i = Batches[renderTarget].Count - 1; i >= 0; i--)
-                {
-                    if (types.Contains(Batches[renderTarget][i].Config.Type))
-                    {
-                        Batches[renderTarget].RemoveAt(i);
-                    }
-                }
-            }
         }
 
         #endregion

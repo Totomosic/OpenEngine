@@ -34,7 +34,7 @@ namespace OpenEngine
             {
                 Identifier = new CIdentifier("");
                 ShaderComponent = new CShader(Engine.Shader);
-                RenderTarget = new CRenderTarget(Context.Window.Framebuffer);
+                RenderTargetComponent = new CRenderTarget(Context.Window.Framebuffer);
                 Color = new CColor(OpenEngine.Color.White);
                 ModelComponent = new CModel(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
 
@@ -144,10 +144,16 @@ namespace OpenEngine
             set { ShaderComponent.Program = value; }
         }
 
-        public CRenderTarget RenderTarget
+        public CRenderTarget RenderTargetComponent
         {
             get { return Components.GetComponent<CRenderTarget>(); }
             set { Components.AddComponent(value); }
+        }
+
+        public FBO RenderTarget
+        {
+            get { return RenderTargetComponent.FBO; }
+            set { RenderTargetComponent.FBO = value; }
         }
 
         public CIdentifier Identifier

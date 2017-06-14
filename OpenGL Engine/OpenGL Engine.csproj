@@ -114,7 +114,6 @@
     <Compile Include="RenderEngine\Data\BatchConfig.cs" />
     <Compile Include="RenderEngine\Data\VertexBatch.cs" />
     <Compile Include="RenderEngine\Renderer.cs" />
-    <Compile Include="RenderEngine\Batching\StaticVertexBatching.cs" />
     <Compile Include="Scene\Octree.cs" />
     <Compile Include="Scene\OctreeNode.cs" />
     <Compile Include="Structs\Buffers\FBOManager.cs" />

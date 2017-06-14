@@ -10,8 +10,6 @@ namespace OpenEngine
 
         #region FIELDS
 
-        private BatchType type;
-
         private FBO renderTarget;
         private int priority; // higher is rendered first
         private ShaderProgram shaderProgram;
@@ -26,9 +24,8 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public BatchConfig(BatchType type, FBO renderTarget, int priority, ShaderProgram shader, GameObject cameraEntity, Texture[] textures = null, Matrix4 modelMatrix = default(Matrix4), BeginMode primitive = BeginMode.Triangles, RenderMode renderMode = RenderMode.Arrays)
+        public BatchConfig(FBO renderTarget, int priority, ShaderProgram shader, GameObject cameraEntity, Texture[] textures = null, Matrix4 modelMatrix = default(Matrix4), BeginMode primitive = BeginMode.Triangles, RenderMode renderMode = RenderMode.Arrays)
         {
-            this.type = type;
             this.renderTarget = renderTarget;
             this.priority = priority;
             shaderProgram = shader;
@@ -42,12 +39,6 @@ namespace OpenEngine
         #endregion
 
         #region PROPERTIES
-
-        public BatchType Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
 
         public FBO RenderTarget
         {
@@ -116,8 +107,7 @@ namespace OpenEngine
             return !(c1.RenderTarget != c2.RenderTarget || c1.ShaderProgram != c2.ShaderProgram 
                 || c1.RenderMode != c2.RenderMode || c1.PrimitiveType != c2.PrimitiveType 
                 || !Enumerable.SequenceEqual(c1.Textures, c2.Textures) || c1.Priority != c2.Priority
-                || c1.Type != c2.Type || c1.Camera != c2.Camera
-                || c1.ModelMatrix != c2.ModelMatrix);
+                || c1.Camera != c2.Camera || c1.ModelMatrix != c2.ModelMatrix);
         }
 
         public static bool operator !=(BatchConfig c1, BatchConfig c2)
