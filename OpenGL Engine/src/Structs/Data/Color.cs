@@ -170,6 +170,11 @@ namespace OpenEngine
             get { return new Color(0, 255, 255, 255); }
         }
 
+        public static Color Brown
+        {
+            get { return new Color(139, 69, 19, 255); }
+        }
+
         public float[] ToFloat()
         {
             return new float[] { NR, NG, NB, NA };

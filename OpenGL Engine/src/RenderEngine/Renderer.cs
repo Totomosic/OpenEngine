@@ -53,7 +53,7 @@ namespace OpenEngine
                 {
                     textures = entity.Components.GetComponent<CTexture>().Textures.Values.ToArray();
                 }
-                ModelPackage package = new ModelPackage(model.Model, new ModelConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix(), renderMode: model.Model.Mode));
+                ModelPackage package = new ModelPackage(model.Model, new ModelConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix()));
                 RenderModelPackage(package);
 
             }

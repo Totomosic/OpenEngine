@@ -32,7 +32,7 @@ namespace OpenEngine
             }
             if (setting == ComponentSetting.None || setting == ComponentSetting.IsCamera)
             {
-                Identifier = new CIdentifier("");
+                Identifier = new CIdentifier(Tags.None);
                 ShaderComponent = new CShader(Engine.Shader);
                 RenderTargetComponent = new CRenderTarget(Context.Window.Framebuffer);
                 Color = new CColor(OpenEngine.Color.White);
@@ -40,7 +40,7 @@ namespace OpenEngine
 
                 if (setting != ComponentSetting.IsCamera)
                 {
-                    GameObject camera = ObjectPool.GetObjectByTag("Main Camera");
+                    GameObject camera = ObjectPool.GetObjectByTag(Tags.MainCamera);
                     if (camera == null)
                     {
                         throw new EngineException("Either no camera entity was created or not tagged with Identifier: Main Camera.");
@@ -58,6 +58,11 @@ namespace OpenEngine
         public GameObject(Vector3 position, Matrix4 rotationMatrix, Vector3 scale = default(Vector3), ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
         {
             Transform = new CTransform(position, (scale == default(Vector3)) ? new Vector3(1, 1, 1) : scale, rotationMatrix);
+        }
+
+        public GameObject(Vector3 position, Model model, ComponentSetting setting = ComponentSetting.None) : this(position, setting)
+        {
+            Model = model;
         }
 
         public GameObject(GameObject other, bool clone = true) : this(TransformSetting.NeverAdd)

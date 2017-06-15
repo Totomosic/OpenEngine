@@ -22,7 +22,7 @@ namespace OpenEngine
 
             if (firstCamera)
             {
-                Tag = "Main Camera";
+                Tag = Tags.MainCamera;
                 firstCamera = false;
             }
         }
