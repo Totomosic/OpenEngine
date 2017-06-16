@@ -3,7 +3,7 @@
 namespace OpenEngine.Components
 {
 
-    public class CCamera : Component
+    public class CameraComponent : Component
     {
 
         #region FIELDS
@@ -21,7 +21,7 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CCamera(Viewport view, CameraMode mode = CameraMode.FirstPerson, ProjectionType projection = ProjectionType.Perspective, float fov = (float)Math.PI / 3, float zNear = 1, float zFar = 1000)
+        public CameraComponent(Viewport view, CameraMode mode = CameraMode.FirstPerson, ProjectionType projection = ProjectionType.Perspective, float fov = (float)Math.PI / 3, float zNear = 1, float zFar = 1000)
         {
             this.view = view;
             this.mode = mode;
@@ -31,6 +31,11 @@ namespace OpenEngine.Components
             this.zFar = zFar;
 
             ProjectionMatrix = CreateProjectionMatrix();
+        }
+
+        public CameraComponent() : this(Context.Window.View)
+        {
+
         }
 
         #endregion
@@ -55,7 +60,7 @@ namespace OpenEngine.Components
         public Matrix4 GetViewMatrix()
         {
             Matrix4 viewMatrix = Matrix4.Identity;
-            CTransform transform = Owner.Transform;
+            Transform transform = Owner.Transform;
             if (mode == CameraMode.FirstPerson)
             {
                 viewMatrix = Matrix4.CreateTranslation(-transform.Position) * transform.Rotation.Inverse();
@@ -81,6 +86,19 @@ namespace OpenEngine.Components
             position.Z = -1;
             Vector4 worldSpace = ViewMatrix.Inverse() * position;
             return new Ray(Owner.Transform.Position, worldSpace.XYZ.Normalize(), length);
+        }
+
+        public override Component Clone()
+        {
+            CameraComponent camera = new CameraComponent();
+            camera.projectionMatrix = projectionMatrix;
+            camera.fov = fov;
+            camera.projection = projection;
+            camera.mode = mode;
+            camera.view = view;
+            camera.zFar = zFar;
+            camera.zNear = zNear;
+            return camera;
         }
 
         #endregion

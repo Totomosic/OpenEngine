@@ -17,7 +17,7 @@ namespace OpenEngine
 
         public Camera(Viewport view, Vector3 position, CameraMode mode = CameraMode.FirstPerson, ProjectionType projection = ProjectionType.Perspective, Matrix4 rotationMatrix = default(Matrix4), float fov = 60, float zNear = 1, float zFar = 1000) : base(position, ComponentSetting.IsCamera)
         {
-            Components.AddComponent(new CCamera(view, mode, projection, Angles.ToRadians(fov), zNear, zFar));
+            Components.AddComponent(new CameraComponent(view, mode, projection, Angles.ToRadians(fov), zNear, zFar));
             Transform.Rotation = (rotationMatrix == default(Matrix4)) ? Matrix4.Identity : rotationMatrix;
 
             if (firstCamera)
@@ -31,9 +31,9 @@ namespace OpenEngine
 
         #region PROPERTIES
 
-        public CCamera CameraComponent
+        public CameraComponent CameraComponent
         {
-            get { return Components.GetComponent<CCamera>(); }
+            get { return Components.GetComponent<CameraComponent>(); }
             set { Components.AddComponent(value); }
         }
 

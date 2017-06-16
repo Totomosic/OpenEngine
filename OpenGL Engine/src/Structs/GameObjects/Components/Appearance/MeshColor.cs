@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CColor : Component
+    public class MeshColor : Component
     {
 
         #region FIELDS
@@ -11,13 +11,13 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CColor(Color color, Color secondaryColor = new Color())
+        public MeshColor(Color color, Color secondaryColor = new Color())
         {
             Color = color;
             SecondaryColor = secondaryColor;
         }
 
-        public CColor() : this(Color.White)
+        public MeshColor() : this(Color.White)
         {
 
         }
@@ -37,6 +37,14 @@ namespace OpenEngine.Components
         }
 
         #endregion
+
+        public override Component Clone()
+        {
+            MeshColor color = new MeshColor();
+            color.Color = Color;
+            color.SecondaryColor = SecondaryColor;
+            return color;
+        }
 
     }
 }

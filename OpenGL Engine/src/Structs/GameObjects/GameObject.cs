@@ -28,15 +28,15 @@ namespace OpenEngine
 
             if ((transformSetting == TransformSetting.UseGlobalSetting && autoAddTransform) || transformSetting == TransformSetting.AlwaysAdd)
             {
-                Transform = new CTransform();
+                Transform = new Transform();
             }
             if (setting == ComponentSetting.None || setting == ComponentSetting.IsCamera)
             {
-                Identifier = new CIdentifier(Tags.None);
-                ShaderComponent = new CShader(Engine.Shader);
-                RenderTargetComponent = new CRenderTarget(Context.Window.Framebuffer);
-                Color = new CColor(OpenEngine.Color.White);
-                ModelComponent = new CModel(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
+                Identifier = new Identifier(Tags.None);
+                ShaderComponent = new Shader(Engine.Shader);
+                RenderTargetComponent = new RenderTarget(Context.Window.Framebuffer);
+                Color = new MeshColor(OpenEngine.Color.White);
+                ModelComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
 
                 if (setting != ComponentSetting.IsCamera)
                 {
@@ -45,19 +45,19 @@ namespace OpenEngine
                     {
                         throw new EngineException("Either no camera entity was created or not tagged with Identifier: Main Camera.");
                     }
-                    CameraReference = new CCameraReference(camera);
+                    CameraReference = new CameraReference(camera);
                 }
             }
         }
 
         public GameObject(Vector3 position, ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
         {
-            Transform = new CTransform(position);
+            Transform = new Transform(position);
         }
 
         public GameObject(Vector3 position, Matrix4 rotationMatrix, Vector3 scale = default(Vector3), ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
         {
-            Transform = new CTransform(position, (scale == default(Vector3)) ? new Vector3(1, 1, 1) : scale, rotationMatrix);
+            Transform = new Transform(position, (scale == default(Vector3)) ? new Vector3(1, 1, 1) : scale, rotationMatrix);
         }
 
         public GameObject(Vector3 position, Model model, ComponentSetting setting = ComponentSetting.None) : this(position, setting)
@@ -75,7 +75,7 @@ namespace OpenEngine
             {
                 foreach (Component c in other.Components.GetAllComponents())
                 {
-                    Components.AddComponent(c.DeepClone());
+                    Components.AddComponent(c.Clone());
                 }
             }
         }
@@ -113,21 +113,15 @@ namespace OpenEngine
 
         #region BASIC COMPONENTS
 
-        public CTransform Transform
+        public Transform Transform
         {
-            get { return Components.GetComponent<CTransform>(); }
+            get { return Components.GetComponent<Transform>(); }
             set { Components.AddComponent(value); }
         }
 
-        public CMotion Motion
+        public Mesh ModelComponent
         {
-            get { return Components.GetComponent<CMotion>(); }
-            set { Components.AddComponent(value); }
-        }
-
-        public CModel ModelComponent
-        {
-            get { return Components.GetComponent<CModel>(); }
+            get { return Components.GetComponent<Mesh>(); }
             set { Components.AddComponent(value); }
         }
 
@@ -137,9 +131,9 @@ namespace OpenEngine
             set { ModelComponent.Model = value; }
         }
 
-        public CShader ShaderComponent
+        public Shader ShaderComponent
         {
-            get { return Components.GetComponent<CShader>(); }
+            get { return Components.GetComponent<Shader>(); }
             set { Components.AddComponent(value); }
         }
 
@@ -149,9 +143,9 @@ namespace OpenEngine
             set { ShaderComponent.Program = value; }
         }
 
-        public CRenderTarget RenderTargetComponent
+        public RenderTarget RenderTargetComponent
         {
-            get { return Components.GetComponent<CRenderTarget>(); }
+            get { return Components.GetComponent<RenderTarget>(); }
             set { Components.AddComponent(value); }
         }
 
@@ -161,9 +155,9 @@ namespace OpenEngine
             set { RenderTargetComponent.FBO = value; }
         }
 
-        public CIdentifier Identifier
+        public Identifier Identifier
         {
-            get { return Components.GetComponent<CIdentifier>(); }
+            get { return Components.GetComponent<Identifier>(); }
             set { Components.AddComponent(value); }
         }
 
@@ -173,15 +167,15 @@ namespace OpenEngine
             set { Identifier.ID = value; }
         }
 
-        public CColor Color
+        public MeshColor Color
         {
-            get { return Components.GetComponent<CColor>(); }
+            get { return Components.GetComponent<MeshColor>(); }
             set { Components.AddComponent(value); }
         }
 
-        public CCameraReference CameraReference
+        public CameraReference CameraReference
         {
-            get { return Components.GetComponent<CCameraReference>(); }
+            get { return Components.GetComponent<CameraReference>(); }
             set { Components.AddComponent(value); }
         }
 

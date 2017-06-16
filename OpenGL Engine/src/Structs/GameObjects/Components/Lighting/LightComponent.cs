@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CLight : Component
+    public class LightComponent : Component
     {
 
         #region FIELDS
@@ -11,7 +11,7 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CLight(LightType type, float ambient, Vector3 attenuation, float angle)
+        public LightComponent(LightType type, float ambient, Vector3 attenuation, float angle)
         {
             Type = type;    
             Ambient = ambient;
@@ -19,17 +19,17 @@ namespace OpenEngine.Components
             Angle = angle;
         }
 
-        public CLight(LightType type, float ambient, float angle) : this(type, ambient, new Vector3(1, 0, 0), angle)
+        public LightComponent(LightType type, float ambient, float angle) : this(type, ambient, new Vector3(1, 0, 0), angle)
         {
 
         }
 
-        public CLight(LightType type, float ambient = 0.2f) : this(type, ambient, 15f)
+        public LightComponent(LightType type, float ambient = 0.2f) : this(type, ambient, 15f)
         {
 
         }
 
-        public CLight() : this(LightType.Point)
+        public LightComponent() : this(LightType.Point)
         {
 
         }
@@ -59,6 +59,16 @@ namespace OpenEngine.Components
         }
 
         #endregion
+
+        public override Component Clone()
+        {
+            LightComponent light = new LightComponent();
+            light.Type = Type;
+            light.Ambient = Ambient;
+            light.Attenuation = Attenuation;
+            light.Angle = Angle;
+            return light;
+        }
 
     }
 }

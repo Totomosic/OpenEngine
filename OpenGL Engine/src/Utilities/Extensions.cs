@@ -33,11 +33,6 @@ namespace OpenEngine
     public static class ObjectExtensions
     {
 
-        public static T DeepClone<T>(this T obj)
-        {
-            return obj.GetClone();
-        }
-
     }
 
 }

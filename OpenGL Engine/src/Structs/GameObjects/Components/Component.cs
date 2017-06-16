@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenEngine.Components
 {
-    public class Component
+    public abstract class Component
     {
 
         #region FIELDS
@@ -41,11 +41,7 @@ namespace OpenEngine.Components
 
         #region PUBLIC METHODS
 
-        public T Clone<T>()
-            where T : Component, new()
-        {
-            return this.MemberwiseClone() as T;
-        }
+        public abstract Component Clone();
 
         #endregion
 

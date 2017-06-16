@@ -75,6 +75,7 @@
     <Compile Include="src\Display\ButtonState.cs" />
     <Compile Include="src\Display\Timers.cs" />
     <Compile Include="src\RenderEngine\Data\ModelPackage.cs" />
+    <Compile Include="src\Scripting\Script.cs" />
     <Compile Include="src\Structs\GameObjects\ComponentSet.cs" />
     <Compile Include="src\Structs\GameObjects\ObjectTypes\Camera.cs" />
     <Compile Include="src\Display\Shaders\ShaderManager.cs" />
@@ -131,12 +132,11 @@
     <Compile Include="src\Physics\Collision\CollisionResolution.cs" />
     <Compile Include="src\Structs\Models\Sphere.cs" />
     <Compile Include="src\Structs\Models\Tile.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\CAnimatedTexture.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\CAnimatedModel.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\CColor.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\CMaterial.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\CModel.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\CTexture.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Appearance\AnimatedMesh.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Appearance\MeshColor.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Appearance\MeshMaterial.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Appearance\Mesh.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Appearance\Textures.cs" />
     <Compile Include="src\Structs\Buffers\Buffer.cs" />
     <Compile Include="src\Structs\Buffers\Framebuffer.cs" />
     <Compile Include="src\Structs\Buffers\FBO.cs" />
@@ -153,18 +153,11 @@
     <Compile Include="src\Structs\Data Objects\TextureData.cs" />
     <Compile Include="src\Structs\Model.cs" />
     <Compile Include="src\Physics\Collision\Ray.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Colliders\CAABB.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Colliders\BoxCollider.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Component.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Interaction\CKeyboardMotion.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Interaction\CKeyboardRotation.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Interaction\CMouseRotation.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Lighting\CLight.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\CIdentifier.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\CStatic.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Movement\CMotionEngine.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Movement\CRotation.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Movement\CTransform.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Movement\CMotion.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Lighting\LightComponent.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Identifier.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Movement\Transform.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\CCamera.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\CCameraReference.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\CRenderTarget.cs" />
@@ -224,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\Structs\GameObjects\Components\DynamicObjects\" />
+    <Folder Include="src\Structs\GameObjects\Components\Interaction\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

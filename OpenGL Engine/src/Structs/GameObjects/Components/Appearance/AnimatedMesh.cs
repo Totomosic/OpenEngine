@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CAnimatedModel : Component
+    public class AnimatedMesh : Component
     {
 
         #region FIELDS
@@ -11,12 +11,12 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CAnimatedModel(AnimatedModel model)
+        public AnimatedMesh(AnimatedModel model)
         {
             Model = model;
         }
 
-        public CAnimatedModel() : this(null)
+        public AnimatedMesh() : this(null)
         {
 
         }
@@ -28,6 +28,13 @@ namespace OpenEngine.Components
         public virtual AnimatedModel Model
         {
             get; set;
+        }
+
+        public override Component Clone()
+        {
+            AnimatedMesh model = new AnimatedMesh();
+            model.Model = Model;
+            return model;
         }
 
         #endregion

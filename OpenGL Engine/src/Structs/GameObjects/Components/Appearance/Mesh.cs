@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CModel : Component
+    public class Mesh : Component
     {
 
         #region FIELDS
@@ -11,14 +11,14 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CModel(Model model, Vector3 modelRotation = new Vector3(), AngleType angleType = AngleType.Degrees)
+        public Mesh(Model model, Vector3 modelRotation = new Vector3(), AngleType angleType = AngleType.Degrees)
         {
             Model = model;
             ModelRotation = modelRotation;
             AngleType = angleType;
         }
 
-        public CModel() : this(null)
+        public Mesh() : this(null)
         {
 
         }
@@ -43,6 +43,15 @@ namespace OpenEngine.Components
         }
 
         #endregion
+
+        public override Component Clone()
+        {
+            Mesh model = new Mesh();
+            model.Model = Model;
+            model.ModelRotation = ModelRotation;
+            model.AngleType = AngleType;
+            return model;
+        }
 
     }
 }

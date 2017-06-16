@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CMaterial : Component
+    public class MeshMaterial : Component
     {
 
         #region FIELDS
@@ -11,12 +11,12 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CMaterial(Material material)
+        public MeshMaterial(Material material)
         {
             Material = material;
         }
 
-        public CMaterial() : this(new Material())
+        public MeshMaterial() : this(new Material())
         {
 
         }
@@ -31,6 +31,13 @@ namespace OpenEngine.Components
         }
 
         #endregion
+
+        public override Component Clone()
+        {
+            MeshMaterial material = new MeshMaterial();
+            material.Material = Material;
+            return material;
+        }
 
     }
 }

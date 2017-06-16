@@ -40,18 +40,18 @@ namespace OpenEngine
         public static void RenderEntities()
         {
             drawCallsPerFrame = 0;
-            GameObject[] entities = ObjectPool.GetAllObjectsWith(new Type[] { typeof(CTransform), typeof(CModel), typeof(CCameraReference), typeof(CShader), typeof(CRenderTarget) });
+            GameObject[] entities = ObjectPool.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget) });
             foreach (GameObject entity in entities)
             {
-                CTransform transform = entity.Transform;
-                CModel model = entity.ModelComponent;
-                CCameraReference camera = entity.CameraReference;
-                CShader shader = entity.ShaderComponent;
-                CRenderTarget renderTarget = entity.RenderTargetComponent;
+                Transform transform = entity.Transform;
+                Mesh model = entity.ModelComponent;
+                CameraReference camera = entity.CameraReference;
+                Shader shader = entity.ShaderComponent;
+                RenderTarget renderTarget = entity.RenderTargetComponent;
                 Texture[] textures = null;
-                if (entity.Components.HasComponent<CTexture>())
+                if (entity.Components.HasComponent<Textures>())
                 {
-                    textures = entity.Components.GetComponent<CTexture>().Textures.Values.ToArray();
+                    textures = entity.Components.GetComponent<Textures>().TextureMap.Values.ToArray();
                 }
                 ModelPackage package = new ModelPackage(model.Model, new ModelConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix()));
                 RenderModelPackage(package);
@@ -99,8 +99,8 @@ namespace OpenEngine
             }
 
             model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ModelMatrix, model.Config.ModelMatrix);
-            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ViewMatrix, model.Config.Camera.Components.GetComponent<CCamera>().ViewMatrix);
-            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ProjectionMatrix, model.Config.Camera.Components.GetComponent<CCamera>().ProjectionMatrix);
+            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ViewMatrix, model.Config.Camera.Components.GetComponent<CameraComponent>().ViewMatrix);
+            model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ProjectionMatrix, model.Config.Camera.Components.GetComponent<CameraComponent>().ProjectionMatrix);
 
             BindTextures(model.Config.Textures);
 

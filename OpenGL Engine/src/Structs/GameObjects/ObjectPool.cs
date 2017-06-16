@@ -12,7 +12,7 @@ namespace OpenEngine
         public static GameObject[] GetObjectsByTag(string tag)
         {
             List<GameObject> objects = new List<GameObject>();
-            GameObject[] entities = GetAllObjectsWith<CIdentifier>();
+            GameObject[] entities = GetAllObjectsWith<Identifier>();
             foreach (GameObject obj in entities)
             {
                 if (obj.Tag == tag)

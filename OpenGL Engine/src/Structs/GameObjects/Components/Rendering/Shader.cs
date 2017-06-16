@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CShader : Component
+    public class Shader : Component
     {
 
         #region FIELDS
@@ -11,17 +11,17 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CShader(ShaderProgram program)
+        public Shader(ShaderProgram program)
         {
             Program = program;
         }
 
-        public CShader(string shaderName) : this(ShaderManager.GetShader(shaderName))
+        public Shader(string shaderName) : this(ShaderManager.GetShader(shaderName))
         {
 
         }
 
-        public CShader() : this(Engine.Shader)
+        public Shader() : this(Engine.Shader)
         {
 
         }
@@ -33,6 +33,13 @@ namespace OpenEngine.Components
         public virtual ShaderProgram Program
         {
             get; set;
+        }
+
+        public override Component Clone()
+        {
+            Shader shader = new Shader();
+            shader.Program = Program;
+            return shader;
         }
 
         #endregion

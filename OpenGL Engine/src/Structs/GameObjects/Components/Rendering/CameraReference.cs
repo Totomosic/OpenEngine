@@ -2,7 +2,7 @@
 
 namespace OpenEngine.Components
 {
-    public class CCameraReference : Component
+    public class CameraReference : Component
     {
 
         #region FIELDS
@@ -11,12 +11,12 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CCameraReference(GameObject camera)
+        public CameraReference(GameObject camera)
         {
             ID = camera;
         }
 
-        public CCameraReference() : this(null)
+        public CameraReference() : this(null)
         {
 
         }
@@ -31,6 +31,13 @@ namespace OpenEngine.Components
         }
 
         #endregion
+
+        public override Component Clone()
+        {
+            CameraReference camera = new CameraReference();
+            camera.ID = ID;
+            return camera;
+        }
 
     }
 }

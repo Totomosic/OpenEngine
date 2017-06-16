@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OpenEngine.Components
 {
-    public class CTransform : Component
+    public class Transform : Component
     {
 
         #region FIELDS
@@ -18,7 +18,7 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public CTransform(Vector3 position, Vector3 scale, Matrix4 rotation = default(Matrix4))
+        public Transform(Vector3 position, Vector3 scale, Matrix4 rotation = default(Matrix4))
         {
             this.position = position;
             this.prevPosition = this.position;
@@ -26,17 +26,17 @@ namespace OpenEngine.Components
             this.rotation = (rotation == default(Matrix4)) ? Matrix4.Identity : rotation;
         }
 
-        public CTransform(float x, float y, float z, Matrix4 rotation = default(Matrix4)) : this(new Vector3(x, y, z), rotation)
+        public Transform(float x, float y, float z, Matrix4 rotation = default(Matrix4)) : this(new Vector3(x, y, z), rotation)
         {
 
         }
 
-        public CTransform(Vector3 position, Matrix4 rotation = default(Matrix4)) : this(position, new Vector3(1, 1, 1), rotation)
+        public Transform(Vector3 position, Matrix4 rotation = default(Matrix4)) : this(position, new Vector3(1, 1, 1), rotation)
         {
 
         }
 
-        public CTransform() : this(new Vector3())
+        public Transform() : this(new Vector3())
         {
 
         }
@@ -123,6 +123,15 @@ namespace OpenEngine.Components
             modelMatrix *= Matrix4.CreateTranslation(Position);
             modelMatrix *= Matrix4.CreateScaling(Scale);
             return modelMatrix;
+        }
+
+        public override Component Clone()
+        {
+            Transform transform = new Transform();
+            transform.Position = Position;
+            transform.Rotation = Rotation;
+            transform.Scale = Scale;
+            return transform;
         }
 
         #endregion
