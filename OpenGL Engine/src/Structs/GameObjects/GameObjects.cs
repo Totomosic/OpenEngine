@@ -4,12 +4,12 @@ using OpenEngine.Components;
 
 namespace OpenEngine
 {
-    public static class ObjectPool
+    public static class GameObjects
     {
 
         #region PUBLIC METHODS
 
-        public static GameObject[] GetObjectsByTag(string tag)
+        public static GameObject[] FIndObjectsByTag(string tag)
         {
             List<GameObject> objects = new List<GameObject>();
             GameObject[] entities = GetAllObjectsWith<Identifier>();
@@ -23,9 +23,9 @@ namespace OpenEngine
             return objects.ToArray();
         }
 
-        public static GameObject GetObjectByTag(string tag)
+        public static GameObject FindObjectByTag(string tag)
         {
-            GameObject[] objects = GetObjectsByTag(tag);
+            GameObject[] objects = FIndObjectsByTag(tag);
             if (objects.Length > 0)
             {
                 return objects[0];

@@ -35,15 +35,15 @@ namespace OpenEngine
                 Identifier = new Identifier(Tags.None);
                 ShaderComponent = new Shader(Engine.Shader);
                 RenderTargetComponent = new RenderTarget(Context.Window.Framebuffer);
-                Color = new MeshColor(OpenEngine.Color.White);
-                ModelComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
+                MeshColor = new MeshColor(OpenEngine.Color.White);
+                MeshComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
 
                 if (setting != ComponentSetting.IsCamera)
                 {
-                    GameObject camera = ObjectPool.GetObjectByTag(Tags.MainCamera);
+                    GameObject camera = GameObjects.FindObjectByTag(Tags.MainCamera);
                     if (camera == null)
                     {
-                        throw new EngineException("Either no camera entity was created or not tagged with Identifier: Main Camera.");
+                        throw new EngineException("Either no camera entity was created or not tagged with Identifier: " + Tags.MainCamera);
                     }
                     CameraReference = new CameraReference(camera);
                 }
@@ -119,7 +119,7 @@ namespace OpenEngine
             set { Components.AddComponent(value); }
         }
 
-        public Mesh ModelComponent
+        public Mesh MeshComponent
         {
             get { return Components.GetComponent<Mesh>(); }
             set { Components.AddComponent(value); }
@@ -127,8 +127,8 @@ namespace OpenEngine
 
         public Model Model
         {
-            get { return ModelComponent.Model; }
-            set { ModelComponent.Model = value; }
+            get { return MeshComponent.Model; }
+            set { MeshComponent.Model = value; }
         }
 
         public Shader ShaderComponent
@@ -167,7 +167,7 @@ namespace OpenEngine
             set { Identifier.ID = value; }
         }
 
-        public MeshColor Color
+        public MeshColor MeshColor
         {
             get { return Components.GetComponent<MeshColor>(); }
             set { Components.AddComponent(value); }

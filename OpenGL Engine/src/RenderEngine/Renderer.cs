@@ -40,11 +40,11 @@ namespace OpenEngine
         public static void RenderEntities()
         {
             drawCallsPerFrame = 0;
-            GameObject[] entities = ObjectPool.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget) });
+            GameObject[] entities = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget) });
             foreach (GameObject entity in entities)
             {
                 Transform transform = entity.Transform;
-                Mesh model = entity.ModelComponent;
+                Mesh model = entity.MeshComponent;
                 CameraReference camera = entity.CameraReference;
                 Shader shader = entity.ShaderComponent;
                 RenderTarget renderTarget = entity.RenderTargetComponent;

@@ -77,6 +77,11 @@
     <Compile Include="src\RenderEngine\Data\ModelPackage.cs" />
     <Compile Include="src\Scripting\Script.cs" />
     <Compile Include="src\Structs\GameObjects\ComponentSet.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Rendering\CameraComponent.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Rendering\CameraReference.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Rendering\RenderTarget.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Rendering\Shader.cs" />
+    <Compile Include="src\Structs\GameObjects\GameObjects.cs" />
     <Compile Include="src\Structs\GameObjects\ObjectTypes\Camera.cs" />
     <Compile Include="src\Display\Shaders\ShaderManager.cs" />
     <Compile Include="src\Display\Window\Context.cs" />
@@ -122,7 +127,6 @@
     <Compile Include="src\Structs\Data\Vertex.cs" />
     <Compile Include="src\Structs\Data\VertexData.cs" />
     <Compile Include="src\Structs\GameObjects\GameObject.cs" />
-    <Compile Include="src\Structs\GameObjects\ObjectPool.cs" />
     <Compile Include="src\Structs\GameObjects\Tags.cs" />
     <Compile Include="src\Structs\Material.cs" />
     <Compile Include="src\Structs\Models\Cuboid.cs" />
@@ -158,10 +162,6 @@
     <Compile Include="src\Structs\GameObjects\Components\Lighting\LightComponent.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Identifier.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Movement\Transform.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Rendering\CCamera.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Rendering\CCameraReference.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Rendering\CRenderTarget.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Rendering\CShader.cs" />
     <Compile Include="src\Structs\Data\Table.cs" />
     <Compile Include="src\Structs\Textures\AnimatedTexture.cs" />
     <Compile Include="src\Structs\Textures\SubImage.cs" />

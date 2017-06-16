@@ -24,7 +24,7 @@ namespace OpenEngine
 
         #region CONSTUCTORS
 
-        public FBO(string name, int w, int h, bool isPermanent = true) : base(CreateObject(), GLType.Framebuffer)
+        public FBO(string name, int w, int h, bool isPermanent = true, bool createBasicBuffers = true) : base(CreateObject(), GLType.Framebuffer)
         {
             this.name = name;
             width = w;
@@ -39,6 +39,11 @@ namespace OpenEngine
             if (isPermanent)
             {
                 FBOManager.AddFBO(this);
+            }
+            if (createBasicBuffers)
+            {
+                CreateColorTextureAttachment();
+                CreateDepthTextureAttachment();
             }
 
         }

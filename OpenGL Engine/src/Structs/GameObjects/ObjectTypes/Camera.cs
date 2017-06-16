@@ -48,6 +48,11 @@ namespace OpenEngine
             set { CameraComponent.ProjectionMatrix = value; }
         }
 
+        public static Camera Main
+        {
+            get { return GameObjects.FindObjectByTag(Tags.MainCamera) as Camera; }
+        }
+
         #endregion
 
         #region PUBLIC METHODS
