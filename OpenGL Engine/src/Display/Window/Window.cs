@@ -88,9 +88,9 @@ namespace OpenEngine
 
         #region PROPERTIES
 
-        public Viewport View
+        public Viewport Viewport
         {
-            get { return framebuffer.View; }
+            get { return framebuffer.Viewport; }
         }
 
         public float Aspect

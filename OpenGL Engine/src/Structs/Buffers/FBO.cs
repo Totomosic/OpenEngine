@@ -70,7 +70,7 @@ namespace OpenEngine
             set { clearColor = value; }
         }
 
-        public Viewport View
+        public Viewport Viewport
         {
             get { return view; }
         }

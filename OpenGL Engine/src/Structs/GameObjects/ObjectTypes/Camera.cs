@@ -15,7 +15,7 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public Camera(Viewport view, Vector3 position, CameraMode mode = CameraMode.FirstPerson, ProjectionType projection = ProjectionType.Perspective, Matrix4 rotationMatrix = default(Matrix4), float fov = 60, float zNear = 1, float zFar = 1000) : base(position, ComponentSetting.IsCamera)
+        public Camera(Viewport view, Vector3 position, CameraMode mode = CameraMode.FirstPerson, ProjectionType projection = ProjectionType.Perspective, Matrix4 rotationMatrix = default(Matrix4), float fov = 60, float zNear = 1, float zFar = 1000) : base(position, setting: ComponentSetting.IsCamera)
         {
             Components.AddComponent(new CameraComponent(view, mode, projection, Angles.ToRadians(fov), zNear, zFar));
             Transform.Rotation = (rotationMatrix == default(Matrix4)) ? Matrix4.Identity : rotationMatrix;
@@ -56,6 +56,16 @@ namespace OpenEngine
         #endregion
 
         #region PUBLIC METHODS
+
+        public Vector3 ScreenToWorldPoint(Vector3 screenPoint)
+        {
+            return CameraComponent.ScreenToWorldPoint(screenPoint);
+        }
+
+        public Ray ScreenToWorldRay(Vector3 screenPoint, float length = 1000)
+        {
+            return CameraComponent.ScreenToWorldRay(screenPoint, length);
+        }
 
         #endregion
 

@@ -77,6 +77,7 @@
     <Compile Include="src\RenderEngine\Data\ModelPackage.cs" />
     <Compile Include="src\Scripting\Script.cs" />
     <Compile Include="src\Structs\GameObjects\ComponentSet.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Parent.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\CameraComponent.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\CameraReference.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\RenderTarget.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="src\Structs\Objects\Text\Font.cs" />
     <Compile Include="src\Structs\Models\Text.cs" />
     <Compile Include="src\Structs\VAO.cs" />
+    <Compile Include="src\UI\Structs\Canvas.cs" />
     <Compile Include="src\Utilities\Engine.cs" />
     <Compile Include="src\Utilities\Enumerators.cs" />
     <Compile Include="src\Utilities\Exceptions.cs" />
@@ -218,6 +220,7 @@
   <ItemGroup>
     <Folder Include="src\Structs\GameObjects\Components\DynamicObjects\" />
     <Folder Include="src\Structs\GameObjects\Components\Interaction\" />
+    <Folder Include="src\Structs\GameObjects\Components\UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

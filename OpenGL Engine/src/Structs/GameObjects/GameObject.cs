@@ -11,7 +11,6 @@ namespace OpenEngine
 
         private static GameObject[] gameObjects = new GameObject[Engine.MaxEntities];
         private static uint highestID = 0;
-        private static bool autoAddTransform = true;
 
         private uint id;
         private ComponentSet components;
@@ -20,75 +19,44 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public GameObject(TransformSetting transformSetting = TransformSetting.UseGlobalSetting, ComponentSetting setting = ComponentSetting.None)
+        public GameObject(ComponentSetting setting = ComponentSetting.None)
         {
             id = GenerateNextID();
             gameObjects[id] = this;
             components = new ComponentSet(this);
 
-            if ((transformSetting == TransformSetting.UseGlobalSetting && autoAddTransform) || transformSetting == TransformSetting.AlwaysAdd)
-            {
-                Transform = new Transform();
-            }
+            // Add Default Components
+            Transform = new Transform();
             if (setting == ComponentSetting.None || setting == ComponentSetting.IsCamera)
             {
-                Identifier = new Identifier(Tags.None);
+                MeshComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, Color.White));
                 ShaderComponent = new Shader(Engine.Shader);
                 RenderTargetComponent = new RenderTarget(Context.Window.Framebuffer);
-                MeshColor = new MeshColor(OpenEngine.Color.White);
-                MeshComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, OpenEngine.Color.White));
-
+                Identifier = new Identifier(Tags.None);
+                MeshColor = new MeshColor(Color.White);
                 if (setting != ComponentSetting.IsCamera)
                 {
-                    GameObject camera = GameObjects.FindObjectByTag(Tags.MainCamera);
-                    if (camera == null)
-                    {
-                        throw new EngineException("Either no camera entity was created or not tagged with Identifier: " + Tags.MainCamera);
-                    }
-                    CameraReference = new CameraReference(camera);
+                    CameraReference = new CameraReference(Camera.Main);
                 }
             }
         }
 
-        public GameObject(Vector3 position, ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
+        public GameObject(Vector3 position, Matrix4 rotation = default(Matrix4), Vector3 scale = default(Vector3), ComponentSetting setting = ComponentSetting.None) : this(setting)
         {
-            Transform = new Transform(position);
+            OpenEngine.Components.Transform transform = Transform;
+            transform.Position = position;
+            transform.Rotation = (rotation == default(Matrix4)) ? Matrix4.Identity : rotation;
+            transform.Scale = (scale == default(Vector3)) ? new Vector3(1, 1, 1) : scale;
         }
 
-        public GameObject(Vector3 position, Matrix4 rotationMatrix, Vector3 scale = default(Vector3), ComponentSetting setting = ComponentSetting.None) : this(TransformSetting.NeverAdd, setting)
-        {
-            Transform = new Transform(position, (scale == default(Vector3)) ? new Vector3(1, 1, 1) : scale, rotationMatrix);
-        }
-
-        public GameObject(Vector3 position, Model model, ComponentSetting setting = ComponentSetting.None) : this(position, setting)
+        public GameObject(Vector3 position, Model model, Matrix4 rotation = default(Matrix4), Vector3 scale = default(Vector3), ComponentSetting setting = ComponentSetting.None) : this(position, rotation, scale, setting)
         {
             Model = model;
-        }
-
-        public GameObject(GameObject other, bool clone = true) : this(TransformSetting.NeverAdd)
-        {
-            if (!clone)
-            {
-                Components.AddComponents(other.Components.GetAllComponents());
-            }
-            else
-            {
-                foreach (Component c in other.Components.GetAllComponents())
-                {
-                    Components.AddComponent(c.Clone());
-                }
-            }
         }
 
         #endregion
 
         #region PROPERTIES
-
-        public static bool AutoAddTransform
-        {
-            get { return autoAddTransform; }
-            set { autoAddTransform = value; }
-        }
 
         public static uint HighestID
         {
@@ -97,7 +65,7 @@ namespace OpenEngine
 
         public static GameObject Empty
         {
-            get { return new GameObject(TransformSetting.NeverAdd, ComponentSetting.LeaveEmpty); }
+            get { return new GameObject(ComponentSetting.LeaveEmpty); }
         }
 
         public uint ID
@@ -184,6 +152,37 @@ namespace OpenEngine
         #endregion
 
         #region PUBLIC METHODS
+
+        public static GameObject Instantiate(GameObject gameObject)
+        {
+            GameObject clone = Empty;
+            foreach (Component c in gameObject.Components.GetAllComponents())
+            {
+                clone.Components.AddComponent(c.Clone());
+            }
+            return clone;
+        }
+
+        public static GameObject Instantiate(GameObject gameObject, Vector3 position)
+        {
+            GameObject clone = Instantiate(gameObject);
+            clone.Transform.Position = position;
+            return clone;
+        }
+
+        public static GameObject Instantiate(GameObject gameObject, GameObject parent)
+        {
+            GameObject clone = Instantiate(gameObject);
+            clone.Components.AddComponent(new Parent(parent));
+            return clone;
+        }
+
+        public static GameObject Instantiate(GameObject gameObject, GameObject parent, Vector3 relativePosition)
+        {
+            GameObject clone = Instantiate(gameObject, parent);
+            clone.Transform.Position = relativePosition;
+            return clone;
+        }
 
         public static bool IsValidGameObject(uint id)
         {

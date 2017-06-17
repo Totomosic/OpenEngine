@@ -33,7 +33,7 @@ namespace OpenEngine.Components
             ProjectionMatrix = CreateProjectionMatrix();
         }
 
-        public CameraComponent() : this(Context.Window.View)
+        public CameraComponent() : this(Context.Window.Viewport)
         {
 
         }
@@ -73,7 +73,7 @@ namespace OpenEngine.Components
             }
         }
 
-        public Vector3 ScreenToWorld(Vector3 screenPosition)
+        public Vector3 ScreenToWorldPoint(Vector3 screenPosition)
         {
             Vector4 position = new Vector4(screenPosition, 1);
             Vector4 worldSpace = ViewMatrix.Inverse() * position;

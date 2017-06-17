@@ -70,7 +70,7 @@ namespace OpenEngine
 
         public static void RenderText(Vector3 position, string text, Font font, float textSize, Color color, bool italics = false)
         {
-            Camera camera = new Camera(Context.Window.View, new Vector3(0, 0, 10), CameraMode.FirstPerson, ProjectionType.Orthographic);
+            Camera camera = new Camera(Context.Window.Viewport, new Vector3(0, 0, 10), CameraMode.FirstPerson, ProjectionType.Orthographic);
             RenderText(camera, position, text, font, textSize, color, italics);
             camera.Destroy();
         }

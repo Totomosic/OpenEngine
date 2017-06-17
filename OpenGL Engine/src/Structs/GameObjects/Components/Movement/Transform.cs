@@ -136,6 +136,8 @@ namespace OpenEngine.Components
 
         #endregion
 
+        #region PRIVATE METHODS
+
         private Matrix4 CalculateRotation(float angle, Vector4 axis, Space space = Space.Local, AngleType type = AngleType.Radians)
         {
             if (space == Space.Local)
@@ -148,6 +150,8 @@ namespace OpenEngine.Components
             }
             return Matrix4.CreateRotation(axis.XYZ, angle);
         }
+
+        #endregion
 
     }
 }
