@@ -147,6 +147,12 @@ namespace OpenEngine
             set { Components.AddComponent(value); }
         }
 
+        public GameObject CameraObject
+        {
+            get { return CameraReference.ID; }
+            set { CameraReference.ID = value; }
+        }
+
         #endregion
 
         #endregion
@@ -196,6 +202,23 @@ namespace OpenEngine
                 return gameObjects[id];
             }
             return null;
+        }
+
+        public void AddComponent(Component component)
+        {
+            Components.AddComponent(component);
+        }
+
+        public T GetComponent<T>()
+            where T : Component, new()
+        {
+            return Components.GetComponent<T>();
+        }
+
+        public bool HasComponent<T>()
+            where T : Component, new()
+        {
+            return Components.HasComponent<T>();
         }
 
         public void Destroy()

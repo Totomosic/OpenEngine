@@ -8,6 +8,8 @@ namespace OpenEngine.Components
 
         #region FIELDS
 
+        private GameObject owner;
+
         #endregion
 
         #region CONSTRUCTORS
@@ -29,7 +31,8 @@ namespace OpenEngine.Components
 
         public virtual GameObject Owner
         {
-            get; set;
+            get { return owner; }
+            set { SetOwner(value); }
         }
 
         public virtual bool IsActive
@@ -40,6 +43,20 @@ namespace OpenEngine.Components
         #endregion
 
         #region PUBLIC METHODS
+
+        public virtual void SetOwner(GameObject owner)
+        {
+            this.owner = owner;
+            if (this.owner != null)
+            {
+                Initialise();
+            }
+        }
+
+        public virtual void Initialise()
+        {
+
+        }
 
         public abstract Component Clone();
 

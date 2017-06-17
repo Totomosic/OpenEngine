@@ -21,8 +21,6 @@ in vec3 f_WorldNormal;
 in vec2 f_TexCoords;
 in vec4 f_Color;
 
-uniform vec4 Color;
-
 //Lighting
 const int MAX_LIGHTS = 10;
 uniform bool UseLighting;
@@ -66,8 +64,8 @@ void main()
 				brightness = max(dot(f_WorldNormal, unitToLightVector) * clamp(Lights[i].Angle - lightToSurfaceAngle, 0, 1), Lights[i].Ambient);
 			}
 		}
-		finalDiffuse += Color * f_Color * Lights[i].Color * brightness * attenuationFactor;
-		finalDiffuse.a = Color.a;
+		finalDiffuse += f_Color * Lights[i].Color * brightness * attenuationFactor;
+		finalDiffuse.a = f_Color.a;
 	}
 	finalColor = finalDiffuse + finalSpecular;
 }

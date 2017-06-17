@@ -172,9 +172,10 @@
     <Compile Include="src\Structs\Textures\TextureCubeMap.cs" />
     <Compile Include="src\Structs\Objects\Text\Character.cs" />
     <Compile Include="src\Structs\Objects\Text\Font.cs" />
-    <Compile Include="src\Structs\Models\Text.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Text.cs" />
     <Compile Include="src\Structs\VAO.cs" />
-    <Compile Include="src\UI\Structs\Canvas.cs" />
+    <Compile Include="src\UI\Objects\Canvas.cs" />
+    <Compile Include="src\UI\Objects\UIElement.cs" />
     <Compile Include="src\Utilities\Engine.cs" />
     <Compile Include="src\Utilities\Enumerators.cs" />
     <Compile Include="src\Utilities\Exceptions.cs" />
@@ -203,16 +204,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="base_f.glsl">
+    <None Include="Shaders\textureUI_f.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="base_v.glsl">
+    <None Include="Shaders\ui_f.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="font_f.glsl">
+    <None Include="Shaders\base_f.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="font_v.glsl">
+    <None Include="Shaders\textureUI_v.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\ui_v.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\base_v.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\font_f.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shaders\font_v.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
