@@ -85,16 +85,25 @@ namespace OpenEngine.Components
             this.font = font;
             this.size = size;
             this.color = color;
-            if (Owner.MeshComponent != null)
+            if (Owner.MeshComponent == null)
             {
-                Owner.Model.Dispose();
                 Owner.MeshComponent = new Mesh(CreateModel(text, font, size, color));
             }
             else
             {
+                ResourceManager.ReleaseReference(Owner.Model);
                 Owner.Model = CreateModel(text, font, size, color);
             }
-            Owner.Components.AddComponent(new Textures(font.FontImage));
+            if (Owner.HasComponent<MeshMaterial>())
+            {
+                MeshMaterial material = Owner.GetComponent<MeshMaterial>();
+                material.Material.Textures = new List<Texture>();
+                material.Material.AddTexture(font.FontImage);
+            }
+            else
+            {
+                Owner.AddComponent(new MeshMaterial(new Material(font.FontImage)));
+            }
         }
 
         public static Model CreateModel(string text, Font font, float textSize, Color color, bool italics = false, float desiredOffset = 0)
@@ -106,7 +115,7 @@ namespace OpenEngine.Components
 
             float minX = 0;
             float maxX = 0;
-            float minY = 1000000000;
+            float minY = float.PositiveInfinity;
             float maxY = 0;
             float offset = (italics) ? textSize * 0.05f + desiredOffset : desiredOffset;
 

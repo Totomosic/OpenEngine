@@ -72,9 +72,11 @@
     <Compile Include="src\Animation\KeyFrame.cs" />
     <Compile Include="src\Audio\Structs\AudioBuffer.cs" />
     <Compile Include="src\Content\ContentManager.cs" />
+    <Compile Include="src\Content\ResourceManager.cs" />
     <Compile Include="src\Display\ButtonState.cs" />
     <Compile Include="src\Display\Timers.cs" />
-    <Compile Include="src\RenderEngine\Data\ModelPackage.cs" />
+    <Compile Include="src\RenderEngine\Data\MeshConfig.cs" />
+    <Compile Include="src\RenderEngine\Data\MeshPackage.cs" />
     <Compile Include="src\Scripting\Script.cs" />
     <Compile Include="src\Structs\GameObjects\ComponentSet.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Parent.cs" />
@@ -118,7 +120,6 @@
     <Compile Include="src\Maths\Vector2.cs" />
     <Compile Include="src\Maths\Vector3.cs" />
     <Compile Include="src\Maths\Vector4.cs" />
-    <Compile Include="src\RenderEngine\Data\ModelConfig.cs" />
     <Compile Include="src\RenderEngine\Renderer.cs" />
     <Compile Include="src\Scene\Octree.cs" />
     <Compile Include="src\Scene\OctreeNode.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="src\Structs\GameObjects\Components\Appearance\MeshColor.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Appearance\MeshMaterial.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Appearance\Mesh.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Appearance\Textures.cs" />
     <Compile Include="src\Structs\Buffers\Buffer.cs" />
     <Compile Include="src\Structs\Buffers\Framebuffer.cs" />
     <Compile Include="src\Structs\Buffers\FBO.cs" />

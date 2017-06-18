@@ -40,7 +40,7 @@ namespace OpenEngine
         public static void RenderEntities()
         {
             drawCallsPerFrame = 0;
-            GameObject[] entities = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget) });
+            GameObject[] entities = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial) });
             foreach (GameObject entity in entities)
             {
                 Transform transform = entity.Transform;
@@ -48,12 +48,8 @@ namespace OpenEngine
                 CameraReference camera = entity.CameraReference;
                 Shader shader = entity.ShaderComponent;
                 RenderTarget renderTarget = entity.RenderTargetComponent;
-                Texture[] textures = null;
-                if (entity.Components.HasComponent<Textures>())
-                {
-                    textures = entity.Components.GetComponent<Textures>().TextureMap.Values.ToArray();
-                }
-                ModelPackage package = new ModelPackage(model.Model, new ModelConfig(renderTarget.FBO, 0, shader.Program, camera.ID, textures, transform.GetModelMatrix()));
+                MeshMaterial material = entity.MeshMaterial;
+                MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
                 RenderModelPackage(package);
 
             }
@@ -63,9 +59,10 @@ namespace OpenEngine
         {
             if (FontShader == null) throw new RendererException("No font shader specified.");
             Model textModel = Text.CreateModel(text, font, textSize, color, italics);
-            ModelPackage package = new ModelPackage(textModel, new ModelConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, new Texture[] { font.FontImage }, Matrix4.CreateTranslation(position)));
+            Material mat = new Material(font.FontImage);
+            MeshPackage package = new MeshPackage(textModel, new MeshConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, Matrix4.CreateTranslation(position)), mat);
             RenderModelPackage(package);
-            textModel.Dispose();
+            ResourceManager.ReleaseReference(textModel);
         }
 
         public static void RenderText(Vector3 position, string text, Font font, float textSize, Color color, bool italics = false)
@@ -75,9 +72,9 @@ namespace OpenEngine
             camera.Destroy();
         }
 
-        public static void RenderModel(GameObject camera, Vector3 position, Model model, FBO renderTarget = null)
+        public static void RenderModel(GameObject camera, Vector3 position, Model model, Material material, FBO renderTarget = null)
         {
-            ModelPackage package = new ModelPackage(model, new ModelConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, null, Matrix4.CreateTranslation(position)));
+            MeshPackage package = new MeshPackage(model, new MeshConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, Matrix4.CreateTranslation(position)), material);
             RenderModelPackage(package);
         }
 
@@ -85,7 +82,7 @@ namespace OpenEngine
 
         #region PRIVATE METHODS
 
-        private static void RenderModelPackage(ModelPackage model)
+        private static void RenderModelPackage(MeshPackage model)
         {
 
             if (FBOManager.CurrentlyBoundFBO != model.Config.RenderTarget)
@@ -102,23 +99,23 @@ namespace OpenEngine
             model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ViewMatrix, model.Config.Camera.Components.GetComponent<CameraComponent>().ViewMatrix);
             model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ProjectionMatrix, model.Config.Camera.Components.GetComponent<CameraComponent>().ProjectionMatrix);
 
-            BindTextures(model.Config.Textures);
+            BindTextures(model.Material.Textures);
 
             model.Model.Render();
 
             drawCallsPerFrame++;
         }
 
-        private static void BindTextures(Texture[] textures)
+        private static void BindTextures(List<Texture> textures)
         {
-            if (textures != null && textures.Length > 0)
+            if (textures != null && textures.Count > 0)
             {
-                if (textures.Length == 1)
+                if (textures.Count == 1)
                 {
                     textures[0].Bind();
                     return;
                 }
-                for (int i = 0; i < textures.Length; i++)
+                for (int i = 0; i < textures.Count; i++)
                 {
                     textures[i].Bind(i);
                 }

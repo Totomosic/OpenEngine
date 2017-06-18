@@ -3,22 +3,24 @@ using System.Collections.Generic;
 
 namespace OpenEngine
 {
-    public class ModelPackage
+    public class MeshPackage
     {
 
         #region FIELDS
 
         private Model model;
-        private ModelConfig config;
+        private MeshConfig config;
+        private Material material;
 
         #endregion
 
         #region CONSTRUCTORS
 
-        public ModelPackage(Model model, ModelConfig config)
+        public MeshPackage(Model model, MeshConfig config, Material material)
         {
             this.model = model;
             this.config = config;
+            this.material = material;
         }
 
         #endregion
@@ -31,10 +33,16 @@ namespace OpenEngine
             set { model = value; }
         }
 
-        public ModelConfig Config
+        public MeshConfig Config
         {
             get { return config; }
             set { config = value; }
+        }
+
+        public Material Material
+        {
+            get { return material; }
+            set { material = value; }
         }
 
         #endregion

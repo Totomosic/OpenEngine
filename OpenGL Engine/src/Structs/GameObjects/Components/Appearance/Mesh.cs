@@ -50,6 +50,7 @@ namespace OpenEngine.Components
             model.Model = Model;
             model.ModelRotation = ModelRotation;
             model.AngleType = AngleType;
+            ResourceManager.FetchReference(model.Model);
             return model;
         }
 

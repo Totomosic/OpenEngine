@@ -34,6 +34,7 @@ namespace OpenEngine
                 RenderTargetComponent = new RenderTarget(Context.Window.Framebuffer);
                 Identifier = new Identifier(Tags.None);
                 MeshColor = new MeshColor(Color.White);
+                MeshMaterial = new MeshMaterial(new Material());
                 if (setting != ComponentSetting.IsCamera)
                 {
                     CameraReference = new CameraReference(Camera.Main);
@@ -90,13 +91,13 @@ namespace OpenEngine
         public Mesh MeshComponent
         {
             get { return Components.GetComponent<Mesh>(); }
-            set { Components.AddComponent(value); }
+            set { SetMeshComponent(value); }
         }
 
         public Model Model
         {
             get { return MeshComponent.Model; }
-            set { MeshComponent.Model = value; }
+            set { SetModel(value); }
         }
 
         public Shader ShaderComponent
@@ -150,7 +151,19 @@ namespace OpenEngine
         public GameObject CameraObject
         {
             get { return CameraReference.ID; }
-            set { CameraReference.ID = value; }
+            set { SetCamera(value); }
+        }
+
+        public MeshMaterial MeshMaterial
+        {
+            get { return Components.GetComponent<MeshMaterial>(); }
+            set { Components.AddComponent(value); }
+        }
+
+        public Material Material
+        {
+            get { return MeshMaterial.Material; }
+            set { MeshMaterial.Material = value; }
         }
 
         #endregion
@@ -229,6 +242,45 @@ namespace OpenEngine
         #endregion
 
         #region PRIVATE METHODS
+
+        private void SetModel(Model model)
+        {
+            if (HasComponent<Mesh>())
+            {
+                Mesh mesh = GetComponent<Mesh>();
+                ResourceManager.ReleaseReference(mesh.Model);
+                mesh.Model = model;
+            }
+            else
+            {
+                AddComponent(new Mesh(model));
+            }
+        }
+
+        private void SetMeshComponent(Mesh mesh)
+        {
+            if (HasComponent<Mesh>())
+            {
+                ResourceManager.ReleaseReference(GetComponent<Mesh>().Model);
+                AddComponent(mesh);
+            }
+            else
+            {
+                AddComponent(mesh);
+            }
+        }
+
+        private void SetCamera(GameObject camera)
+        {
+            if (HasComponent<CameraReference>())
+            {
+                GetComponent<CameraReference>().ID = camera;
+            }
+            else
+            {
+                AddComponent(new CameraReference(camera));
+            }
+        }
 
         private static uint GenerateNextID()
         {

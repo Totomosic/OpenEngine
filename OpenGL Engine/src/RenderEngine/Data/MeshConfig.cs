@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace OpenEngine
 {
-    public class ModelConfig 
+    public class MeshConfig 
     {
 
         #region FIELDS
@@ -13,7 +13,6 @@ namespace OpenEngine
         private FBO renderTarget;
         private int priority; // higher is rendered first
         private ShaderProgram shaderProgram;
-        private Texture[] textures;
 
         private Matrix4 modelMatrix;
         private GameObject camera;
@@ -22,12 +21,11 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public ModelConfig(FBO renderTarget, int priority, ShaderProgram shader, GameObject cameraEntity, Texture[] textures = null, Matrix4 modelMatrix = default(Matrix4))
+        public MeshConfig(FBO renderTarget, int priority, ShaderProgram shader, GameObject cameraEntity, Matrix4 modelMatrix = default(Matrix4))
         {
             this.renderTarget = renderTarget;
             this.priority = priority;
             shaderProgram = shader;
-            this.textures = (textures == null) ? new Texture[0] : textures;
             this.modelMatrix = (modelMatrix == default(Matrix4)) ? Matrix4.Identity : modelMatrix;
             camera = cameraEntity;
         }
@@ -54,12 +52,6 @@ namespace OpenEngine
             set { shaderProgram = value; }
         }
 
-        public Texture[] Textures
-        {
-            get { return textures; }
-            set { textures = value; }
-        }
-
         public Matrix4 ModelMatrix
         {
             get { return modelMatrix; }
@@ -78,7 +70,7 @@ namespace OpenEngine
 
         public override bool Equals(object obj)
         {
-            return (this == (ModelConfig)obj);
+            return (this == (MeshConfig)obj);
         }
 
         public override int GetHashCode()
@@ -86,14 +78,13 @@ namespace OpenEngine
             return base.GetHashCode();
         }
 
-        public static bool operator ==(ModelConfig c1, ModelConfig c2)
+        public static bool operator ==(MeshConfig c1, MeshConfig c2)
         {
             return !(c1.RenderTarget != c2.RenderTarget || c1.ShaderProgram != c2.ShaderProgram  
-                || !Enumerable.SequenceEqual(c1.Textures, c2.Textures) || c1.Priority != c2.Priority
-                || c1.Camera != c2.Camera || c1.ModelMatrix != c2.ModelMatrix);
+                || c1.Priority != c2.Priority || c1.Camera != c2.Camera || c1.ModelMatrix != c2.ModelMatrix);
         }
 
-        public static bool operator !=(ModelConfig c1, ModelConfig c2)
+        public static bool operator !=(MeshConfig c1, MeshConfig c2)
         {
             return !(c1 == c2);
         }

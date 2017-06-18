@@ -93,7 +93,7 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
-        public virtual bool HasTexture()
+        public virtual bool HasTextures()
         {
             return Textures.Count > 0;
         }

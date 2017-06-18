@@ -8,52 +8,18 @@ using System.Runtime.InteropServices;
 
 namespace OpenEngine
 {
-    public class ContentManager
+    public static class ContentManager
     {
 
         #region FIELDS
-
-        private static List<Texture> textures = new List<Texture>();
-        private static List<Font> fonts = new List<Font>();
-        private static List<Model> models = new List<Model>();
 
         #endregion
 
         #region PROPERTIES
 
-        public static List<Texture> Textures
-        {
-            get { return textures; }
-        }
-
-        public static List<Font> Fonts
-        {
-            get { return fonts; }
-        }
-
-        public static List<Model> Models
-        {
-            get { return models; }
-        }
-
         #endregion
 
         #region GETTERS
-
-        public static Texture GetTexture(int index = 0)
-        {
-            return textures[index];
-        }
-
-        public static Font GetFont(int index = 0)
-        {
-            return fonts[index];
-        }
-
-        public static Model GetModel(int index = 0)
-        {
-            return models[index];
-        }
 
         #endregion
 
@@ -65,31 +31,26 @@ namespace OpenEngine
             if (typeof(T) == typeof(Model) && filename.Contains(".obj"))
             {
                 Model model = LoadOBJModel((usePathExtensions) ? Paths.ModelPath + filename : filename, (info == null) ? new ModelData() : info as ModelData);
-                models.Add(model);
                 return model as T;
             }
             else if (typeof(T) == typeof(Model) && (filename.Contains(".png") || filename.Contains(".jpg")))
             {
                 Model model = LoadHeightmap((usePathExtensions) ? Paths.HeightmapPath + filename : filename, (info == null) ? new ModelData() : info as ModelData);
-                models.Add(model);
                 return model as T;
             }
             else if (typeof(T) == typeof(Font))
             {
                 Font font = LoadFont((usePathExtensions) ? Paths.FontPath + filename : filename, (info == null) ? new TextureData() : info as TextureData);
-                fonts.Add(font);
                 return font as T;
             }
             else if (typeof(T) == typeof(Texture2D))
             {
                 Texture2D tex = LoadTexture2D((usePathExtensions) ? Paths.TexturePath + filename : filename, (info == null) ? new TextureData() : info as TextureData);
-                textures.Add(tex);
                 return tex as T;
             }
             else if (typeof(T) == typeof(TextureAtlas))
             {
                 TextureAtlas tex = LoadTextureAtlas((usePathExtensions) ? Paths.TexturePath + filename : filename, (info == null) ? new TextureData() : info as TextureData);
-                textures.Add(tex);
                 return tex as T;
             }
             else
@@ -108,7 +69,6 @@ namespace OpenEngine
                     filenames[i] = Paths.TexturePath + filenames[i];
                 }
                 TextureCubeMap tex = LoadCubeMap(filenames, (info == null) ? new TextureData() : info as TextureData);
-                textures.Add(tex);
                 return tex as T;
             }
             else
@@ -124,7 +84,8 @@ namespace OpenEngine
             vao.CreateAttribute((int)BufferLayout.Normals, normals, 3);
             vao.CreateAttribute((int)BufferLayout.TextureCoordinates, texCoords, 2);
             vao.CreateAttribute((int)BufferLayout.Color, colors, 4);
-            return new Model(vao);
+            Model model = new Model(vao);
+            return model;
         }
 
         public static Model LoadModel(float[] vertices, float[] normals, float[] texCoords, Color color, int vertexDimension = 3)
@@ -143,12 +104,8 @@ namespace OpenEngine
 
         public static Model LoadModel(float[] vertices, float[] normals, float[] texCoords, Color color, uint[] indices, int vertexDimension = 3)
         {
-            return LoadModel(vertices, normals, texCoords, color.ToVertexData(vertices.Length / vertexDimension), indices, vertexDimension);
-        }
-
-        public static void ReloadTexture(string filename, Texture texture)
-        {
-
+            Model model = LoadModel(vertices, normals, texCoords, color.ToVertexData(vertices.Length / vertexDimension), indices, vertexDimension);
+            return model;
         }
 
         #endregion
