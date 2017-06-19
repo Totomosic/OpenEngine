@@ -191,7 +191,7 @@
     <Compile Include="src\Utilities\Files\Collada\SkeletonLoader.cs" />
     <Compile Include="src\Utilities\Files\Collada\SkinLoader.cs" />
     <Compile Include="src\Utilities\Files\DataFile.cs" />
-    <Compile Include="src\Utilities\Files\OBJ\OBJFile.cs" />
+    <Compile Include="src\Utilities\Files\Wavefront\OBJFile.cs" />
     <Compile Include="src\Utilities\Files\TextureWriter.cs" />
     <Compile Include="src\Utilities\Files\VideoStream.cs" />
     <Compile Include="src\Utilities\Files\World\WorldFile.cs" />
@@ -202,8 +202,8 @@
     <Compile Include="src\Utilities\OBJUtils\OBJNormal.cs" />
     <Compile Include="src\Utilities\OBJUtils\OBJTexCoord.cs" />
     <Compile Include="src\Utilities\OBJUtils\OBJVertex.cs" />
-    <Compile Include="src\Utilities\Files\OBJ\OBJWriter.cs" />
-    <Compile Include="src\Utilities\Files\OBJ\OBJReader.cs" />
+    <Compile Include="src\Utilities\Files\Wavefront\OBJWriter.cs" />
+    <Compile Include="src\Utilities\Files\Wavefront\OBJReader.cs" />
     <Compile Include="src\Utilities\OpenStates.cs" />
     <Compile Include="src\Utilities\Paths.cs" />
   </ItemGroup>
