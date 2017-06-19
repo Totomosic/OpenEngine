@@ -8,6 +8,9 @@ using System.Runtime.InteropServices;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that manages external resources for your project
+    /// </summary>
     public static class ContentManager
     {
 
@@ -25,6 +28,14 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Load an external resource
+        /// </summary>
+        /// <typeparam name="T">Type of resource</typeparam>
+        /// <param name="filename">Filename of resource</param>
+        /// <param name="info">DataObject that provides extra information about how to load this resource</param>
+        /// <param name="usePathExtensions">Determine whether to use path extensions found in Paths</param>
+        /// <returns></returns>
         public static T Load<T>(string filename, DataObject info = null, bool usePathExtensions = true)
             where T : class
         {
@@ -59,6 +70,13 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Loads a resource from an array of files
+        /// </summary>
+        /// <typeparam name="T">Type of resource</typeparam>
+        /// <param name="filenames">Array of filenames from which the resource will be loaded from</param>
+        /// <param name="info">DataObject that describes how this resource will be loaded</param>
+        /// <returns></returns>
         public static T Load<T>(string[] filenames, DataObject info = null)
             where T : class
         {
@@ -77,6 +95,15 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Load a model from raw floating point data
+        /// </summary>
+        /// <param name="vertices">Array of vertex positions</param>
+        /// <param name="normals">Array of vertex normals</param>
+        /// <param name="texCoords">Array of vertex Texture Coordinates</param>
+        /// <param name="colors">Array of vertex colors</param>
+        /// <param name="vertexDimension">How many dimensions the vertex positions are specified in</param>
+        /// <returns></returns>
         public static Model LoadModel(float[] vertices, float[] normals, float[] texCoords, float[] colors, int vertexDimension = 3)
         {
             VAO vao = new VAO(RenderMode.Arrays, vertices.Length);
@@ -88,11 +115,30 @@ namespace OpenEngine
             return model;
         }
 
+        /// <summary>
+        /// Load a model from raw floating point data
+        /// </summary>
+        /// <param name="vertices">Array of vertex positions</param>
+        /// <param name="normals">Array of vertex normals</param>
+        /// <param name="texCoords">Array of vertex Texture Coordinates</param>
+        /// <param name="color">Specify a color that all vertices will share</param>
+        /// <param name="vertexDimension">How many dimensions the vertex positions are specified in</param>
+        /// <returns></returns>
         public static Model LoadModel(float[] vertices, float[] normals, float[] texCoords, Color color, int vertexDimension = 3)
         {
             return LoadModel(vertices, normals, texCoords, color.ToVertexData(vertices.Length / vertexDimension), vertexDimension);
         }
 
+        /// <summary>
+        /// Load a model from raw floating point data
+        /// </summary>
+        /// <param name="vertices">Array of vertex positions</param>
+        /// <param name="normals">Array of vertex normals</param>
+        /// <param name="texCoords">Array of vertex Texture Coordinates</param>
+        /// <param name="colors">Array of vertex colors</param>
+        /// <param name="indices">Array of indices</param>
+        /// <param name="vertexDimension">How many dimensions the vertex positions are specified in</param>
+        /// <returns></returns>
         public static Model LoadModel(float[] vertices, float[] normals, float[] texCoords, float[] colors, uint[] indices, int vertexDimension = 3)
         {
             Model model = LoadModel(vertices, normals, texCoords, colors, vertexDimension);
@@ -102,6 +148,16 @@ namespace OpenEngine
             return model;
         }
 
+        /// <summary>
+        /// Load a model from raw floating point data
+        /// </summary>
+        /// <param name="vertices">Array of vertex positions</param>
+        /// <param name="normals">Array of vertex normals</param>
+        /// <param name="texCoords">Array of vertex Texture Coordinates</param>
+        /// <param name="color">Color that all vertices will share</param>
+        /// <param name="indices">Array of indices</param>
+        /// <param name="vertexDimension">How many dimensions the vertex positions are specified in</param>
+        /// <returns></returns>
         public static Model LoadModel(float[] vertices, float[] normals, float[] texCoords, Color color, uint[] indices, int vertexDimension = 3)
         {
             Model model = LoadModel(vertices, normals, texCoords, color.ToVertexData(vertices.Length / vertexDimension), indices, vertexDimension);

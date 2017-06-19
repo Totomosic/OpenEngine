@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Struct that represents an RGBA Color
+    /// </summary>
     public struct Color
     {
 
@@ -16,11 +19,24 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Create color from RGBA components
+        /// </summary>
+        /// <param name="r">Red</param>
+        /// <param name="g">Green</param>
+        /// <param name="b">Blue</param>
+        /// <param name="a">Alpha</param>
         public Color(byte r, byte g, byte b, byte a)
         {
             rgba = new Vector4(r, g, b, a);
         }
 
+        /// <summary>
+        /// Creates color from RGB components (a = 255)
+        /// </summary>
+        /// <param name="r">Red</param>
+        /// <param name="g">Green</param>
+        /// <param name="b">Blue</param>
         public Color(byte r, byte g, byte b) : this(r, g, b, 255)
         {
 
@@ -30,17 +46,26 @@ namespace OpenEngine
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Gets a random color
+        /// </summary>
         public static Color Random
         {
             get { return FromFloats((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble(), 1); }
         }
 
+        /// <summary>
+        /// Gets RGBA components as a 4D vector
+        /// </summary>
         public Vector4 RGBA
         {
             get { return rgba; }
             set { rgba = value; }
         }
 
+        /// <summary>
+        /// Red Component
+        /// </summary>
         [XmlIgnore]
         public byte R
         {
@@ -48,6 +73,9 @@ namespace OpenEngine
             set { rgba.X = value; }
         }
 
+        /// <summary>
+        /// Green Component
+        /// </summary>
         [XmlIgnore]
         public byte G
         {
@@ -55,6 +83,9 @@ namespace OpenEngine
             set { rgba.Y = value; }
         }
 
+        /// <summary>
+        /// Blue Component
+        /// </summary>
         [XmlIgnore]
         public byte B
         {
@@ -62,6 +93,9 @@ namespace OpenEngine
             set { rgba.Z = value; }
         }
 
+        /// <summary>
+        /// Alpha Component
+        /// </summary>
         [XmlIgnore]
         public byte A
         {
@@ -69,21 +103,33 @@ namespace OpenEngine
             set { rgba.W = value; }
         }
 
+        /// <summary>
+        /// Normalised Red Component
+        /// </summary>
         public float NR
         {
             get { return R / 255f; }
         }
 
+        /// <summary>
+        /// Normalised Green Component
+        /// </summary>
         public float NG
         {
             get { return G / 255f; }
         }
 
+        /// <summary>
+        /// Normalise Blue Component
+        /// </summary>
         public float NB
         {
             get { return B / 255f; }
         }
 
+        /// <summary>
+        /// Normalised Alpha Component
+        /// </summary>
         public float NA
         {
             get { return A / 255f; }
@@ -93,11 +139,19 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Returns a 4D vector of normalised color values (0 - 1)
+        /// </summary>
+        /// <returns></returns>
         public Vector4 GetNormalised()
         {
             return rgba / 255f;
         }
 
+        /// <summary>
+        /// Gets the brightness of this color (0 - 1)
+        /// </summary>
+        /// <returns></returns>
         public float Brightness()
         {
             return (R + G + B + A) / 4f / 255f;
@@ -105,6 +159,14 @@ namespace OpenEngine
 
         #region STATIC CONSTRUCTORS
 
+        /// <summary>
+        /// Constructs a new color from normalised color values (0 - 1)
+        /// </summary>
+        /// <param name="r">Red</param>
+        /// <param name="g">Green</param>
+        /// <param name="b">Blue</param>
+        /// <param name="a">Alpha</param>
+        /// <returns></returns>
         public static Color FromFloats(float r, float g, float b, float a = 1)
         {
             return new Color((byte)(r * 255), (byte)(g * 255), (byte)(b * 255), (byte)(a * 255));
@@ -175,16 +237,29 @@ namespace OpenEngine
             get { return new Color(139, 69, 19, 255); }
         }
 
+        /// <summary>
+        /// Gets the float array of normalised color values
+        /// </summary>
+        /// <returns></returns>
         public float[] ToFloat()
         {
             return new float[] { NR, NG, NB, NA };
         }
 
+        /// <summary>
+        /// Gets byte array of color values
+        /// </summary>
+        /// <returns></returns>
         public byte[] ToByte()
         {
             return new byte[] { R, G, B, A };
         }
 
+        /// <summary>
+        /// Constructs an array of this color for specified vertices
+        /// </summary>
+        /// <param name="vertexCount">Number of vertices</param>
+        /// <returns></returns>
         public float[] ToVertexData(int vertexCount)
         {
             return Enumerable.Repeat(ToFloat(), vertexCount).SelectMany(arr => arr).ToArray();

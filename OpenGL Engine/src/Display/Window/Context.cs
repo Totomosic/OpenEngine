@@ -2,6 +2,9 @@
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that represents the current OpenGL Context
+    /// </summary>
     public static class Context
     {
 

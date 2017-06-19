@@ -3,6 +3,9 @@ using Pencil.Gaming;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that represents the cursor
+    /// </summary>
     public class Mouse
     {
 
@@ -49,31 +52,49 @@ namespace OpenEngine
             get { return captured; }
         }
 
+        /// <summary>
+        /// Get the position specified from the top left corner
+        /// </summary>
         public Vector3 Position
         {
             get { return position; }
         }
 
+        /// <summary>
+        /// Get the position specified from the bottom left corner
+        /// </summary>
         public Vector2 GLPosition
         {
             get { return new Vector2(position.X, window.Height - position.Y); }
         }
 
+        /// <summary>
+        /// Get the position in NDC coordinates (-1 to 1)
+        /// </summary>
         public Vector2 NormalisedPosition
         {
             get { return GLPosition / window.Resolution * 2 - 1; }
         }
 
+        /// <summary>
+        /// State of mouse buttons
+        /// </summary>
         public ButtonState State
         {
             get { return state; }
         }
 
+        /// <summary>
+        /// Position moved during this frame
+        /// </summary>
         public Vector3 RelativePosition
         {
             get { return relPosition; }
         }
 
+        /// <summary>
+        /// Amount scrolled this frame in an x and y component
+        /// </summary>
         public Vector2 RelativeScroll
         {
             get { return relScroll; }
@@ -83,6 +104,9 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Update position of mouse
+        /// </summary>
         public void Update()
         {
             position = new Vector3(GetMousePos(), 0);
@@ -106,12 +130,18 @@ namespace OpenEngine
 
         }
 
+        /// <summary>
+        /// Hide the cursor and keep inside the window
+        /// </summary>
         public void Capture()
         {
             Glfw.SetInputMode(window.WindowPtr, InputMode.CursorMode, CursorMode.CursorCaptured);
             captured = true;
         }
 
+        /// <summary>
+        /// Show and release the cursor
+        /// </summary>
         public void Uncapture()
         {
             Glfw.SetInputMode(window.WindowPtr, InputMode.CursorMode, CursorMode.CursorNormal);
@@ -122,6 +152,9 @@ namespace OpenEngine
             captured = false;
         }
 
+        /// <summary>
+        /// Show cursor
+        /// </summary>
         public void Show()
         {
             Glfw.SetInputMode(window.WindowPtr, InputMode.CursorMode, CursorMode.CursorNormal);
@@ -132,17 +165,28 @@ namespace OpenEngine
             shown = true;
         }
 
+        /// <summary>
+        /// Hide cursor
+        /// </summary>
         public void Hide()
         {
             Glfw.SetInputMode(window.WindowPtr, InputMode.CursorMode, CursorMode.CursorHidden);
             shown = false;
         }
 
+        /// <summary>
+        /// Gets position in NDC coordinates
+        /// </summary>
+        /// <returns></returns>
         public Vector2 GetNormalisedPosition()
         {
             return new Vector2(Position.X / window.Width * 2f - 1f, GLPosition.Y / window.Height * 2f - 1f);
         }
 
+        /// <summary>
+        /// Gets position from center eg. (0, 0) is center of screen
+        /// </summary>
+        /// <returns></returns>
         public Vector2 GetCenteredPosition()
         {
             return new Vector2(Position.X - window.Width * 0.5f, GLPosition.Y - window.Height * 0.5f);

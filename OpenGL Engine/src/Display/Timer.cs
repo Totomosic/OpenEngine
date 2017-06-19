@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that represents a timer
+    /// </summary>
     public class Timer
     {
 
@@ -20,6 +23,13 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Construct a new timer
+        /// </summary>
+        /// <param name="timer">GameTime object to use</param>
+        /// <param name="seconds">Time in seconds</param>
+        /// <param name="repeatType">Repeat model</param>
+        /// <param name="add">Add to Timer Manager?</param>
         public Timer(GameTime timer, float seconds, RepeatType repeatType = RepeatType.Repeat, bool add = true)
         {
             time = timer;
@@ -38,17 +48,26 @@ namespace OpenEngine
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Current time of timer
+        /// </summary>
         public float CurrentTime
         {
             get { return currentTime; }
         }
 
+        /// <summary>
+        /// Specified end time of timer
+        /// </summary>
         public float GoalTime
         {
             get { return goal; }
             set { SetGoal(value); }
         }
 
+        /// <summary>
+        /// Is timer running
+        /// </summary>
         public bool Running
         {
             get { return running; }
@@ -58,13 +77,20 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
-        public bool Check(bool addTime = true)
+        /// <summary>
+        /// Check whether timer has reached goal
+        /// </summary>
+        /// <returns></returns>
+        public bool Check()
         {
             bool value = currentTime >= goal;
             hasChecked = value;
             return value;
         }
 
+        /// <summary>
+        /// Update timer by adding delta time to its current time
+        /// </summary>
         public void Update()
         {
             currentTime += time.ElapsedSeconds;
@@ -74,16 +100,26 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Set timer's goal time
+        /// </summary>
+        /// <param name="seconds">Time in seconds</param>
         public void SetGoal(float seconds)
         {
             goal = seconds;
         }
 
+        /// <summary>
+        /// Pause timer
+        /// </summary>
         public void Pause()
         {
             running = false;
         }
 
+        /// <summary>
+        /// Start / resume timer
+        /// </summary>
         public void Start()
         {
             running = true;

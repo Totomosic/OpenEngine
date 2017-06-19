@@ -3,6 +3,9 @@ using Pencil.Gaming;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that keeps track of relative game time
+    /// </summary>
     public class GameTime
     {
 

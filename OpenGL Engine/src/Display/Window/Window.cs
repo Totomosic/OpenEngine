@@ -32,6 +32,13 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Window object that represents the Display and OpenGL Context
+        /// </summary>
+        /// <param name="w">Width in pixels of the window</param>
+        /// <param name="h">Height in pixels of the window</param>
+        /// <param name="title">Title displayed in top left of window</param>
+        /// <param name="cColor">Clear color of the window</param>
         public Window(int w, int h, string title, Color cColor = default(Color))
         {
 
@@ -214,6 +221,10 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Clears the window to specified ClearColor
+        /// </summary>
+        /// <param name="mask">Specify which buffers to clear</param>
         public void Clear(ClearBufferMask mask = ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit)
         {
             framebuffer.Bind();
@@ -224,6 +235,10 @@ namespace OpenEngine
             framebuffer.Clear(mask);
         }
 
+        /// <summary>
+        /// Swap the back and front framebuffer to display the next frame
+        /// </summary>
+        /// <param name="update">Specify whether the window should update at the same time</param>
         public void SwapBuffers(bool update = false)
         {
             if (update)
@@ -246,42 +261,74 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Respond to the Windows OS and propulate event Queue
+        /// </summary>
         public void PollEvents()
         {
             Glfw.PollEvents();
         }
 
+        /// <summary>
+        /// Returns a Queue of all events received since last Update() call
+        /// </summary>
+        /// <returns></returns>
         public EventQueue GetEvents()
         {
             return eventQueue;
         }
 
+        /// <summary>
+        /// Sets window size
+        /// </summary>
+        /// <param name="w">New width in pixels</param>
+        /// <param name="h">New height in pixels</param>
         public void SetSize(int w, int h)
         {
             Info.SetSize(w, h);
             framebuffer.SetSize(w, h);
         }
 
+        /// <summary>
+        /// Sets the location that the window appears on the screen
+        /// </summary>
+        /// <param name="x">X coordinate of the top left of the window</param>
+        /// <param name="y">Y coordinate of the top left of the window</param>
         public void SetPosition(int x, int y)
         {
             Info.SetPosition(x, y);
         }
 
+        /// <summary>
+        /// Sets the window title
+        /// </summary>
+        /// <param name="title"></param>
         public void SetTitle(string title)
         {
             Info.SetTitle(title);
         }
 
+        /// <summary>
+        /// Test if the given key is currently held down
+        /// </summary>
+        /// <param name="key">Key to test</param>
+        /// <returns></returns>
         public bool TestKey(Key key)
         {
             return Glfw.GetKey(displayPtr, key);
         }
 
+        /// <summary>
+        /// Indicate that the window should be closed, does not close the window
+        /// </summary>
         public void Close()
         {
             Glfw.SetWindowShouldClose(displayPtr, true);
         }
 
+        /// <summary>
+        /// Set this window as the current OpenGL Context
+        /// </summary>
         public void SetAsContext()
         {
             Glfw.MakeContextCurrent(displayPtr);
@@ -289,6 +336,9 @@ namespace OpenEngine
             Context.Initialise(this);
         }
 
+        /// <summary>
+        /// Update the mouse and active timers, clears event queue
+        /// </summary>
         public void Update()
         {
             mouse.Update();
@@ -296,6 +346,11 @@ namespace OpenEngine
             Timers.Update();
         }
 
+        /// <summary>
+        /// Set window hints before the creation of a window to influence it
+        /// </summary>
+        /// <param name="hint">GLFW hint</param>
+        /// <param name="value">Hint value</param>
         public static void SetWindowHint(WindowHint hint, int value)
         {
             Glfw.WindowHint(hint, value);

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that manages all timers
+    /// </summary>
     public static class Timers
     {
 
@@ -34,6 +37,14 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Creates a new timer
+        /// </summary>
+        /// <param name="name">Timer name</param>
+        /// <param name="timeInSeconds">Time in Seconds</param>
+        /// <param name="repeat">Repeat mode</param>
+        /// <param name="time">Specify a differnt GameTime Object</param>
+        /// <returns></returns>
         public static Timer CreateNew(string name, float timeInSeconds, RepeatType repeat = RepeatType.Repeat, GameTime time = null)
         {
             Timer timer = new Timer((time == null) ? Context.Window.Time : time, timeInSeconds, repeat, false);
@@ -41,12 +52,19 @@ namespace OpenEngine
             return timer;
         }
 
+        /// <summary>
+        /// Add a pre-existing timer
+        /// </summary>
+        /// <param name="timer">Timer to add</param>
         public static void Add(Timer timer)
         {
             timers.Add(currentID.ToString(), timer);
             currentID++;
         }
 
+        /// <summary>
+        /// Update all timers, called automatically by Window.Update()
+        /// </summary>
         public static void Update()
         {
             foreach (Timer timer in timers.Values)
@@ -55,11 +73,19 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Remove a timer
+        /// </summary>
+        /// <param name="name">Name of timer to remove</param>
         public static void RemoveTimer(string name)
         {
             timers.Remove(name);
         }
 
+        /// <summary>
+        /// Remove a timer
+        /// </summary>
+        /// <param name="timer">Timer object to remove</param>
         public static void RemoveTimer(Timer timer)
         {
             foreach (string name in timers.Keys)
@@ -72,6 +98,11 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Check if a specified timer has reached its goal time
+        /// </summary>
+        /// <param name="name">Name of timer</param>
+        /// <returns></returns>
         public static bool Check(string name)
         {
             if (!timers.ContainsKey(name))

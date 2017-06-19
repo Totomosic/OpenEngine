@@ -4,6 +4,9 @@ using Pencil.Gaming;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that represents a user event
+    /// </summary>
     public class Event
     {
 

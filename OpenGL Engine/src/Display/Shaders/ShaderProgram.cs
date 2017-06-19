@@ -5,6 +5,9 @@ using Pencil.Gaming.Graphics;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that represents a Shader program
+    /// </summary>
     public class ShaderProgram
     {
 
@@ -29,6 +32,14 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
+        /// <summary>
+        /// Constructs a new shader program
+        /// </summary>
+        /// <param name="shaderName">Name of shader</param>
+        /// <param name="vShader">Filename of the vertex shader</param>
+        /// <param name="fShader">Filename of the fragment shader</param>
+        /// <param name="information">Information about uniform variables and the location of transformation matrices</param>
+        /// <param name="addShaderPath">Specify whether to use paths set out in Paths</param>
         public ShaderProgram(string shaderName, string vShader, string fShader, ShaderData information, bool addShaderPath = true)
         {
             name = shaderName;
@@ -50,52 +61,84 @@ namespace OpenEngine
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Get the default shader program
+        /// </summary>
         public static ShaderProgram Default
         {
             get { return baseProgram; }
         }
 
+        /// <summary>
+        /// Get the font shader;
+        /// </summary>
         public static ShaderProgram Font
         {
             get { return fontProgram; }
         }
 
+        /// <summary>
+        /// Get the UI shader
+        /// </summary>
         public static ShaderProgram UI
         {
             get { return uiProgram; }
         }
 
+        /// <summary>
+        /// Get the UI Texture shader
+        /// </summary>
         public static ShaderProgram UITexture
         {
             get { return uiTextureProgram; }
         }
 
+        /// <summary>
+        /// Get the name of this shader
+        /// </summary>
         public virtual string Name
         {
             get { return name; }
         }
 
+        /// <summary>
+        /// Get the OpenGL ID of this shader Object
+        /// </summary>
         public virtual int ID
         {
             get { return (int)programID; }
         }
 
+        /// <summary>
+        /// Get the information object for this shader
+        /// </summary>
         public virtual ShaderData Information
         {
             get { return info; }
             set { info = value; }
         }
 
+        /// <summary>
+        /// Get the variable name of the model matrix of this shader
+        /// </summary>
         public virtual string ModelMatrix
         {
             get { return Information.ModelMatrix; }
         }
 
+
+        /// <summary>
+        /// Get the variable name of the view matrix of this shader
+        /// </summary>
         public virtual string ViewMatrix
         {
             get { return Information.ViewMatrix; }
         }
 
+
+        /// <summary>
+        /// Get the variable name of the projection matrix of this shader
+        /// </summary>
         public virtual string ProjectionMatrix
         {
             get { return Information.ProjectionMatrix; }
@@ -105,6 +148,9 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Bind this shader for use
+        /// </summary>
         public virtual void Start()
         {
             ShaderManager.SetAsActive(this);
@@ -112,12 +158,19 @@ namespace OpenEngine
             ProcessRequests();
         }
 
+        /// <summary>
+        /// Unbind this shader
+        /// </summary>
         public virtual void Stop()
         {
             ShaderManager.SetAsInactive(this);
             GL.UseProgram(0);
         }
 
+        /// <summary>
+        /// Add a request to modify a uniform variable
+        /// </summary>
+        /// <param name="request">Request object to upload</param>
         public virtual void AddRequest(Request request)
         {
             if (ShaderManager.CurrentlyActiveShader == this)
@@ -131,6 +184,9 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Clear all pending request objects
+        /// </summary>
         public virtual void ClearRequests()
         {
             uniformRequests.Clear();
@@ -253,6 +309,12 @@ namespace OpenEngine
             GL.Uniform4(GetUniformLocation(varname), value.NR, value.NG, value.NB, value.NA);
         }
 
+        /// <summary>
+        /// Sets the value of specified uniform variable, only works if shader is running
+        /// </summary>
+        /// <typeparam name="T">Type of shader variable</typeparam>
+        /// <param name="varname">Name of variable</param>
+        /// <param name="values">Values to upload</param>
         public void SetUniformValue<T>(string varname, T[] values)
             where T : struct
         {
@@ -277,6 +339,12 @@ namespace OpenEngine
             }
         }
 
+        /// <summary>
+        /// Sets the value of specified uniform variables, only works is shader is running
+        /// </summary>
+        /// <typeparam name="T">Type of shader variable</typeparam>
+        /// <param name="varname">Name of variable</param>
+        /// <param name="value">Value to upload</param>
         public void SetUniformValue<T>(string varname, T value)
             where T : struct
         {
