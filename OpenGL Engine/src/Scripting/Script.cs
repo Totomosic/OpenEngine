@@ -1,7 +1,7 @@
 ﻿using OpenEngine.Components;
 using System;
 
-namespace OpenEngine
+namespace OpenEngine.Components
 {
     public abstract class Script : Component
     {
@@ -35,7 +35,7 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
-        public abstract void Initialise();
+        public override abstract void Initialise();
 
         public abstract void Update();
 

@@ -99,14 +99,15 @@ namespace OpenEngine
             model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ViewMatrix, model.Config.Camera.Components.GetComponent<CameraComponent>().ViewMatrix);
             model.Config.ShaderProgram.SetUniformValue(model.Config.ShaderProgram.ProjectionMatrix, model.Config.Camera.Components.GetComponent<CameraComponent>().ProjectionMatrix);
 
-            BindTextures(model.Material.Textures);
+            BindMaterial(model.Material, model.Config.ShaderProgram);
+            BindTextures(model.Material.Textures, model.Config.ShaderProgram);
 
             model.Model.Render();
 
             drawCallsPerFrame++;
         }
 
-        private static void BindTextures(List<Texture> textures)
+        private static void BindTextures(List<Texture> textures, ShaderProgram shader)
         {
             if (textures != null && textures.Count > 0)
             {
@@ -118,8 +119,17 @@ namespace OpenEngine
                 for (int i = 0; i < textures.Count; i++)
                 {
                     textures[i].Bind(i);
+                    shader.SetUniformValue("Tex" + i.ToString(), i);
                 }
             }
+        }
+
+        private static void BindMaterial(Material material, ShaderProgram shader)
+        {
+            shader.SetUniformValue("Material.Diffuse", material.DiffuseColor);
+            shader.SetUniformValue("Material.Specular", material.SpecularColor);
+            shader.SetUniformValue("Material.Reflectivity", material.Reflectivity);
+            shader.SetUniformValue("Material.ShineDamper", material.ShineDamper);
         }
 
         #endregion

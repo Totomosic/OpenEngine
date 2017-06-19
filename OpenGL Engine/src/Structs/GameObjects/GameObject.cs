@@ -9,6 +9,7 @@ namespace OpenEngine
 
         #region FIELDS
 
+        private static FBO defaultRenderTarget = null;
         private static GameObject[] gameObjects = new GameObject[Engine.MaxEntities];
         private static uint highestID = 0;
 
@@ -31,13 +32,13 @@ namespace OpenEngine
             {
                 MeshComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, Color.White));
                 ShaderComponent = new Shader(Engine.Shader);
-                RenderTargetComponent = new RenderTarget(Context.Window.Framebuffer);
+                RenderTargetComponent = new RenderTarget((DefaultRenderTarget == null) ? Context.Window.Framebuffer : DefaultRenderTarget);
                 Identifier = new Identifier(Tags.None);
                 MeshColor = new MeshColor(Color.White);
                 MeshMaterial = new MeshMaterial(new Material());
                 if (setting != ComponentSetting.IsCamera)
                 {
-                    CameraReference = new CameraReference(Camera.Main);
+                    CameraReference = new CameraReference(OpenEngine.Camera.Main);
                 }
             }
         }
@@ -58,6 +59,12 @@ namespace OpenEngine
         #endregion
 
         #region PROPERTIES
+
+        public static FBO DefaultRenderTarget
+        {
+            get { return defaultRenderTarget; }
+            set { defaultRenderTarget = value; }
+        }
 
         public static uint HighestID
         {
@@ -148,7 +155,7 @@ namespace OpenEngine
             set { Components.AddComponent(value); }
         }
 
-        public GameObject CameraObject
+        public GameObject Camera
         {
             get { return CameraReference.ID; }
             set { SetCamera(value); }
@@ -227,7 +234,7 @@ namespace OpenEngine
         {
             return Components.GetComponent<T>();
         }
-
+        
         public bool HasComponent<T>()
             where T : Component, new()
         {
@@ -253,8 +260,9 @@ namespace OpenEngine
             }
             else
             {
-                AddComponent(new Mesh(model));
+                AddComponent(new Mesh(model));                
             }
+            ResourceManager.FetchReference(model);
         }
 
         private void SetMeshComponent(Mesh mesh)
@@ -268,6 +276,7 @@ namespace OpenEngine
             {
                 AddComponent(mesh);
             }
+            ResourceManager.FetchReference(mesh.Model);
         }
 
         private void SetCamera(GameObject camera)

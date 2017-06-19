@@ -30,17 +30,32 @@ namespace OpenEngine
             textures = new List<Texture>((textureArray == null) ? new Texture[0] : textureArray);
         }
 
-        public Material(Color dColor, Color sColor, float reflectivity = 0, float shineDamper = 10, Texture texture = null) : this(dColor, sColor, reflectivity, shineDamper, (texture != null) ? new Texture[] { texture } : null)
+        public Material(Color dColor, float reflect = 0, float shinedamper = 10, Texture[] textureArray = null) : this(dColor, Color.White, reflect, shinedamper, textureArray)
         {
 
         }
 
-        public Material(Color dColor, float reflectivity, float shineDamper = 10, Texture texture = null) : this(dColor, Color.White, reflectivity, shineDamper, (texture != null) ? new Texture[] { texture } : null)
+        public Material(Color dColor, Texture[] textureArray) : this(dColor, 0, 10, textureArray)
         {
 
         }
 
-        public Material(Color dColor, Texture texture = null) : this(dColor, 0, 10, texture)
+        public Material(Color dColor, Color sColor, float reflect, float shineDamper, Texture texture) : this(dColor, sColor, reflect, shineDamper, new Texture[] { texture })
+        {
+
+        }
+
+        public Material(Color dColor, Color sColor, float reflect, Texture texture) : this(dColor, sColor, reflect, 10, texture)
+        {
+
+        }
+
+        public Material(Color dColor, Color sColor, Texture texture) : this(dColor, sColor, 0, texture)
+        {
+
+        }
+
+        public Material(Color dColor, Texture texture) : this(dColor, Color.White, texture)
         {
 
         }
@@ -50,7 +65,12 @@ namespace OpenEngine
 
         }
 
-        public Material() : this(null)
+        public Material(Color dColor) : this(dColor, Color.White)
+        {
+
+        }
+
+        public Material() : this(Color.White)
         {
 
         }

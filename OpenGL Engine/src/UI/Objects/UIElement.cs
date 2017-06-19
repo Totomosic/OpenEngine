@@ -24,8 +24,8 @@ namespace OpenEngine.UI
 
         public GameObject CanvasObject
         {
-            get { return CameraObject; }
-            set { CameraObject = value; }
+            get { return Camera; }
+            set { Camera = value; }
         }
 
         #endregion

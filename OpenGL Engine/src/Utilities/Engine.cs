@@ -93,6 +93,13 @@ namespace OpenEngine
             frustrumCulling = false;
         }
 
+        public static void RunSystems()
+        {
+            LightSystem.Update(Context.Window.Time);
+            UpdateSystem.Update(Context.Window.Time);
+            ScriptingSystem.Update(Context.Window.Time);
+        }
+
         public static void Cleanup()
         {
         }

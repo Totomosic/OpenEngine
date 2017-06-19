@@ -11,25 +11,26 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public LightComponent(LightType type, float ambient, Vector3 attenuation, float angle)
+        public LightComponent(LightType type, Color color, float ambient, Vector3 attenuation, float angle)
         {
             Type = type;    
             Ambient = ambient;
             Attenuation = attenuation;
             Angle = angle;
+            Color = color;
         }
 
-        public LightComponent(LightType type, float ambient, float angle) : this(type, ambient, new Vector3(1, 0, 0), angle)
+        public LightComponent(LightType type, Color color, float ambient, float angle) : this(type, color, ambient, new Vector3(1, 0, 0), angle)
         {
 
         }
 
-        public LightComponent(LightType type, float ambient = 0.2f) : this(type, ambient, 15f)
+        public LightComponent(LightType type, Color color, float ambient = 0.2f) : this(type, color, ambient, 15f)
         {
 
         }
 
-        public LightComponent() : this(LightType.Point)
+        public LightComponent() : this(LightType.Point, Color.White)
         {
 
         }
@@ -58,6 +59,11 @@ namespace OpenEngine.Components
             get; set;
         }
 
+        public virtual Color Color
+        {
+            get; set;    
+        }
+
         #endregion
 
         public override Component Clone()
@@ -67,6 +73,7 @@ namespace OpenEngine.Components
             light.Ambient = Ambient;
             light.Attenuation = Attenuation;
             light.Angle = Angle;
+            light.Color = Color;
             return light;
         }
 

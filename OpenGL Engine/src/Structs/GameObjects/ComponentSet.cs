@@ -82,6 +82,58 @@ namespace OpenEngine
             return true;
         }
 
+        public bool HasComponentDerivedFrom<T>()
+            where T : Component, new()
+        {
+            return HasComponentDerivedFrom(typeof(T));
+        }
+
+        public bool HasComponentDerivedFrom(Type type)
+        {
+            foreach (Type t in components.Keys)
+            {
+                if (t.IsSubclassOf(type))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Component[] GetComponentsDerivedFrom<T>()
+        {
+            return GetComponentsDerivedFrom(typeof(T));
+        }
+
+        public Component[] GetComponentsDerivedFrom(Type type)
+        {
+            List<Component> comps = new List<Component>();
+            foreach (Type t in components.Keys)
+            {
+                if (t.IsSubclassOf(type))
+                {
+                    comps.Add(components[t]);
+                }
+            }
+            return comps.ToArray();
+        }
+
+        public T GetComponentDerivedFrom<T>()
+            where T : Component, new()
+        {
+            return GetComponentDerivedFrom(typeof(T)) as T;   
+        }
+
+        public Component GetComponentDerivedFrom(Type type)
+        {
+            Component[] c = GetComponentsDerivedFrom(type);
+            if (c.Length == 0)
+            {
+                return null;
+            }
+            return c[0];
+        }
+
         public Component GetComponent(Type type)
         {
             Component comp;

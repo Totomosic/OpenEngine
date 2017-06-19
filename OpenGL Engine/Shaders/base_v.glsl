@@ -18,6 +18,7 @@ out vec3 f_WorldPosition;
 out vec3 f_WorldNormal;
 out vec2 f_TexCoords;
 out vec4 f_Color;
+out vec3 f_ToCameraVector;
 
 void main()
 {
@@ -31,4 +32,6 @@ void main()
 	f_WorldNormal = normalize(Matrices.Model * vec4(normal, 0)).xyz;
 	f_TexCoords = tex;
 	f_Color = color;
+	vec3 f_cameraPosition = (inverse(Matrices.View) * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+	f_ToCameraVector = f_cameraPosition - f_WorldPosition;
 }

@@ -33,6 +33,11 @@ namespace OpenEngine
     public static class ObjectExtensions
     {
 
+        public static string ToDateString(this DateTime dt)
+        {
+            return dt.Hour + "_" + dt.Minute + "_" + dt.Second + "_" + dt.Day + "_" + dt.Month + "_" + dt.Year;
+        }
+
     }
 
 }

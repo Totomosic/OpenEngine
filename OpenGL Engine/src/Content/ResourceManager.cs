@@ -27,6 +27,11 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        public static bool IsReferenced(Model model)
+        {
+            return referenceCount.ContainsKey(model);
+        }
+
         public static int ModelCount()
         {
             return referenceCount.Keys.Count;

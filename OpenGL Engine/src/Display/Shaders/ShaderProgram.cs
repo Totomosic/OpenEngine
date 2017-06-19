@@ -356,8 +356,8 @@ namespace OpenEngine
                 uniformDict.Add(varname, location);
                 if (location == -1)
                 {
-                    throw new ShaderManagementException("Use of unreferenced uniform variable: " + varname + ". Does not exist in current shader program.");
-                }              
+                    Console.WriteLine("Could not find variable: " + varname + " in shader: " + Name);
+                }
                 return location;
             }
         }

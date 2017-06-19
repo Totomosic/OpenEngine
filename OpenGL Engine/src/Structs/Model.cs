@@ -22,9 +22,6 @@ namespace OpenEngine
             disposed = false;
             vao = vertexArray;
             size = new Vector3();
-
-            ResourceManager.FetchReference(this);
-
         }
 
         public Model() : this(new VAO(RenderMode.Arrays, 0))
