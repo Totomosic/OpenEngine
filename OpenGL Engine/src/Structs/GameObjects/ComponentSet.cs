@@ -41,6 +41,10 @@ namespace OpenEngine
 
         public void RemoveAll()
         {
+            if (HasComponent<Mesh>())
+            {
+                ResourceManager.ReleaseReference(GetComponent<Mesh>().Model);
+            }
             components.Clear();
         }
 

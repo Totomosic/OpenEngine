@@ -12,10 +12,11 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public Particle(Vector3 position, Vector3 velocity, float scale = 1) : base(position)
+        public Particle(Vector3 position, Vector3 velocity, float lifespan = 5, float scale = 1) : base(position)
         {
             Model = Rectangle.CreateModel(scale, scale, Color.White);
             AddComponent(new RigidBody(1, velocity, new Vector3()));
+            AddComponent(new Lifespan(lifespan));
         }
 
         #endregion

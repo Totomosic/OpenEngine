@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Reflection;
 using OpenEngine.Components;
 
 namespace OpenEngine
@@ -363,10 +363,36 @@ namespace OpenEngine
         }
 
         /// <summary>
+        /// Commands all components attached to this GameObject to execute given method
+        /// </summary>
+        /// <param name="methodName">Method to invoke</param>
+        /// <param name="parameters">Parameters to method</param>
+        /// <param name="setting">Additional settings</param>
+        public void BroadcastMessage(string methodName, object[] parameters = null, BroadcastSetting setting = BroadcastSetting.None)
+        {
+            foreach (Component c in Components.GetAllComponents())
+            {
+                MethodInfo method;
+                if ((method = c.GetType().GetMethod(methodName)) != null)
+                {
+                    method.Invoke(c, (parameters == null) ? new object[0] : parameters);
+                }
+                else if (setting == BroadcastSetting.RequireReceive)
+                {
+                    throw new GameObjectException("Component of type: " + c.GetType().ToString() + " did not have method: " + methodName);
+                }
+            }
+        }
+
+        /// <summary>
         /// Destroys this GameObject
         /// </summary>
         public void Destroy()
         {
+            if (HasComponent<Mesh>())
+            {
+                ResourceManager.ReleaseReference(GetComponent<Mesh>().Model);
+            }
             gameObjects[id] = null;
         }
 

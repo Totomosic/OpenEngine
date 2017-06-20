@@ -18,6 +18,16 @@ namespace OpenEngine
                 rb.Velocity += rb.Acceleration * time.ElapsedSeconds;
                 transform.Position += rb.Velocity * time.ElapsedSeconds;
             }
+            objects = GameObjects.GetAllObjectsWith<Lifespan>();
+            foreach (GameObject obj in objects)
+            {
+                Lifespan l = obj.GetComponent<Lifespan>();
+                l.CurrentLife += time.ElapsedSeconds;
+                if (l.CurrentLife >= l.Lifetime)
+                {
+                    obj.Destroy();
+                }
+            }
         }
 
     }

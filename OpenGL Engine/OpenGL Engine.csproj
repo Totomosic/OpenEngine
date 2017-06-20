@@ -77,6 +77,8 @@
     <Compile Include="src\Display\ButtonState.cs" />
     <Compile Include="src\Display\Timers.cs" />
     <Compile Include="src\Particles\Particle.cs" />
+    <Compile Include="src\Particles\Systems\ParticleSystem.cs" />
+    <Compile Include="src\Particles\Systems\SystemBehaviour.cs" />
     <Compile Include="src\RenderEngine\Data\MeshConfig.cs" />
     <Compile Include="src\RenderEngine\Data\MeshPackage.cs" />
     <Compile Include="src\Scripting\Script.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="src\Structs\GameObjects\Basic Systems\ScriptingSystem.cs" />
     <Compile Include="src\Structs\GameObjects\Basic Systems\UpdateSystem.cs" />
     <Compile Include="src\Structs\GameObjects\ComponentSet.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Lifespan.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Parent.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Movement\RigidBody.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Rendering\CameraComponent.cs" />
@@ -237,7 +240,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\Particles\Systems\" />
     <Folder Include="src\Structs\GameObjects\Components\DynamicObjects\" />
     <Folder Include="src\Structs\GameObjects\Components\Interaction\" />
     <Folder Include="src\Structs\GameObjects\Components\UI\" />

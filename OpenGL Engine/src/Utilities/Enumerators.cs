@@ -99,14 +99,9 @@ namespace OpenEngine
         FirstPerson, ThirdPerson
     }
 
-    public enum TransformSetting
+    public enum BroadcastSetting
     {
-        AlwaysAdd, NeverAdd, UseGlobalSetting
-    }
-
-    public enum ComponentSetting
-    {
-        LeaveEmpty, IsCamera, None
+        None, RequireReceive
     }
 
 }

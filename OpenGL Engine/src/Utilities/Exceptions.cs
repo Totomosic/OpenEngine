@@ -83,4 +83,14 @@ namespace OpenEngine
 
     }
 
+    public class GameObjectException : Exception
+    {
+
+        public GameObjectException(string msg) : base(msg)
+        {
+
+        }
+
+    }
+
 }

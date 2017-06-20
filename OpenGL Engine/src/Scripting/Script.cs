@@ -21,11 +21,6 @@ namespace OpenEngine.Components
 
         #region PROPERTIES
 
-        public GameObject GameObject
-        {
-            get { return Owner; }
-        }
-
         public GameTime GameTime
         {
             get { return Context.Window.Time; }

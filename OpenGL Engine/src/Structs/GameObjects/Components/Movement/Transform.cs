@@ -47,7 +47,7 @@ namespace OpenEngine.Components
 
         public virtual Vector3 Position
         {
-            get { return position; }
+            get { return GetPosition(); }
             set { position = value; }
         }
 
@@ -137,6 +137,11 @@ namespace OpenEngine.Components
         #endregion
 
         #region PRIVATE METHODS
+
+        private Vector3 GetPosition()
+        {
+            return position;
+        }
 
         private Matrix4 CalculateRotation(float angle, Vector4 axis, Space space = Space.Local, AngleType type = AngleType.Radians)
         {
