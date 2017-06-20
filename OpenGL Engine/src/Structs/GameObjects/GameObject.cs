@@ -385,6 +385,17 @@ namespace OpenEngine
         }
 
         /// <summary>
+        /// Commands all components attached to this GameObject to execute given method
+        /// </summary>
+        /// <param name="methodName">Method to invoke</param>
+        /// <param name="parameter">Parameter to method</param>
+        /// <param name="setting">Additional settings</param>
+        public void BroadcastMessage(string methodName, object parameter, BroadcastSetting setting = BroadcastSetting.None)
+        {
+            BroadcastMessage(methodName, new object[] { parameter }, setting);
+        }
+
+        /// <summary>
         /// Destroys this GameObject
         /// </summary>
         public void Destroy()
