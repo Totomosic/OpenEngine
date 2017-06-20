@@ -15,11 +15,15 @@ namespace OpenEngine.UI
 
         #region CONSTRUCTORS
 
-        public Canvas(Viewport view) : base(view, new Vector3(0, 0, 900), CameraMode.FirstPerson, ProjectionType.Orthographic, camera: false)
+        public Canvas(Viewport view) : base(view, new Vector3(0, 0, 900), CameraMode.FirstPerson, ProjectionType.Orthographic)
         {
             if (firstCanvas)
             {
                 Tag = Tags.MainCanvas;
+                if (OpenEngine.Camera.Main == null)
+                {
+                    firstCamera = true;
+                }
             }
         }
 

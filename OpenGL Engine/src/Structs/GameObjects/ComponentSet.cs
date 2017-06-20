@@ -39,6 +39,11 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        public void RemoveAll()
+        {
+            components.Clear();
+        }
+
         public bool HasComponent<T>()
             where T : Component
         {
