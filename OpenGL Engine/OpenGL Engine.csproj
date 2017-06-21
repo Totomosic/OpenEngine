@@ -18,12 +18,12 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\HexGame\HexGame\bin\Debug\Output\</OutputPath>
+    <OutputPath>..\..\2D Shooter\2D Shooter\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\HexGame\HexGame\bin\Debug\Output\OpenGL Engine.xml</DocumentationFile>
+    <DocumentationFile>C:\Users\jorda\Desktop\C# OpenGL\2D Shooter\2D Shooter\bin\Debug\.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,17 +38,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CloneExtensions, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CloneExtensions.1.3.0\lib\net461\CloneExtensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Pencil.Gaming">
-      <HintPath>..\..\..\C# OpenGL\Game Engine\Game Engine\bin\Debug\Pencil.Gaming.dll</HintPath>
+      <HintPath>bin\Debug\Pencil.Gaming.dll</HintPath>
     </Reference>
     <Reference Include="SharpAvi, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpAvi.2.1.0\lib\net45\SharpAvi.dll</HintPath>
@@ -66,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Animation\AnimatedModel\AnimatedModel.cs" />
+    <Compile Include="src\Animation\AnimatedModel\sc.cs" />
     <Compile Include="src\Animation\Animation.cs" />
     <Compile Include="src\Animation\AnimatedModel\Joint.cs" />
     <Compile Include="src\Animation\Animator.cs" />
@@ -181,7 +173,7 @@
     <Compile Include="src\Structs\Textures\TextureCubeMap.cs" />
     <Compile Include="src\Structs\Objects\Text\Character.cs" />
     <Compile Include="src\Structs\Objects\Text\Font.cs" />
-    <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Text.cs" />
+    <Compile Include="src\Structs\GameObjects\Components\UI\Text.cs" />
     <Compile Include="src\Structs\VAO.cs" />
     <Compile Include="src\UI\Objects\Canvas.cs" />
     <Compile Include="src\UI\Objects\UIElement.cs" />
@@ -240,9 +232,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="src\Structs\GameObjects\Components\2D\" />
     <Folder Include="src\Structs\GameObjects\Components\DynamicObjects\" />
     <Folder Include="src\Structs\GameObjects\Components\Interaction\" />
-    <Folder Include="src\Structs\GameObjects\Components\UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

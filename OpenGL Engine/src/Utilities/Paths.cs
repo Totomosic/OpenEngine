@@ -3,27 +3,27 @@ using System.IO;
 
 namespace OpenEngine
 {
-    public class Paths
+    public static class Paths
     {
 
         #region FIELDS
 
         // Root directory is the location of .sln file
-        protected static string rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\..\"));
+        private static string rootDirectory = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, @"..\..\..\"));
 
         // Shader paths
-        protected static string shaderPath = "";
-        protected static string vertexRelPath = "";
-        protected static string fragmentRelPath = "";
-        protected static string geometryRelPath = "";
-        protected static string shaderExtension = ".glsl";
-        protected static string fontExtension = ".fnt";
+        private static string shaderPath = "";
+        private static string vertexRelPath = "";
+        private static string fragmentRelPath = "";
+        private static string geometryRelPath = "";
+        private static string shaderExtension = ".glsl";
+        private static string fontExtension = ".fnt";
 
-        protected static string texturePath = "";
-        protected static string fontPath = "";
-        protected static string modelPath = "";
-        protected static string heightmapPath = "";
-        protected static string videoPath = "";
+        private static string texturePath = "";
+        private static string fontPath = "";
+        private static string modelPath = "";
+        private static string heightmapPath = "";
+        private static string videoPath = "";
 
         #endregion
 

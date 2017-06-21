@@ -115,6 +115,12 @@ namespace OpenEngine
             GL.Enable(EnableCap.Blend);
         }
 
+        public static void SetDefaultBlendFuncs()
+        {
+            SetSrcBlendFunc(BlendingFactorSrc.SrcAlpha);
+            SetDestBlendFunc(BlendingFactorDest.OneMinusSrcAlpha);
+        }
+
         public static void DisableBlend()
         {
             blendEnabled = false;

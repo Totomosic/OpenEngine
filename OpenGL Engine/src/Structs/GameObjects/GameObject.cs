@@ -34,15 +34,26 @@ namespace OpenEngine
 
             // Add Default Components
             Transform = new Transform();
-            MeshComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, Color.White));
             ShaderComponent = new Shader(Engine.Shader);
             RenderTargetComponent = new RenderTarget((DefaultRenderTarget == null) ? Context.Window.Framebuffer : DefaultRenderTarget);
             Identifier = new Identifier(Tags.None);
             MeshColor = new MeshColor(Color.White);
             MeshMaterial = new MeshMaterial(new Material());
-            if (OpenEngine.Camera.Main != null)
+            if (Engine.Mode == EngineMode.Mode3D)
             {
-                CameraReference = new CameraReference(OpenEngine.Camera.Main);
+                MeshComponent = new Mesh(Cuboid.CreateModel(1, 1, 1, Color.White));
+                if (OpenEngine.Camera.Main != null)
+                {
+                    CameraReference = new CameraReference(OpenEngine.Camera.Main);
+                }
+            }
+            else
+            {
+                MeshComponent = new Mesh(Rectangle.CreateModel(10, 10, Color.White));
+                if (OpenEngine.UI.Canvas.Main != null)
+                {
+                    CameraReference = new CameraReference(OpenEngine.UI.Canvas.Main);
+                }
             }
         }
 
@@ -350,7 +361,7 @@ namespace OpenEngine
         {
             return Components.GetComponent<T>();
         }
-        
+
         /// <summary>
         /// Tests whether this GameObject has a component
         /// </summary>
@@ -393,6 +404,15 @@ namespace OpenEngine
         public void BroadcastMessage(string methodName, object parameter, BroadcastSetting setting = BroadcastSetting.None)
         {
             BroadcastMessage(methodName, new object[] { parameter }, setting);
+        }
+
+        /// <summary>
+        /// Sets the parent of this GameObject
+        /// </summary>
+        /// <param name="parent">Parent</param>
+        public void MakeChildOf(GameObject parent)
+        {
+            AddComponent(new Parent(parent));
         }
 
         /// <summary>

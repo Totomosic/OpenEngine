@@ -104,4 +104,9 @@ namespace OpenEngine
         None, RequireReceive
     }
 
+    public enum EngineMode
+    {
+        Mode3D, Mode2D
+    }
+
 }

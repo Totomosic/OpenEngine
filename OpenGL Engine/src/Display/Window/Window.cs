@@ -228,10 +228,6 @@ namespace OpenEngine
         public void Clear(ClearBufferMask mask = ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit)
         {
             framebuffer.Bind();
-            if (Engine.UseDefaultShader)
-            {
-                ShaderProgram.Default.Start();
-            }
             framebuffer.Clear(mask);
         }
 

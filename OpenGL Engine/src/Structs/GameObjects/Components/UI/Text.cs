@@ -85,15 +85,7 @@ namespace OpenEngine.Components
             this.font = font;
             this.size = size;
             this.color = color;
-            if (Owner.MeshComponent == null)
-            {
-                Owner.MeshComponent = new Mesh(CreateModel(text, font, size, color));
-            }
-            else
-            {
-                ResourceManager.ReleaseReference(Owner.Model);
-                Owner.Model = CreateModel(text, font, size, color);
-            }
+            Owner.Model = CreateModel(text, font, size, color);
             if (Owner.HasComponent<MeshMaterial>())
             {
                 MeshMaterial material = Owner.GetComponent<MeshMaterial>();

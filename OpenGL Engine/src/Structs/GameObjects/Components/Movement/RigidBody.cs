@@ -11,15 +11,18 @@ namespace OpenEngine.Components
         private Vector3 velocity;
         private Vector3 acceleration;
 
+        private bool gravityEnabled;
+
         #endregion
 
         #region CONSTRUCTORS
 
-        public RigidBody(float mass, Vector3 velocity, Vector3 acceleration)
+        public RigidBody(float mass, Vector3 velocity, Vector3 acceleration, bool gravityEnabled = true)
         {
             this.mass = mass;
             this.velocity = velocity;
             this.acceleration = acceleration;
+            this.gravityEnabled = gravityEnabled;
         }
 
         public RigidBody(float mass) : this(mass, new Vector3(), new Vector3())
@@ -54,6 +57,12 @@ namespace OpenEngine.Components
             set { acceleration = value; }
         }
 
+        public bool GravityEnabled
+        {
+            get { return gravityEnabled; }
+            set { gravityEnabled = value; }
+        }
+
         #endregion
 
         #region PUBLIC METHODS
@@ -64,6 +73,7 @@ namespace OpenEngine.Components
             rb.Mass = Mass;
             rb.Velocity = Velocity;
             rb.Acceleration = Acceleration;
+            rb.GravityEnabled = GravityEnabled;
             return rb;
         }
 

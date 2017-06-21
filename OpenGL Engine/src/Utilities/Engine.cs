@@ -18,16 +18,11 @@ namespace OpenEngine
         private static uint maxEntities = 10000000;
 
         private static bool frustrumCulling = false;
+        private static EngineMode mode = EngineMode.Mode3D;
 
         #endregion
 
         #region PROPERTIES
-
-        public static bool UseDefaultShader
-        {
-            get { return useDefaultShader; }
-            set { useDefaultShader = value; }
-        }
 
         public static bool UseLighting
         {
@@ -69,19 +64,15 @@ namespace OpenEngine
             set { frustrumCulling = value; }
         }
 
+        public static EngineMode Mode
+        {
+            get { return mode; }
+            set { mode = value; }
+        }
+
         #endregion
 
         #region PUBLIC METHODS
-
-        public static void EnableLighting()
-        {
-            useLighting = true;
-        }
-
-        public static void DisableLighting()
-        {
-            useLighting = false;
-        }
 
         public static void EnableFrustrumCulling()
         {
@@ -94,10 +85,10 @@ namespace OpenEngine
         }
 
         public static void RunSystems()
-        {
-            LightSystem.Update(Context.Window.Time);
+        {            
             UpdateSystem.Update(Context.Window.Time);
             ScriptingSystem.Update(Context.Window.Time);
+            LightSystem.Update(Context.Window.Time);
         }
 
         public static void Cleanup()

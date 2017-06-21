@@ -15,6 +15,11 @@ namespace OpenEngine
                 Transform transform = obj.Transform;
                 RigidBody rb = obj.GetComponent<RigidBody>();
 
+                if (rb.GravityEnabled)
+                {
+                    rb.Acceleration = new Vector3(rb.Acceleration.X, -10, rb.Acceleration.Z);
+                }
+
                 rb.Velocity += rb.Acceleration * time.ElapsedSeconds;
                 transform.Position += rb.Velocity * time.ElapsedSeconds;
             }
