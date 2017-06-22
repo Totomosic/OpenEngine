@@ -86,6 +86,7 @@ namespace OpenEngine.Components
             this.size = size;
             this.color = color;
             Owner.Model = CreateModel(text, font, size, color);
+            Owner.Transform.SetScaling(size);
             if (Owner.HasComponent<MeshMaterial>())
             {
                 MeshMaterial material = Owner.GetComponent<MeshMaterial>();
@@ -96,6 +97,38 @@ namespace OpenEngine.Components
             {
                 Owner.AddComponent(new MeshMaterial(new Material(font.FontImage)));
             }
+        }
+
+        public static Model CreateModel(string text, FreeTypeFont font, Color color, float scale = 1)
+        {
+            List<float> vertices = new List<float>();
+            List<float> normals = new List<float>();
+            List<float> texCoords = new List<float>();
+
+            float x = 0;
+            float y = 0;
+
+            foreach (char chr in text)
+            {
+                FreeTypeCharacter character = font.Characters[chr];
+
+                float xpos = x + character.Bearing.X * scale;
+                float ypos = y - (character.Size.Y - character.Bearing.Y) * scale;
+
+                float w = character.Size.X * scale;
+                float h = character.Size.Y * scale;
+
+                vertices.AddRange(new float[] { xpos, ypos + h, 0, xpos, ypos, 0, xpos + w, ypos, 0, xpos, ypos + h, 0, xpos + w, ypos, 0, xpos + w, ypos + h, 0 });
+                normals.AddRange(new float[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 });
+                texCoords.AddRange(new float[] { 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1 });
+            }
+
+            VAO vao = new VAO(RenderMode.Arrays, vertices.Count / 3);
+            vao.CreateAttribute(BufferLayout.Vertices, vertices.ToArray(), 3);
+            vao.CreateAttribute(BufferLayout.Normals, normals.ToArray(), 3);
+            vao.CreateAttribute(BufferLayout.TextureCoordinates, texCoords.ToArray(), 2);
+            vao.CreateAttribute(BufferLayout.Color, color.ToVertexData(vao.VertexCount), 4);
+            return new Model(vao);
         }
 
         public static Model CreateModel(string text, Font font, float textSize, Color color, bool italics = false, float desiredOffset = 0)
@@ -118,26 +151,26 @@ namespace OpenEngine.Components
                 float y = 1 - (character.Y / font.FontDimensions.Y);
                 float w = character.Width / font.FontDimensions.X;
                 float h = character.Height / font.FontDimensions.Y;
-                float cx = cursorPos.X + character.XOffset / font.FontDimensions.X * textSize;
-                float cy = cursorPos.Y - character.YOffset / font.FontDimensions.Y * textSize;
-                float[] verts = { cx + offset, cy, 0, cx, cy - h * textSize, 0, cx + w * textSize, cy - h * textSize, 0, cx + offset, cy, 0, cx + w * textSize, cy - h * textSize, 0, cx + offset + w * textSize, cy, 0 };
+                float cx = cursorPos.X + character.XOffset / font.FontDimensions.X;
+                float cy = cursorPos.Y - character.YOffset / font.FontDimensions.Y;
+                float[] verts = { cx + offset, cy, 0, cx, cy - h, 0, cx + w, cy - h, 0, cx + offset, cy, 0, cx + w, cy - h, 0, cx + offset + w, cy, 0 };
                 float[] norms = { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 };
                 float[] texCoords = { x, y, x, y - h, x + w, y - h, x, y, x + w, y - h, x + w, y };
                 vertices.AddRange(verts);
                 normals.AddRange(norms);
                 tex.AddRange(texCoords);
 
-                if (cx + w * textSize > maxX)
+                if (cx + w > maxX)
                 {
-                    maxX = cx + w * textSize;
+                    maxX = cx + w;
                 }
 
-                if (cy - h * textSize < minY)
+                if (cy - h < minY)
                 {
-                    minY = cy - h * textSize;
+                    minY = cy - h;
                 }
 
-                cursorPos.X += character.XAdvance / font.FontDimensions.X * textSize;
+                cursorPos.X += character.XAdvance / font.FontDimensions.X - 2 / font.FontDimensions.X;
 
             }
 

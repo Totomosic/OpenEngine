@@ -4,7 +4,6 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Pencil.Gaming.Graphics;
-using System.Runtime.InteropServices;
 
 namespace OpenEngine
 {
