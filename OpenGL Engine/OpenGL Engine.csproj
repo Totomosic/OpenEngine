@@ -173,8 +173,13 @@
     <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Identifier.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Movement\Transform.cs" />
     <Compile Include="src\Structs\Data\Table.cs" />
+<<<<<<< master
     <Compile Include="src\Structs\Objects\FreeType\FreeTypeCharacter.cs" />
     <Compile Include="src\Structs\Objects\FreeType\FreeTypeFont.cs" />
+=======
+    <Compile Include="src\Structs\Objects\FreeTypeCharacter.cs" />
+    <Compile Include="src\Structs\Objects\FreeTypeFont.cs" />
+>>>>>>> local
     <Compile Include="src\Structs\Textures\AnimatedTexture.cs" />
     <Compile Include="src\Structs\Textures\SubImage.cs" />
     <Compile Include="src\Structs\Textures\Texture.cs" />

@@ -55,15 +55,40 @@ namespace OpenEngine
                     RenderModelPackage(package);
                 }
             }
+<<<<<<< master
             GameObject[] texts = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial), typeof(Text) });
             foreach (GameObject entity in texts)
             {
                 Transform transform = entity.Transform;
                 Text textC = entity.GetComponent<Text>();
+=======
+            GameObject[] texts = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Text), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial) });
+            foreach (GameObject entity in texts)
+            {
+                Transform transform = entity.Transform;
+                Text text = entity.GetComponent<Text>();
+>>>>>>> local
                 CameraReference camera = entity.CameraReference;
                 Shader shader = entity.ShaderComponent;
                 RenderTarget renderTarget = entity.RenderTargetComponent;
                 MeshMaterial material = entity.MeshMaterial;
+<<<<<<< master
+=======
+
+                float x = 0;
+                foreach (char chr in text.Value)
+                {
+                    Model model = Text.CreateModel(chr.ToString(), text.Font, text.Color);
+                    Material mat = new Material(material.Material.DiffuseColor, text.Font.Characters[chr].Texture);
+                    MeshPackage package = new MeshPackage(model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix() * Matrix4.CreateTranslation(new Vector3(x, 0, 0))), mat);
+                    RenderModelPackage(package);
+                    model.Dispose();
+                    x += (text.Font.Characters[chr].Advance >> 6) * text.Size;
+                }
+
+            }
+        }
+>>>>>>> local
 
                 float x = 0;
                 foreach (char chr in textC.Value)
