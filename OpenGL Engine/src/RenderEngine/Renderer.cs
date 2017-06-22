@@ -43,33 +43,40 @@ namespace OpenEngine
             GameObject[] entities = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial) });
             foreach (GameObject entity in entities)
             {
+                if (!entity.HasComponent<Text>())
+                {
+                    Transform transform = entity.Transform;
+                    Mesh model = entity.MeshComponent;
+                    CameraReference camera = entity.CameraReference;
+                    Shader shader = entity.ShaderComponent;
+                    RenderTarget renderTarget = entity.RenderTargetComponent;
+                    MeshMaterial material = entity.MeshMaterial;
+                    MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
+                    RenderModelPackage(package);
+                }
+            }
+            GameObject[] texts = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial), typeof(Text) });
+            foreach (GameObject entity in texts)
+            {
                 Transform transform = entity.Transform;
-                Mesh model = entity.MeshComponent;
+                Text textC = entity.GetComponent<Text>();
                 CameraReference camera = entity.CameraReference;
                 Shader shader = entity.ShaderComponent;
                 RenderTarget renderTarget = entity.RenderTargetComponent;
                 MeshMaterial material = entity.MeshMaterial;
-                MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
-                RenderModelPackage(package);
+
+                float x = 0;
+                foreach (char chr in textC.Value)
+                {
+                    Model model = Text.CreateModel(chr.ToString(), textC.Font, textC.Color, textC.Size);
+                    Material mat = new Material(material.Material.DiffuseColor, material.Material.SpecularColor, material.Material.Reflectivity, material.Material.ShineDamper, new Texture[] { textC.Font.Characters[chr].Texture });
+                    MeshPackage package = new MeshPackage(model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix() * Matrix4.CreateTranslation(new Vector3(x, 0, 0))), mat);
+                    RenderModelPackage(package);
+                    model.Dispose();
+                    x += (textC.Font.Characters[chr].Advance >> 6) * textC.Size;
+                }
 
             }
-        }
-
-        public static void RenderText(GameObject camera, Vector3 position, string text, Font font, float textSize, Color color, bool italics = false, FBO renderTarget = null)
-        {
-            if (FontShader == null) throw new RendererException("No font shader specified.");
-            Model textModel = Text.CreateModel(text, font, textSize, color, italics);
-            Material mat = new Material(font.FontImage);
-            MeshPackage package = new MeshPackage(textModel, new MeshConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, Matrix4.CreateTranslation(position)), mat);
-            RenderModelPackage(package);
-            ResourceManager.ReleaseReference(textModel);
-        }
-
-        public static void RenderText(Vector3 position, string text, Font font, float textSize, Color color, bool italics = false)
-        {
-            Camera camera = new Camera(Context.Window.Viewport, new Vector3(0, 0, 10), CameraMode.FirstPerson, ProjectionType.Orthographic);
-            RenderText(camera, position, text, font, textSize, color, italics);
-            camera.Destroy();
         }
 
         public static void RenderModel(GameObject camera, Vector3 position, Model model, Material material, FBO renderTarget = null)

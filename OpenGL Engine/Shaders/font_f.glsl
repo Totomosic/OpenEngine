@@ -18,13 +18,10 @@ uniform MaterialStruct Material;
 
 out vec4 finalColor;
 
-const float width = 0.2;
-const float edge = 0.45;
-
 void main()
 {
-	float distance = 1.0 - texture(Tex0, f_TexCoords).a;
-	float alpha = 1.0 - smoothstep(width, width + edge, distance);
-	
-	finalColor = vec4((f_Color * Material.Diffuse).xyz, alpha);	
+
+	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(Tex0, f_TexCoords).r);
+	finalColor = vec4(f_Color * Material.Diffuse) * sampled;
+
 }

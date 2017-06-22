@@ -9,7 +9,7 @@ namespace OpenEngine.Components
         #region FIELDS
 
         private string text;
-        private Font font;
+        private FreeTypeFont font;
         private float size;
         private Color color;
 
@@ -17,7 +17,7 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public Text(string text, Font font, float size, Color color)
+        public Text(string text, FreeTypeFont font, float size, Color color)
         {
             this.text = text;
             this.font = font;
@@ -47,7 +47,7 @@ namespace OpenEngine.Components
             set { SetText(value, font, size, color); }
         }
 
-        public Font Font
+        public FreeTypeFont Font
         {
             get { return font; }
             set { SetText(text, value, size, color); }
@@ -79,24 +79,12 @@ namespace OpenEngine.Components
             return text;
         }
 
-        private void SetText(string text, Font font, float size, Color color)
+        private void SetText(string text, FreeTypeFont font, float size, Color color)
         {
             this.text = text;
             this.font = font;
             this.size = size;
             this.color = color;
-            Owner.Model = CreateModel(text, font, size, color);
-            Owner.Transform.SetScaling(size);
-            if (Owner.HasComponent<MeshMaterial>())
-            {
-                MeshMaterial material = Owner.GetComponent<MeshMaterial>();
-                material.Material.Textures = new List<Texture>();
-                material.Material.AddTexture(font.FontImage);
-            }
-            else
-            {
-                Owner.AddComponent(new MeshMaterial(new Material(font.FontImage)));
-            }
         }
 
         public static Model CreateModel(string text, FreeTypeFont font, Color color, float scale = 1)
@@ -120,7 +108,9 @@ namespace OpenEngine.Components
 
                 vertices.AddRange(new float[] { xpos, ypos + h, 0, xpos, ypos, 0, xpos + w, ypos, 0, xpos, ypos + h, 0, xpos + w, ypos, 0, xpos + w, ypos + h, 0 });
                 normals.AddRange(new float[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 });
-                texCoords.AddRange(new float[] { 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1 });
+                texCoords.AddRange(new float[] { 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0 });
+
+                x += (character.Advance >> 6) * scale;
             }
 
             VAO vao = new VAO(RenderMode.Arrays, vertices.Count / 3);
@@ -128,64 +118,8 @@ namespace OpenEngine.Components
             vao.CreateAttribute(BufferLayout.Normals, normals.ToArray(), 3);
             vao.CreateAttribute(BufferLayout.TextureCoordinates, texCoords.ToArray(), 2);
             vao.CreateAttribute(BufferLayout.Color, color.ToVertexData(vao.VertexCount), 4);
+
             return new Model(vao);
-        }
-
-        public static Model CreateModel(string text, Font font, float textSize, Color color, bool italics = false, float desiredOffset = 0)
-        {
-            List<float> vertices = new List<float>();
-            List<float> normals = new List<float>();
-            List<float> tex = new List<float>();
-            Vector2 cursorPos = new Vector2(0);
-
-            float minX = 0;
-            float maxX = 0;
-            float minY = float.PositiveInfinity;
-            float maxY = 0;
-            float offset = (italics) ? textSize * 0.05f + desiredOffset : desiredOffset;
-
-            foreach (char chr in text)
-            {
-                Character character = font.GetCharacter(chr);
-                float x = character.X / font.FontDimensions.X;
-                float y = 1 - (character.Y / font.FontDimensions.Y);
-                float w = character.Width / font.FontDimensions.X;
-                float h = character.Height / font.FontDimensions.Y;
-                float cx = cursorPos.X + character.XOffset / font.FontDimensions.X;
-                float cy = cursorPos.Y - character.YOffset / font.FontDimensions.Y;
-                float[] verts = { cx + offset, cy, 0, cx, cy - h, 0, cx + w, cy - h, 0, cx + offset, cy, 0, cx + w, cy - h, 0, cx + offset + w, cy, 0 };
-                float[] norms = { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 };
-                float[] texCoords = { x, y, x, y - h, x + w, y - h, x, y, x + w, y - h, x + w, y };
-                vertices.AddRange(verts);
-                normals.AddRange(norms);
-                tex.AddRange(texCoords);
-
-                if (cx + w > maxX)
-                {
-                    maxX = cx + w;
-                }
-
-                if (cy - h < minY)
-                {
-                    minY = cy - h;
-                }
-
-                cursorPos.X += character.XAdvance / font.FontDimensions.X - 2 / font.FontDimensions.X;
-
-            }
-
-            Vector3 tmpSize = (new Vector3(Math.Abs(maxX - minX), Math.Abs(maxY - minY), 0));
-
-            for (int i = 0; i < vertices.Count; i += 3)
-            {
-                vertices[i] -= tmpSize.X / 2f;
-                vertices[i + 1] += tmpSize.Y / 2f;
-            }
-
-            tmpSize.Z = 1;
-            Model model = ContentManager.LoadModel(vertices.ToArray(), normals.ToArray(), tex.ToArray(), color, 3);
-            model.Size = tmpSize;
-            return model;
         }
 
         #endregion
