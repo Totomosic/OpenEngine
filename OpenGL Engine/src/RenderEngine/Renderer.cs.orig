@@ -44,23 +44,23 @@ namespace OpenEngine
             foreach (GameObject entity in entities)
             {
                 Transform transform = entity.Transform;
-                Mesh model = entity.MeshComponent;
-                CameraReference camera = entity.CameraReference;
-                Shader shader = entity.ShaderComponent;
-                RenderTarget renderTarget = entity.RenderTargetComponent;
-                MeshMaterial material = entity.MeshMaterial;
-                MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
-                RenderModelPackage(package);
-
-            }
-        }
+<<<<<<< HEAD
+                Text textC = entity.GetComponent<Text>();
             GameObject[] texts = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Text), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial) });
             foreach (GameObject entity in texts)
             {
                 Transform transform = entity.Transform;
                 Text text = entity.GetComponent<Text>();
+=======
+                Mesh model = entity.MeshComponent;
+>>>>>>> parent of aa61e79... Text sort of working
+                CameraReference camera = entity.CameraReference;
+                Shader shader = entity.ShaderComponent;
+                RenderTarget renderTarget = entity.RenderTargetComponent;
+                MeshMaterial material = entity.MeshMaterial;
+<<<<<<< HEAD
 
-        public static void RenderText(GameObject camera, Vector3 position, string text, Font font, float textSize, Color color, bool italics = false, FBO renderTarget = null)
+                float x = 0;
                 foreach (char chr in text.Value)
                 {
                     Model model = Text.CreateModel(chr.ToString(), text.Font, text.Color);
@@ -75,6 +75,24 @@ namespace OpenEngine
         }
 
                 float x = 0;
+                foreach (char chr in textC.Value)
+                {
+                    Model model = Text.CreateModel(chr.ToString(), textC.Font, textC.Color, textC.Size);
+                    Material mat = new Material(material.Material.DiffuseColor, material.Material.SpecularColor, material.Material.Reflectivity, material.Material.ShineDamper, new Texture[] { textC.Font.Characters[chr].Texture });
+                    MeshPackage package = new MeshPackage(model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix() * Matrix4.CreateTranslation(new Vector3(x, 0, 0))), mat);
+                    RenderModelPackage(package);
+                    model.Dispose();
+                    x += (textC.Font.Characters[chr].Advance >> 6) * textC.Size;
+                }
+=======
+                MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
+                RenderModelPackage(package);
+>>>>>>> parent of aa61e79... Text sort of working
+
+            }
+        }
+
+        public static void RenderText(GameObject camera, Vector3 position, string text, Font font, float textSize, Color color, bool italics = false, FBO renderTarget = null)
         {
             if (FontShader == null) throw new RendererException("No font shader specified.");
             Model textModel = Text.CreateModel(text, font, textSize, color, italics);

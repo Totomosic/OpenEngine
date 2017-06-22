@@ -17,11 +17,7 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-<<<<<<< master
         public Text(string text, FreeTypeFont font, float size, Color color)
-=======
-        public Text(string text, FreeTypeFont font, Color color, float size = 1)
->>>>>>> local
         {
             this.text = text;
             this.font = font;
@@ -29,7 +25,7 @@ namespace OpenEngine.Components
             this.color = color;
         }
 
-        public Text() : this("", null, Color.White)
+        public Text() : this("", null, 200, Color.White)
         {
 
         }
@@ -89,11 +85,6 @@ namespace OpenEngine.Components
             this.font = font;
             this.size = size;
             this.color = color;
-<<<<<<< master
-=======
-            Owner.Model = CreateModel(text, font, color, size);
-            Owner.Transform.SetScaling(size);
->>>>>>> local
         }
 
         public static Model CreateModel(string text, FreeTypeFont font, Color color, float scale = 1)
@@ -118,11 +109,8 @@ namespace OpenEngine.Components
                 vertices.AddRange(new float[] { xpos, ypos + h, 0, xpos, ypos, 0, xpos + w, ypos, 0, xpos, ypos + h, 0, xpos + w, ypos, 0, xpos + w, ypos + h, 0 });
                 normals.AddRange(new float[] { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1 });
                 texCoords.AddRange(new float[] { 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0 });
-<<<<<<< master
 
                 x += (character.Advance >> 6) * scale;
-=======
->>>>>>> local
             }
 
             VAO vao = new VAO(RenderMode.Arrays, vertices.Count / 3);
