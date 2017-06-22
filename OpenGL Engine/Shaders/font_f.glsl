@@ -21,6 +21,7 @@ out vec4 finalColor;
 void main()
 {
 
+
 	vec4 sampled = vec4(1.0, 1.0, 1.0, texture(Tex0, f_TexCoords).r);
 	finalColor = vec4(f_Color * Material.Diffuse) * sampled;
 

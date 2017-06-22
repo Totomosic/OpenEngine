@@ -173,8 +173,16 @@
     <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Identifier.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Movement\Transform.cs" />
     <Compile Include="src\Structs\Data\Table.cs" />
+<<<<<<< HEAD
+=======
+<<<<<<< master
+    <Compile Include="src\Structs\Objects\FreeType\FreeTypeCharacter.cs" />
+    <Compile Include="src\Structs\Objects\FreeType\FreeTypeFont.cs" />
+=======
     <Compile Include="src\Structs\Objects\FreeTypeCharacter.cs" />
     <Compile Include="src\Structs\Objects\FreeTypeFont.cs" />
+>>>>>>> local
+>>>>>>> parent of 76c5194... Merge
     <Compile Include="src\Structs\Textures\AnimatedTexture.cs" />
     <Compile Include="src\Structs\Textures\SubImage.cs" />
     <Compile Include="src\Structs\Textures\Texture.cs" />
@@ -183,6 +191,8 @@
     <Compile Include="src\Structs\Textures\TextureCubeMap.cs" />
     <Compile Include="src\Structs\Objects\Text\Character.cs" />
     <Compile Include="src\Structs\Objects\Text\Font.cs" />
+    <Compile Include="src\Structs\Objects\FreeTypeFont.cs" />
+    <Compile Include="src\Structs\Objects\FreeTypeCharacter.cs" />
     <Compile Include="src\Structs\GameObjects\Components\UI\Text.cs" />
     <Compile Include="src\Structs\VAO.cs" />
     <Compile Include="src\UI\Objects\Canvas.cs" />
@@ -216,9 +226,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Fonts\Arial.fnt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Fonts\arial.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Shaders\textureUI_f.glsl">

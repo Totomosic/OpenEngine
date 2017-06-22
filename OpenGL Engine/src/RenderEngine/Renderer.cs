@@ -43,24 +43,28 @@ namespace OpenEngine
             GameObject[] entities = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Mesh), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial) });
             foreach (GameObject entity in entities)
             {
-                Transform transform = entity.Transform;
-                Mesh model = entity.MeshComponent;
-                CameraReference camera = entity.CameraReference;
-                Shader shader = entity.ShaderComponent;
-                RenderTarget renderTarget = entity.RenderTargetComponent;
-                MeshMaterial material = entity.MeshMaterial;
-                MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
-                RenderModelPackage(package);
-
+                if (!entity.HasComponent<Text>())
+                {
+                    Transform transform = entity.Transform;
+                    Mesh model = entity.MeshComponent;
+                    CameraReference camera = entity.CameraReference;
+                    Shader shader = entity.ShaderComponent;
+                    RenderTarget renderTarget = entity.RenderTargetComponent;
+                    MeshMaterial material = entity.MeshMaterial;
+                    MeshPackage package = new MeshPackage(model.Model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix()), material.Material);
+                    RenderModelPackage(package);
+                }
             }
-        }
             GameObject[] texts = GameObjects.GetAllObjectsWith(new Type[] { typeof(Transform), typeof(Text), typeof(CameraReference), typeof(Shader), typeof(RenderTarget), typeof(MeshMaterial) });
             foreach (GameObject entity in texts)
             {
                 Transform transform = entity.Transform;
                 Text text = entity.GetComponent<Text>();
-
-        public static void RenderText(GameObject camera, Vector3 position, string text, Font font, float textSize, Color color, bool italics = false, FBO renderTarget = null)
+                CameraReference camera = entity.CameraReference;
+                Shader shader = entity.ShaderComponent;
+                RenderTarget renderTarget = entity.RenderTargetComponent;
+                MeshMaterial material = entity.MeshMaterial;
+                float x = 0;
                 foreach (char chr in text.Value)
                 {
                     Model model = Text.CreateModel(chr.ToString(), text.Font, text.Color);
@@ -70,25 +74,7 @@ namespace OpenEngine
                     model.Dispose();
                     x += (text.Font.Characters[chr].Advance >> 6) * text.Size;
                 }
-
             }
-        }
-
-                float x = 0;
-        {
-            if (FontShader == null) throw new RendererException("No font shader specified.");
-            Model textModel = Text.CreateModel(text, font, textSize, color, italics);
-            Material mat = new Material(font.FontImage);
-            MeshPackage package = new MeshPackage(textModel, new MeshConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, camera, Matrix4.CreateTranslation(position)), mat);
-            RenderModelPackage(package);
-            ResourceManager.ReleaseReference(textModel);
-        }
-
-        public static void RenderText(Vector3 position, string text, Font font, float textSize, Color color, bool italics = false)
-        {
-            Camera camera = new Camera(Context.Window.Viewport, new Vector3(0, 0, 10), CameraMode.FirstPerson, ProjectionType.Orthographic);
-            RenderText(camera, position, text, font, textSize, color, italics);
-            camera.Destroy();
         }
 
         public static void RenderModel(GameObject camera, Vector3 position, Model model, Material material, FBO renderTarget = null)
@@ -152,5 +138,6 @@ namespace OpenEngine
         }
 
         #endregion
+
     }
 }
