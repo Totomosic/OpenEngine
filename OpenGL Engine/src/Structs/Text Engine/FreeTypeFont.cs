@@ -5,13 +5,16 @@ using Pencil.Gaming.Graphics;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// A class that represents a Font in FreeType
+    /// </summary>
     public class FreeTypeFont
     {
 
         #region FIELDS
 
-        private static FreeTypeFont arial = new FreeTypeFont(@"Fonts\arial.ttf", 32);
-        private static FreeTypeFont robotoBlack = new FreeTypeFont(@"Fonts\Roboto-Black.ttf", 32);
+        private static FreeTypeFont arial = new FreeTypeFont(@"Fonts\arial.ttf", 32, false);
+        private static FreeTypeFont robotoBlack = new FreeTypeFont(@"Fonts\Roboto-Black.ttf", 32, false);
 
         private Dictionary<uint, FreeTypeCharacter> characters;
 
@@ -19,12 +22,18 @@ namespace OpenEngine
 
         #region CONSTRUCTORS
 
-        public FreeTypeFont(string file, uint size)
+        /// <summary>
+        /// Constructs a new font from a given TrueType font File (.ttf)
+        /// </summary>
+        /// <param name="file">TrueType font file</param>
+        /// <param name="size">Size of text in pixels</param>
+        /// <param name="useFontPath">Use path described in Paths.FontPath</param>
+        public FreeTypeFont(string file, uint size, bool useFontPath = true)
         {
             characters = new Dictionary<uint, FreeTypeCharacter>();
 
             Library lib = new Library();
-            Face face = new Face(lib, file);
+            Face face = new Face(lib, (useFontPath) ? Paths.FontPath + file : file);
             face.SetPixelSizes(size, size);
             LoadCharacters(face);
         }
@@ -33,16 +42,25 @@ namespace OpenEngine
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Default Arial font, 32 size
+        /// </summary>
         public static FreeTypeFont Arial
         {
             get { return arial; }
         }
 
+        /// <summary>
+        /// Default RobotoBlack font, 32 size
+        /// </summary>
         public static FreeTypeFont RobotoBlack
         {
             get { return robotoBlack; }
         }
 
+        /// <summary>
+        /// Gets map of all characters associated with this font
+        /// </summary>
         public Dictionary<uint, FreeTypeCharacter> Characters
         {
             get { return characters; }

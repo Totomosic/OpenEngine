@@ -85,9 +85,9 @@ namespace OpenEngine
         }
 
         public static void RunSystems()
-        {            
-            UpdateSystem.Update(Context.Window.Time);
+        {
             ScriptingSystem.Update(Context.Window.Time);
+            UpdateSystem.Update(Context.Window.Time);            
             LightSystem.Update(Context.Window.Time);
         }
 

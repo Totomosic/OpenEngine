@@ -1,10 +1,14 @@
 ﻿using OpenEngine.Components;
+using OpenEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenEngine
 {
+    /// <summary>
+    /// Class that manages scene rendering
+    /// </summary>
     public static class Renderer
     {
 
@@ -22,11 +26,17 @@ namespace OpenEngine
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Gets the number of draw calls per frame
+        /// </summary>
         public static int DrawCallsPerFrame
         {
             get { return drawCallsPerFrame; }
         }
 
+        /// <summary>
+        /// Get and set the font shader
+        /// </summary>
         public static ShaderProgram FontShader
         {
             get { return fontProgram; }
@@ -37,6 +47,9 @@ namespace OpenEngine
 
         #region PUBLIC METHODS
 
+        /// <summary>
+        /// Render all GameObjects in the scene
+        /// </summary>
         public static void RenderEntities()
         {
             drawCallsPerFrame = 0;
@@ -64,23 +77,52 @@ namespace OpenEngine
                 Shader shader = entity.ShaderComponent;
                 RenderTarget renderTarget = entity.RenderTargetComponent;
                 MeshMaterial material = entity.MeshMaterial;
-                float x = 0;
-                foreach (char chr in text.Value)
-                {
-                    Model model = Text.CreateModel(chr.ToString(), text.Font, text.Color);
-                    Material mat = new Material(material.Material.DiffuseColor, text.Font.Characters[chr].Texture);
-                    MeshPackage package = new MeshPackage(model, new MeshConfig(renderTarget.FBO, 0, shader.Program, camera.ID, transform.GetModelMatrix() * Matrix4.CreateTranslation(new Vector3(x, 0, 0))), mat);
-                    RenderModelPackage(package);
-                    model.Dispose();
-                    x += (text.Font.Characters[chr].Advance >> 6) * text.Size;
-                }
+                RenderString(text.Value, transform.GetModelMatrix(), text.Font, text.Color, text.Size, renderTarget.FBO, camera.ID);
             }
         }
 
+        /// <summary>
+        /// Render a mode in the world
+        /// </summary>
+        /// <param name="camera">Camera to render via</param>
+        /// <param name="position">World space position</param>
+        /// <param name="model">Model to render</param>
+        /// <param name="material">Material to attach to model</param>
+        /// <param name="renderTarget">Render target to render too, defaults to framebuffer</param>
         public static void RenderModel(GameObject camera, Vector3 position, Model model, Material material, FBO renderTarget = null)
         {
             MeshPackage package = new MeshPackage(model, new MeshConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, Engine.Shader, camera, Matrix4.CreateTranslation(position)), material);
             RenderModelPackage(package);
+        }
+
+        /// <summary>
+        /// Renders text to the screen
+        /// </summary>
+        /// <param name="text">String of characters</param>
+        /// <param name="transform">Position to render at</param>
+        /// <param name="font">FreeTypeFont</param>
+        /// <param name="color">Text color</param>
+        /// <param name="scale">Text scale</param>
+        /// <param name="renderTarget">Render target, defaults to framebuffer</param>
+        /// <param name="camera">Camera to render via, defaults to main canvas</param>
+        public static void RenderString(string text, Matrix4 transform, FreeTypeFont font, Color color, float scale = 1, FBO renderTarget = null, GameObject camera = null)
+        {
+            bool depthSetting = OpenStates.DepthTest;
+            OpenStates.DisableDepth();
+            float x = 0;
+            foreach (char chr in text)
+            {
+                Model model = Text.CreateModel(chr.ToString(), font, color, scale);
+                Material mat = new Material(Color.White, font.Characters[chr].Texture);
+                MeshPackage package = new MeshPackage(model, new MeshConfig((renderTarget == null) ? Context.Window.Framebuffer : renderTarget, 0, FontShader, (camera == null) ? Canvas.Main : camera, transform * Matrix4.CreateTranslation(new Vector3(x, 0, 0))), mat);
+                RenderModelPackage(package);
+                model.Dispose();
+                x += (font.Characters[chr].Advance >> 6) * scale;
+            }
+            if (depthSetting)
+            {
+                OpenStates.EnableDepth();
+            }
         }
 
         #endregion

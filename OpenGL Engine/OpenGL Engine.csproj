@@ -79,6 +79,7 @@
     <Compile Include="src\Particles\Particle.cs" />
     <Compile Include="src\Particles\Systems\ParticleSystem.cs" />
     <Compile Include="src\Particles\Systems\SystemBehaviour.cs" />
+    <Compile Include="src\Physics Engine\PhysicsEngine.cs" />
     <Compile Include="src\RenderEngine\Data\MeshConfig.cs" />
     <Compile Include="src\RenderEngine\Data\MeshPackage.cs" />
     <Compile Include="src\Scripting\Script.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="src\Display\Window\WindowInfo.cs" />
     <Compile Include="src\Maths\Angles.cs" />
     <Compile Include="src\Display\Window\Window.cs" />
-    <Compile Include="src\Maths\Frustrum.cs" />
     <Compile Include="src\Maths\Matrix3.cs" />
     <Compile Include="src\Maths\Matrix4.cs" />
     <Compile Include="src\Maths\Plane.cs" />
@@ -121,8 +121,8 @@
     <Compile Include="src\Networking\GameServer.cs" />
     <Compile Include="src\Networking\SocketData.cs" />
     <Compile Include="src\Optimisation\OcclusionCulling.cs" />
-    <Compile Include="src\Physics\Collision\BoundingBox.cs" />
-    <Compile Include="src\Physics\Physics.cs" />
+    <Compile Include="src\Physics Engine\Collision\BoundingBox.cs" />
+    <Compile Include="src\Physics Engine\Physics.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Maths\Quaternion.cs" />
@@ -144,7 +144,7 @@
     <Compile Include="src\Structs\Models\Ellipse.cs" />
     <Compile Include="src\Structs\Models\Hexagon.cs" />
     <Compile Include="src\Structs\Models\Rectangle.cs" />
-    <Compile Include="src\Physics\Collision\CollisionResolution.cs" />
+    <Compile Include="src\Physics Engine\Collision\CollisionResolution.cs" />
     <Compile Include="src\Structs\Models\Sphere.cs" />
     <Compile Include="src\Structs\Models\Tile.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Appearance\AnimatedMesh.cs" />
@@ -166,24 +166,23 @@
     <Compile Include="src\Structs\Data Objects\ShaderData.cs" />
     <Compile Include="src\Structs\Data Objects\TextureData.cs" />
     <Compile Include="src\Structs\Model.cs" />
-    <Compile Include="src\Physics\Collision\Ray.cs" />
+    <Compile Include="src\Physics Engine\Collision\Ray.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Colliders\BoxCollider.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Component.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Lighting\LightComponent.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Miscellaneous\Identifier.cs" />
     <Compile Include="src\Structs\GameObjects\Components\Movement\Transform.cs" />
     <Compile Include="src\Structs\Data\Table.cs" />
-    <Compile Include="src\Structs\Objects\FreeTypeCharacter.cs" />
-    <Compile Include="src\Structs\Objects\FreeTypeFont.cs" />
+    <Compile Include="src\Structs\Text Engine\FreeTypeCharacter.cs" />
+    <Compile Include="src\Structs\Text Engine\FreeTypeFont.cs" />
     <Compile Include="src\Structs\Textures\AnimatedTexture.cs" />
     <Compile Include="src\Structs\Textures\SubImage.cs" />
     <Compile Include="src\Structs\Textures\Texture.cs" />
     <Compile Include="src\Structs\Textures\Texture2D.cs" />
     <Compile Include="src\Structs\Textures\TextureAtlas.cs" />
     <Compile Include="src\Structs\Textures\TextureCubeMap.cs" />
-    <Compile Include="src\Structs\Objects\Text\Character.cs" />
-    <Compile Include="src\Structs\Objects\Text\Font.cs" />
     <Compile Include="src\Structs\GameObjects\Components\UI\Text.cs" />
+    <Compile Include="src\Structs\Textures\TexturePacker.cs" />
     <Compile Include="src\Structs\VAO.cs" />
     <Compile Include="src\UI\Objects\Canvas.cs" />
     <Compile Include="src\UI\Objects\UIElement.cs" />
@@ -215,9 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Fonts\Arial.fnt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Fonts\arial.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -254,11 +250,6 @@
     <Folder Include="src\Structs\GameObjects\Components\2D\" />
     <Folder Include="src\Structs\GameObjects\Components\DynamicObjects\" />
     <Folder Include="src\Structs\GameObjects\Components\Interaction\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Fonts\Arial.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

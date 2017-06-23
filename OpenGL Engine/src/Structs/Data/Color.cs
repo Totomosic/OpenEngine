@@ -224,7 +224,7 @@ namespace OpenEngine
 
         public static Color DarkGrey
         {
-            get { return new Color(70, 70, 70, 255); }
+            get { return new Color(30, 30, 30, 255); }
         }
 
         public static Color Cyan

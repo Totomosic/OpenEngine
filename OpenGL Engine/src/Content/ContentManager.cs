@@ -48,11 +48,6 @@ namespace OpenEngine
                 Model model = LoadHeightmap((usePathExtensions) ? Paths.HeightmapPath + filename : filename, (info == null) ? new ModelData() : info as ModelData);
                 return model as T;
             }
-            else if (typeof(T) == typeof(Font))
-            {
-                Font font = LoadFont((usePathExtensions) ? Paths.FontPath + filename : filename, (info == null) ? new TextureData() : info as TextureData);
-                return font as T;
-            }
             else if (typeof(T) == typeof(Texture2D))
             {
                 Texture2D tex = LoadTexture2D((usePathExtensions) ? Paths.TexturePath + filename : filename, (info == null) ? new TextureData() : info as TextureData);
@@ -183,35 +178,7 @@ namespace OpenEngine
 
         }
 
-        private static Font LoadFont(string filename, TextureData info)
-        {
-            TextureAtlas fontImage = LoadTextureAtlas(filename + ".png", info);
-            Font font = new Font(filename, fontImage, true);
-            List<Character> characters = new List<Character>();
-            StreamReader file = new StreamReader(filename + Paths.FontExtension);
 
-            string line;
-            while ((line = file.ReadLine()) != null)
-            {
-                if (line.StartsWith("char "))
-                {
-                    Dictionary<string, int> values = new Dictionary<string, int>();
-                    string[] data = line.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string valuepair in data)
-                    {
-                        if (valuepair.Contains("="))
-                        {
-                            string[] splitpair = valuepair.Split(new string[] { "=" }, StringSplitOptions.None);
-                            values.Add(splitpair[0], int.Parse(splitpair[1]));
-                        }
-                    }
-                    characters.Add(new Character(values["id"], values["x"], values["y"], values["width"], values["height"], values["xoffset"], values["yoffset"], values["xadvance"]));
-                }
-            }
-
-            font.AddCharacters(characters.ToArray());
-            return font;
-        }
 
         private static TextureCubeMap LoadCubeMap(string[] filenames, TextureData info)
         {
