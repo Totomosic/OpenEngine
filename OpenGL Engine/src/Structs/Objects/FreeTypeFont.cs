@@ -10,6 +10,9 @@ namespace OpenEngine
 
         #region FIELDS
 
+        private static FreeTypeFont arial = new FreeTypeFont(@"Fonts\arial.ttf", 32);
+        private static FreeTypeFont robotoBlack = new FreeTypeFont(@"Fonts\Roboto-Black.ttf", 32);
+
         private Dictionary<uint, FreeTypeCharacter> characters;
 
         #endregion
@@ -30,10 +33,21 @@ namespace OpenEngine
 
         #region PROPERTIES
 
+        public static FreeTypeFont Arial
+        {
+            get { return arial; }
+        }
+
+        public static FreeTypeFont RobotoBlack
+        {
+            get { return robotoBlack; }
+        }
+
         public Dictionary<uint, FreeTypeCharacter> Characters
         {
             get { return characters; }
         }
+
         #endregion
 
         #region PUBLIC METHODS
@@ -44,7 +58,8 @@ namespace OpenEngine
 
         private void LoadCharacters(Face face)
         {
-            for (uint i = 0; i < 128; i++)
+            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
+            for (uint i = 0; i < 1000; i++)
             {
                 face.LoadChar(i, LoadFlags.Render, LoadTarget.Normal);
                 int id = GL.GenTexture();
@@ -54,7 +69,6 @@ namespace OpenEngine
                 GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, new int[] { (int)TextureWrapMode.ClampToEdge });
                 GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, new int[] { (int)TextureMagFilter.Linear });
                 GL.TexParameterI(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, new int[] { (int)TextureMinFilter.Linear });
-                GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
                 FreeTypeCharacter chr = new FreeTypeCharacter(new Texture2D(id, new Vector2(face.Glyph.Bitmap.Width, face.Glyph.Bitmap.Rows), true), new Vector2(face.Glyph.Bitmap.Width, face.Glyph.Bitmap.Rows), new Vector2(face.Glyph.BitmapLeft, face.Glyph.BitmapTop), face.Glyph.Advance.X.Value);
                 characters.Add(i, chr);
             }

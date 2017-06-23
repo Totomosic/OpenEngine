@@ -8,7 +8,7 @@ namespace OpenEngine
 
         #region FIELDS
 
-        private static Font arial = ContentManager.Load<Font>(@"Fonts\Arial", null, false);
+        //private static Font arial = ContentManager.Load<Font>(@"Fonts\Arial", null, false);
 
         private string filename;
         private TextureAtlas fontImage;
@@ -31,11 +31,6 @@ namespace OpenEngine
         #endregion
 
         #region PROPERIES
-
-        public static Font Arial
-        {
-            get { return arial; }
-        }
 
         public TextureAtlas FontImage
         {

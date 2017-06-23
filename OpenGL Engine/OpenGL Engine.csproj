@@ -221,6 +221,9 @@
     <None Include="Fonts\arial.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Fonts\Roboto-Black.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Shaders\textureUI_f.glsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

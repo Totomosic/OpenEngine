@@ -17,15 +17,15 @@ namespace OpenEngine.Components
 
         #region CONSTRUCTORS
 
-        public Text(string text, FreeTypeFont font, float size, Color color)
+        public Text(string text, FreeTypeFont font, Color color, float scale = 1)
         {
             this.text = text;
             this.font = font;
-            this.size = size;
+            this.size = scale;
             this.color = color;
         }
 
-        public Text() : this("", null, 200, Color.White)
+        public Text() : this("", null, Color.White)
         {
 
         }
